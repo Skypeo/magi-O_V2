@@ -1,0 +1,181 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Icon from '../components/Icon.astro';
+import Cta from '../components/Cta.astro';
+import Emblem from '../components/Emblem.astro';
+import { getRealisationItems, getCategories } from '../lib/realisations';
+
+// Réalisations gérées par la cliente via Sanity (avec fallback si CMS vide).
+const items = await getRealisationItems();
+const categories = getCategories(items);
+---
+
+<Layout
+  title="Nos réalisations"
+  description="Découvrez quelques interventions MAGI Ø à Colmar : plomberie, chauffage, dépannage électrique et détection de fuite. Des chantiers propres et durables."
+>
+  <PageHeader
+    eyebrow="Nos réalisations"
+    title="Des chantiers concrets, des résultats durables"
+    subtitle="Découvrez quelques interventions MAGI Ø à Colmar et ses environs : travaux de plomberie, installations de chauffage, dépannage électrique et détection de fuites."
+  />
+
+  <section class="relative overflow-hidden py-20">
+    <!-- Emblème Ø filigrane -->
+    <Emblem class="-left-14 top-24 h-44 w-44 opacity-[0.06]" motion="drift" rotate={-10} />
+    <Emblem class="bottom-12 right-0 hidden h-28 w-28 opacity-[0.05] lg:block" motion="float" />
+    <div class="relative mx-auto max-w-7xl px-6">
+    {
+      categories.length > 1 && (
+        <div data-reveal class="mb-10 flex flex-wrap justify-center gap-2.5" role="tablist" aria-label="Filtrer par catégorie">
+          <button
+            type="button"
+            data-filter="all"
+            class="filter-btn is-active rounded-pill px-5 py-2 text-sm font-semibold transition"
+          >
+            Tous
+          </button>
+          {categories.map((cat) => (
+            <button
+              type="button"
+              data-filter={cat}
+              class="filter-btn rounded-pill px-5 py-2 text-sm font-semibold transition"
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+      )
+    }
+
+    <div id="realisations-grid" class="grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        items.map((r, i) => (
+          <a
+            href={`/realisations/${r.slug}`}
+            data-reveal
+            data-reveal-delay={String((i % 3) + 1)}
+            data-categorie={r.categorie}
+            class="realisation-card group relative block aspect-[4/4.4] overflow-hidden rounded-3xl bg-pine-700 shadow-soft transition duration-300 hover:-translate-y-1.5 hover:shadow-card"
+          >
+            {r.imgUrl ? (
+              <img src={r.imgUrl} alt={r.titre} loading="lazy" class="absolute inset-0 h-full w-full object-cover transition duration-700 ease-out group-hover:scale-110" />
+            ) : (
+              <div class="absolute inset-0 flex items-center justify-center bg-pine-100 text-pine-400">
+                <Icon name="droplet" class="h-12 w-12" />
+              </div>
+            )}
+
+            {/* Overlay vert diagonal (signature de l'ancien site) */}
+            <span class="card-diagonal pointer-events-none absolute inset-0" />
+
+            <span class="absolute left-4 top-4 z-10 rounded-pill bg-white/90 px-3 py-1 text-xs font-semibold text-pine-600 backdrop-blur">
+              {r.categorie}
+            </span>
+
+            <div class="absolute inset-x-0 bottom-0 z-10 p-6">
+              <span class="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-white text-pine-700 shadow-soft transition duration-300 group-hover:bg-coral-500 group-hover:text-white">
+                <Icon name="arrow" class="h-5 w-5 -rotate-45 transition duration-300 group-hover:rotate-0" />
+              </span>
+              <h2 class="text-xl font-bold leading-tight text-white drop-shadow-sm">{r.titre}</h2>
+              {r.description && (
+                <p class="card-desc line-clamp-2 text-sm leading-relaxed text-white/85">{r.description}</p>
+              )}
+            </div>
+          </a>
+        ))
+      }
+    </div>
+
+    <p id="realisations-empty" class="hidden py-16 text-center text-pine-700/70">
+      Aucune réalisation dans cette catégorie pour le moment.
+    </p>
+
+    {
+      items.length === 0 && (
+        <p class="py-16 text-center text-pine-700/70">Les réalisations seront bientôt ajoutées.</p>
+      )
+    }
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <Cta
+    title="Discutons de votre projet."
+    text="Contactez MAGI Ø pour vos interventions, devis ou partenariats professionnels."
+  />
+</Layout>
+
+<style>
+  .filter-btn {
+    background-color: var(--color-pine-50);
+    color: var(--color-pine-700);
+  }
+  .filter-btn:hover {
+    background-color: var(--color-pine-100);
+  }
+  .filter-btn.is-active {
+    background-color: var(--color-pine-600);
+    color: #fff;
+  }
+  .realisation-card.is-hidden {
+    display: none;
+  }
+
+  /* Overlay vert diagonal : repos vs survol (la diagonale remonte). */
+  .card-diagonal {
+    background: linear-gradient(150deg, rgba(132, 199, 185, 0.35) 0%, rgba(68, 101, 94, 0.55) 40%, rgba(53, 71, 67, 0.96) 100%);
+    clip-path: polygon(0 62%, 100% 80%, 100% 100%, 0 100%);
+    transition: clip-path 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .realisation-card:hover .card-diagonal {
+    clip-path: polygon(0 30%, 100% 56%, 100% 100%, 0 100%);
+  }
+
+  /* Description : masquée au repos (hauteur ET marge à 0 → titre aligné), révélée au survol. */
+  .card-desc {
+    max-height: 0;
+    margin-top: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.45s ease, margin-top 0.45s ease, opacity 0.3s ease;
+  }
+  .realisation-card:hover .card-desc {
+    max-height: 4rem;
+    margin-top: 0.75rem;
+    opacity: 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .card-diagonal,
+    .card-desc,
+    .realisation-card img {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  // Filtre client léger : affiche/masque les cartes selon la catégorie.
+  const buttons = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
+  const cards = document.querySelectorAll<HTMLElement>('.realisation-card');
+  const empty = document.getElementById('realisations-empty');
+
+  buttons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const filter = btn.dataset.filter;
+
+      buttons.forEach((b) => b.classList.toggle('is-active', b === btn));
+
+      let visible = 0;
+      cards.forEach((card) => {
+        const match = filter === 'all' || card.dataset.categorie === filter;
+        card.classList.toggle('is-hidden', !match);
+        if (match) visible++;
+      });
+
+      empty?.classList.toggle('hidden', visible > 0);
+    });
+  });
+</script>

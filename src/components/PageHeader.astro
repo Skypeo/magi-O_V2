@@ -1,0 +1,54 @@
+---
+import Icon from './Icon.astro';
+import SpinBadge from './SpinBadge.astro';
+interface Props {
+  eyebrow?: string;
+  title: string;
+  subtitle?: string;
+}
+const { eyebrow, title, subtitle } = Astro.props;
+const crumbs = Astro.url.pathname.split('/').filter(Boolean);
+---
+
+<section class="relative mt-4 overflow-hidden bg-[#3d1206] pb-24 pt-20 text-white lg:pt-24">
+  <!-- Image de fond, recouverte du même voile orange brûlé que les hero services -->
+  <img
+    src="/images/service-de-reparation-de-plomberie-1-1-1.webp"
+    alt=""
+    aria-hidden="true"
+    class="pointer-events-none absolute inset-0 h-full w-full object-cover object-center"
+  />
+  <div class="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#5e1606]/95 via-coral-700/80 to-coral-700/40"></div>
+  <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-pine-900/70 via-pine-900/15 to-pine-900/35"></div>
+  <!-- Hachures qui défilent (clin d'œil au Ø hachuré) -->
+  <div class="hatch-light hatch-pan pointer-events-none absolute inset-0 opacity-60"></div>
+  <div class="animate-blob pointer-events-none absolute -left-16 top-10 h-56 w-56 rounded-full bg-white/10 blur-3xl" style="--o:0.6"></div>
+
+  <!-- Badge circulaire rotatif (sceau dynamique) -->
+  <SpinBadge class="absolute right-8 top-1/2 hidden h-28 w-28 -translate-y-1/2 drop-shadow-xl lg:block" />
+
+  <div class="relative mx-auto max-w-7xl px-6">
+    <nav class="mb-5 flex items-center gap-2 text-sm text-white/70" aria-label="Fil d'Ariane">
+      <a href="/" class="transition hover:text-white">Accueil</a>
+      {crumbs.map((c) => (
+        <>
+          <span>/</span>
+          <span class="capitalize text-white">{c.replace(/-/g, ' ')}</span>
+        </>
+      ))}
+    </nav>
+    {eyebrow && (
+      <p class="fade-up mb-3 inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-white">
+        <span class="h-2 w-2 rounded-full bg-white"></span>{eyebrow}
+      </p>
+    )}
+    <h1 class="fade-up fade-up-1 max-w-3xl text-4xl font-bold leading-tight sm:text-5xl">{title}</h1>
+    {subtitle && <p class="fade-up fade-up-2 mt-5 max-w-2xl text-lg leading-relaxed text-white/80">{subtitle}</p>}
+  </div>
+
+  <div class="absolute -bottom-px left-0 right-0 leading-[0]">
+    <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full" preserveAspectRatio="none">
+      <path d="M0 80V40C240 70 480 75 720 55C960 35 1200 5 1440 25V80H0Z" fill="#f5f8f6" />
+    </svg>
+  </div>
+</section>

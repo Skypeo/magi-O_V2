@@ -1,0 +1,23 @@
+---
+// Roue dentée SVG (engrenage) — dents générées en boucle.
+// Pensée pour tourner via une classe d'animation (sens & vitesse au choix).
+interface Props {
+  teeth?: number;
+  class?: string;
+}
+const { teeth = 12, class: className = '' } = Astro.props;
+const angles = Array.from({ length: teeth }, (_, i) => (360 / teeth) * i);
+---
+
+<svg viewBox="0 0 100 100" class={className} aria-hidden="true" fill="none">
+  <g fill="currentColor">
+    {
+      angles.map((a) => (
+        <rect x="45" y="1" width="10" height="18" rx="2.5" transform={`rotate(${a} 50 50)`} />
+      ))
+    }
+    <circle cx="50" cy="50" r="32" />
+  </g>
+  <circle cx="50" cy="50" r="18" fill="#fff" fill-opacity="0.22" />
+  <circle cx="50" cy="50" r="8" fill="#fff" fill-opacity="0.55" />
+</svg>

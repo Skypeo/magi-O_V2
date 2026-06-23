@@ -1,0 +1,34 @@
+---
+import Icon from './Icon.astro';
+// Badge circulaire avec texte qui tourne en continu (effet dynamique « sceau »).
+interface Props {
+  class?: string;
+  text?: string;
+  id?: string;
+}
+const {
+  class: cls = '',
+  text = '✦ DEVIS GRATUIT ✦ RÉPONSE RAPIDE ',
+  id = 'spin-badge',
+} = Astro.props;
+---
+
+<div class={`pointer-events-none select-none ${cls}`} aria-hidden="true">
+  <div class="relative aspect-square w-full">
+    <!-- Disque + texte rotatif -->
+    <svg viewBox="0 0 120 120" class="badge-spin h-full w-full text-white">
+      <circle cx="60" cy="60" r="58" fill="#354743" />
+      <circle cx="60" cy="60" r="58" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="1" />
+      <defs>
+        <path id={id} d="M60,60 m-43,0 a43,43 0 1,1 86,0 a43,43 0 1,1 -86,0" fill="none" />
+      </defs>
+      <text class="fill-current" style="font-size:11px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;">
+        <textPath href={`#${id}`} startOffset="0">{text}{text}</textPath>
+      </text>
+    </svg>
+    <!-- Cœur fixe -->
+    <span class="absolute inset-0 m-auto flex h-[42%] w-[42%] items-center justify-center rounded-full bg-coral-500 text-white shadow-lg">
+      <Icon name="arrow" class="h-1/2 w-1/2 -rotate-45" />
+    </span>
+  </div>
+</div>

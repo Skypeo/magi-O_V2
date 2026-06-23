@@ -1,0 +1,262 @@
+---
+// ============================================================
+// Page d'accueil MAGI Ø — nouveau style éditorial
+// Réutilise : ton Layout (Header/Footer + scripts motion),
+// ton Icon.astro, et les données de consts.ts.
+// Animations pilotées par les classes déjà présentes dans global.css
+// (data-reveal, marquee, fade-up, card-lift, etc.) + les ajouts de
+// global-additions.css (font-serif, .arch, bg-cream, .grain).
+// ============================================================
+import Layout from '../layouts/Layout.astro';
+import Icon from '../components/Icon.astro';
+import { SERVICES, VALUES, FAQ, CONTACT, SITE } from '../consts';
+
+const engagements = [
+  'Interlocuteur unique',
+  'Respect des délais annoncés',
+  'Solutions adaptées à votre logement',
+  'Équipements modernes et performants',
+  'Tarifs transparents',
+];
+
+const stats = [
+  { n: 10, prefix: '+', suffix: '', label: "ans d'expérience" },
+  { n: 4, prefix: '', suffix: '', label: 'expertises métier' },
+  { n: 90, prefix: '~', suffix: '%', label: 'fuites localisées sans casse' },
+  { n: 100, prefix: '', suffix: '%', label: 'devis gratuits et sans engagement' },
+];
+
+const cards = SERVICES.slice(0, 5);
+---
+
+<Layout>
+  <!-- ===================== HERO ===================== -->
+  <section class="relative overflow-hidden bg-cream grain">
+    <img src="/images/emblem-pine.png" aria-hidden="true" class="pointer-events-none absolute -right-[10%] top-1/2 w-[58rem] max-w-none -translate-y-1/2 select-none opacity-[0.05]" />
+    <div data-parallax="0.18" class="animate-float-slow pointer-events-none absolute -left-20 top-24 h-72 w-72 rounded-full bg-pine-300/25 blur-3xl"></div>
+
+    <div class="relative mx-auto grid max-w-7xl items-center gap-12 px-6 pb-20 pt-16 lg:grid-cols-12 lg:gap-8 lg:pb-28 lg:pt-24">
+      <div class="lg:col-span-7">
+        <p class="fade-up mb-7 inline-flex items-center gap-3 rounded-pill border border-pine-200 bg-white/70 px-4 py-2 text-[12px] font-semibold text-pine-600 backdrop-blur">
+          <span class="relative flex h-2 w-2"><span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-coral-400 opacity-75"></span><span class="relative inline-flex h-2 w-2 rounded-full bg-coral-500"></span></span>
+          <span class="uppercase tracking-[0.28em]">Installation · Détection · Réparation</span>
+        </p>
+        <h1 class="font-serif text-[3rem] font-medium leading-[1.0] text-ink sm:text-[4rem] lg:text-[5rem]">
+          <span class="fade-up block">Découvrez l'ensemble</span>
+          <span class="fade-up fade-up-1 block">de <span class="italic text-coral-500">nos services</span></span>
+          <span class="fade-up fade-up-2 block">à {SITE.city}<span class="text-pine-400">.</span></span>
+        </h1>
+        <p class="fade-up fade-up-3 mt-8 max-w-xl text-[18px] leading-relaxed text-pine-700/85">
+          Plomberie, chauffage, électricité et détection de fuite <span class="font-semibold text-ink">sans casse</span>. Plus de 10 ans d'expérience au service de votre confort, avec un seul mot d'ordre : rapidité, fiabilité, expertise.
+        </p>
+        <div class="fade-up fade-up-3 mt-10 flex flex-wrap items-center gap-4">
+          <a href="/contact" class="btn-sheen group inline-flex items-center gap-2 rounded-pill bg-coral-500 px-7 py-4 text-base font-semibold text-white shadow-lg shadow-coral-500/25 transition hover:-translate-y-0.5 hover:bg-coral-600">Devis gratuit <Icon name="arrow" class="h-5 w-5 transition group-hover:translate-x-1" /></a>
+          <a href={`tel:${CONTACT.phoneRaw}`} class="group inline-flex items-center gap-2.5 rounded-pill border border-pine-300 bg-white/60 px-7 py-4 text-base font-semibold text-pine-700 backdrop-blur transition hover:bg-white"><Icon name="phone" class="h-5 w-5 transition group-hover:rotate-12" /> {CONTACT.phone}</a>
+        </div>
+        <div class="fade-up fade-up-3 mt-12 flex flex-wrap gap-3">
+          {[
+            { icon: 'award', big: '+10 ans', small: "d'expérience" },
+            { icon: 'droplet', big: 'Sans casse', small: 'détection de fuite' },
+            { icon: 'bolt', big: 'Rapide', small: 'sur Colmar & environs' },
+          ].map((b) => (
+            <div class="group flex items-center gap-3 rounded-2xl border border-pine-200/70 bg-white/70 px-5 py-3 backdrop-blur transition hover:bg-white">
+              <span class="icon-pop grid h-10 w-10 place-items-center rounded-xl bg-pine-50 text-pine-500"><Icon name={b.icon} class="h-5 w-5" /></span>
+              <span class="leading-tight"><span class="block text-lg font-bold text-ink">{b.big}</span><span class="block text-xs text-pine-700/70">{b.small}</span></span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div class="relative lg:col-span-5">
+        <div class="relative mx-auto max-w-[420px]">
+          <svg class="animate-spin-slow pointer-events-none absolute -left-10 -top-10 h-28 w-28 text-pine-300/60" viewBox="0 0 100 100" fill="none" aria-hidden="true"><circle cx="50" cy="50" r="46" stroke="currentColor" stroke-width="1" stroke-dasharray="3 7" /></svg>
+          <div class="arch relative aspect-[3/4] fade-up" style="box-shadow: var(--shadow-card);">
+            <img src="/images/MagiOPic-_1__11zon.webp" alt="Technicien MAGI Ø en intervention à Colmar" class="h-full w-full object-cover" fetchpriority="high" />
+            <div class="absolute inset-0 bg-gradient-to-t from-pine-900/35 via-transparent to-transparent"></div>
+          </div>
+          <div class="animate-float absolute -bottom-7 -left-6 flex items-center gap-4 rounded-2xl bg-white px-5 py-4" style="box-shadow: var(--shadow-card);">
+            <span class="animate-pulse-ring grid h-11 w-11 place-items-center rounded-full bg-coral-500 text-white"><Icon name="phone" class="h-5 w-5" /></span>
+            <span class="leading-tight"><span class="block text-[11px] uppercase tracking-wider text-pine-600">Une urgence ?</span><span class="block text-lg font-bold text-ink">{CONTACT.phone}</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== MARQUEE ===================== -->
+  <div class="marquee overflow-hidden border-y border-pine-200/70 bg-pine-900 py-5 text-cream">
+    <div class="marquee-track items-center gap-12 font-serif text-[1.7rem] font-medium">
+      {Array.from({ length: 2 }).map(() => (
+        <div class="flex items-center gap-12 pr-12">
+          {['Plomberie', 'Chauffage', 'Électricité', 'Détection de fuite', 'Pompe à chaleur', 'Dépannage'].map((w) => (
+            <span class="flex items-center gap-12">{w} <img src="/images/emblem-white.png" class="h-7 w-auto opacity-80" aria-hidden="true" /></span>
+          ))}
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <!-- ===================== VALEURS ===================== -->
+  <section class="mx-auto mt-20 max-w-7xl px-6">
+    <div class="grid gap-6 md:grid-cols-3">
+      {VALUES.map((v, i) => (
+        <div data-reveal="scale" data-reveal-delay={String(i + 1)} class="card-lift group relative overflow-hidden rounded-3xl border border-pine-100 bg-white p-8 shadow-soft">
+          <div class="pointer-events-none absolute -right-8 -top-8 h-24 w-24 rounded-full bg-pine-300/0 blur-2xl transition-all duration-500 group-hover:bg-pine-300/30"></div>
+          <div class="icon-pop grid h-14 w-14 place-items-center rounded-2xl bg-pine-50 text-pine-500 group-hover:bg-pine-500 group-hover:text-white"><Icon name={v.icon} class="h-7 w-7" /></div>
+          <h3 class="mt-5 font-serif text-2xl font-semibold text-ink">{v.title}</h3>
+          <p class="mt-2 text-[15px] leading-relaxed text-pine-700/80">{v.text}</p>
+          <span class="mt-5 block h-1 w-10 rounded-full bg-coral-500/30 transition-all duration-500 group-hover:w-20 group-hover:bg-coral-500"></span>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- ===================== PRÉSENTATION ===================== -->
+  <section class="mx-auto max-w-7xl px-6 py-24">
+    <div class="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+      <div data-reveal="left" class="relative order-2 lg:order-1">
+        <div class="arch-sm relative aspect-[4/5] max-w-[440px]" style="box-shadow: var(--shadow-card);">
+          <img src="/images/plombier-intervention.webp" alt="Intervention MAGI Ø à Colmar" class="h-full w-full object-cover" loading="lazy" />
+        </div>
+        <div class="animate-float absolute -bottom-6 right-2 flex items-center gap-4 rounded-2xl bg-white px-5 py-4 sm:right-8" style="box-shadow: var(--shadow-card);">
+          <span class="animate-pulse-ring grid h-11 w-11 place-items-center rounded-full bg-coral-500 text-white"><Icon name="phone" class="h-5 w-5" /></span>
+          <span class="leading-tight"><span class="block text-[11px] text-pine-600">Des questions ? On y répond</span><span class="block text-lg font-bold text-ink">{CONTACT.phone}</span></span>
+        </div>
+      </div>
+      <div class="order-1 lg:order-2">
+        <span data-reveal class="inline-flex items-center gap-2 rounded-pill border border-pine-200 bg-pine-50 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-pine-600"><span class="h-1.5 w-1.5 rounded-full bg-coral-500"></span> {SITE.name}</span>
+        <h2 data-reveal data-reveal-delay="1" class="mt-6 font-serif text-4xl font-medium leading-[1.06] text-ink sm:text-[3.2rem]">Plus qu'un service, un accompagnement de confiance</h2>
+        <div data-reveal data-reveal-delay="2" class="mt-6 space-y-5 text-[17px] leading-relaxed text-pine-700/85">
+          <p>Chez {SITE.name}, nous mettons notre expertise en plomberie, chauffage, électricité et détection de fuites au service des particuliers, avec des solutions adaptées à chaque logement et à chaque situation.</p>
+          <p>Installation neuve, rénovation, dépannage urgent ou recherche de fuite : nous vous accompagnons à chaque étape pour garantir le bon fonctionnement de vos installations, dans le respect des délais et de votre budget.</p>
+        </div>
+        <ul data-reveal data-reveal-delay="3" class="mt-9 grid gap-x-8 gap-y-4 sm:grid-cols-2">
+          {engagements.map((item) => (
+            <li class="flex items-center gap-3">
+              <span class="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-pine-100 text-pine-600"><Icon name="check" class="h-4 w-4 [stroke-width:2.5]" /></span>
+              <span class="text-[15px] font-medium text-ink">{item}</span>
+            </li>
+          ))}
+        </ul>
+        <div data-reveal data-reveal-delay="4" class="mt-10">
+          <a href="/contact" class="btn-sheen group inline-flex items-center gap-2 rounded-pill bg-pine-700 px-8 py-4 font-semibold text-white transition hover:-translate-y-0.5 hover:bg-pine-800">Contactez nous <Icon name="arrow" class="h-5 w-5 transition group-hover:translate-x-1" /></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== STATISTIQUES ===================== -->
+  <section class="relative overflow-hidden bg-pine-700 py-20 text-white grain">
+    <img src="/images/emblem-white.png" aria-hidden="true" class="pointer-events-none absolute left-1/2 top-1/2 w-[34rem] max-w-none -translate-x-1/2 -translate-y-1/2 select-none opacity-[0.06]" />
+    <div data-parallax="0.18" class="pointer-events-none absolute -left-16 top-0 h-64 w-64 rounded-full bg-pine-500/40 blur-3xl"></div>
+    <div data-parallax="-0.14" class="pointer-events-none absolute -right-10 bottom-0 h-64 w-64 rounded-full bg-coral-500/15 blur-3xl"></div>
+    <div class="relative mx-auto grid max-w-6xl grid-cols-2 gap-10 px-6 text-center lg:grid-cols-4">
+      {stats.map((s, i) => (
+        <div data-reveal="scale" data-reveal-delay={String(i + 1)}>
+          <p class="font-serif text-5xl font-semibold tracking-tight sm:text-6xl"><span data-count={String(s.n)} data-prefix={s.prefix} data-suffix={s.suffix}>{s.prefix}{s.n}{s.suffix}</span></p>
+          <p class="mx-auto mt-2 max-w-[12rem] text-sm leading-snug text-white/75">{s.label}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- ===================== SERVICES ===================== -->
+  <section id="services" class="bg-cream py-24">
+    <div class="mx-auto max-w-7xl px-6">
+      <div data-reveal class="mx-auto max-w-2xl text-center">
+        <p class="text-xs font-bold uppercase tracking-[0.28em] text-coral-500">Nos prestations</p>
+        <h2 class="reveal-mask mt-4 font-serif text-4xl font-medium text-ink sm:text-[3.2rem]"><span>Des services complets pour votre logement</span></h2>
+        <p class="mt-5 text-[17px] text-pine-700/80">De la plomberie à l'électricité, un seul interlocuteur pour l'ensemble de vos besoins techniques.</p>
+      </div>
+
+      <div class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {cards.map((s, i) => (
+          <a href={`/services/${s.slug}`} data-reveal data-reveal-delay={String((i % 3) + 1)} class="card-lift group relative flex flex-col overflow-hidden rounded-3xl border border-pine-100 bg-white shadow-soft">
+            <div class="relative m-3 h-52 overflow-hidden arch-sm">
+              <img src={s.image} alt={s.title} loading="lazy" class="h-full w-full object-cover transition duration-700 group-hover:scale-110" />
+              {s.slug === 'pompe-a-chaleur' && (
+                <span class="absolute left-3 top-3 rounded-full bg-coral-500 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-white">Économisez jusqu'à 70 %</span>
+              )}
+              <span class="absolute right-3 top-3 grid h-9 w-9 place-items-center rounded-full bg-white/90 font-serif text-lg font-semibold text-pine-700 backdrop-blur">{String(i + 1).padStart(2, '0')}</span>
+            </div>
+            <div class="flex flex-1 flex-col px-6 pb-6 pt-1">
+              <h3 class="font-serif text-2xl font-semibold text-ink">{s.title}</h3>
+              <p class="mt-2 flex-1 text-sm leading-relaxed text-pine-700/80">{s.short}</p>
+              <span class="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-coral-500">En savoir plus <Icon name="arrow" class="h-4 w-4 transition group-hover:translate-x-1" /></span>
+            </div>
+          </a>
+        ))}
+
+        <div data-reveal data-reveal-delay="3" class="relative flex flex-col justify-between overflow-hidden rounded-3xl bg-pine-700 p-8 text-white grain">
+          <img src="/images/emblem-white.png" aria-hidden="true" class="pointer-events-none absolute -bottom-10 -right-8 w-64 max-w-none select-none opacity-[0.08]" />
+          <div class="relative"><h3 class="font-serif text-3xl font-medium leading-tight">Un projet en tête ?</h3><p class="mt-3 text-white/80">Parlons-en. Devis gratuit et sans engagement, réponse rapide.</p></div>
+          <a href="/contact" class="btn-sheen group relative mt-6 inline-flex w-fit items-center gap-2 rounded-pill bg-coral-500 px-6 py-3 font-semibold text-white transition hover:bg-coral-600">Demander un devis <Icon name="arrow" class="h-5 w-5 transition group-hover:translate-x-1" /></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FAQ ===================== -->
+  <section id="faq" class="relative bg-cream py-24 grain">
+    <div class="relative mx-auto grid max-w-7xl gap-12 px-6 lg:grid-cols-5 lg:gap-16">
+      <div data-reveal class="lg:col-span-2 lg:sticky lg:top-28 lg:self-start">
+        <p class="inline-flex items-center gap-2 rounded-pill bg-pine-100 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-pine-600">Foire aux questions</p>
+        <h2 class="mt-5 font-serif text-4xl font-medium leading-[1.06] text-ink sm:text-[3rem]">Vous avez une question ?<br class="hidden sm:block" /> Trouvez votre réponse ici</h2>
+        <p class="mt-5 max-w-md text-[17px] leading-relaxed text-pine-700/80">Retrouvez ici les réponses aux questions les plus fréquentes concernant nos services de plomberie, de détection de fuites et de dépannage à {SITE.city} et ses environs.</p>
+        <a href="/contact" class="btn-sheen group mt-8 inline-flex items-center gap-2 rounded-pill bg-pine-700 px-6 py-3.5 font-semibold text-white transition hover:-translate-y-0.5 hover:bg-pine-800">Une autre question ? <Icon name="arrow" class="h-5 w-5 transition group-hover:translate-x-1" /></a>
+      </div>
+
+      <div class="space-y-4 lg:col-span-3">
+        {FAQ.map((item, i) => (
+          <div data-reveal data-reveal-delay={String((i % 4) + 1)} class="faq-item overflow-hidden rounded-2xl border border-pine-100 bg-white/70 shadow-soft">
+            <button type="button" class="faq-trigger flex w-full items-center justify-between gap-4 p-5 text-left" aria-expanded="false">
+              <span class="text-[17px] font-semibold text-ink">{item.q}</span>
+              <span class="faq-icon grid h-9 w-9 shrink-0 place-items-center rounded-full bg-pine-50 text-pine-600">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" class="h-5 w-5"><path d="M12 5v14M5 12h14" /></svg>
+              </span>
+            </button>
+            <div class="faq-body"><div><p class="px-5 pb-5 leading-relaxed text-pine-700/80">{item.a}</p></div></div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <script is:inline>
+      (() => {
+        const items = document.querySelectorAll('.faq-item');
+        items.forEach((item) => {
+          const trigger = item.querySelector('.faq-trigger');
+          if (!trigger) return;
+          trigger.addEventListener('click', () => {
+            const isOpen = item.classList.contains('is-open');
+            items.forEach((other) => {
+              other.classList.remove('is-open');
+              other.querySelector('.faq-trigger')?.setAttribute('aria-expanded', 'false');
+            });
+            if (!isOpen) {
+              item.classList.add('is-open');
+              trigger.setAttribute('aria-expanded', 'true');
+            }
+          });
+        });
+      })();
+    </script>
+  </section>
+
+  <!-- ===================== CTA FINAL ===================== -->
+  <section id="contact-cta" class="mx-auto max-w-7xl px-6 pb-24">
+    <div data-reveal class="relative overflow-hidden rounded-[2.5rem] bg-pine-700 px-8 py-20 text-center text-white grain sm:px-16">
+      <img src="/images/emblem-white.png" aria-hidden="true" class="pointer-events-none absolute left-1/2 top-1/2 w-[30rem] max-w-none -translate-x-1/2 -translate-y-1/2 select-none opacity-[0.06]" />
+      <div class="pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full bg-pine-500/50 blur-3xl"></div>
+      <div class="pointer-events-none absolute -bottom-16 -left-16 h-64 w-64 rounded-full bg-coral-500/20 blur-3xl"></div>
+      <div class="relative">
+        <h2 class="mx-auto max-w-2xl font-serif text-4xl font-medium leading-[1.06] sm:text-[3.4rem]">Besoin d'un plombier ou chauffagiste à {SITE.city} ?</h2>
+        <p class="mx-auto mt-5 max-w-xl text-white/80">Contactez {SITE.name} pour une intervention rapide ou un devis gratuit. Nous sommes à votre écoute.</p>
+        <div class="mt-10 flex flex-wrap items-center justify-center gap-4">
+          <a href={`tel:${CONTACT.phoneRaw}`} class="btn-sheen inline-flex items-center gap-2 rounded-pill bg-coral-500 px-7 py-4 font-semibold text-white shadow-lg shadow-coral-500/30 transition hover:bg-coral-600"><Icon name="phone" class="h-5 w-5" /> {CONTACT.phone}</a>
+          <a href="/contact" class="inline-flex items-center gap-2 rounded-pill bg-white/10 px-7 py-4 font-semibold text-white ring-1 ring-white/25 transition hover:bg-white/20">Nous écrire <Icon name="arrow" class="h-5 w-5" /></a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

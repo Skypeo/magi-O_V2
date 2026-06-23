@@ -1,0 +1,188 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Icon from '../../components/Icon.astro';
+import Cta from '../../components/Cta.astro';
+import Emblem from '../../components/Emblem.astro';
+import SpinBadge from '../../components/SpinBadge.astro';
+import Framed from '../../components/Framed.astro';
+import { PAC, CONTACT } from '../../consts';
+---
+
+<Layout title="Pompe à chaleur" description={PAC.description} image={PAC.heroImage}>
+  <!-- ===== HERO ===== -->
+  <section class="relative overflow-hidden">
+    <!-- halo qui respire + emblème filigrane -->
+    <div class="animate-blob pointer-events-none absolute right-0 top-10 h-80 w-80 rounded-full bg-pine-100/60 blur-3xl" style="--o:0.6"></div>
+    <Emblem class="-left-16 bottom-0 hidden h-44 w-44 opacity-[0.06] lg:block" motion="drift" rotate={-8} />
+
+    <div class="mx-auto grid max-w-7xl items-center gap-10 px-6 py-16 lg:grid-cols-2 lg:gap-14 lg:py-24">
+      <!-- Texte -->
+      <div>
+        <span class="fade-up inline-flex items-center gap-2 rounded-pill bg-pine-50 px-4 py-1.5 text-sm font-semibold text-pine-600 ring-1 ring-pine-100">
+          <Icon name="flame" class="h-4 w-4 text-coral-500" />
+          {PAC.eyebrow}
+        </span>
+        <h1 class="fade-up fade-up-1 mt-5 text-4xl font-bold leading-[1.08] tracking-tight text-ink sm:text-5xl">
+          {PAC.title}
+        </h1>
+        <div class="fade-up fade-up-2 mt-6 space-y-4 text-lg leading-relaxed text-pine-700/85">
+          {PAC.intro.map((p) => <p>{p}</p>)}
+        </div>
+        <div class="fade-up fade-up-3 mt-8 flex flex-wrap gap-4">
+          <a
+            href="/contact"
+            class="group inline-flex items-center justify-between gap-3 rounded-pill bg-coral-500 py-2 pl-7 pr-2 font-semibold text-white shadow-lg shadow-coral-500/30 transition hover:-translate-y-0.5 hover:bg-coral-600"
+          >
+            Demander un devis
+            <span class="flex h-10 w-10 items-center justify-center rounded-full bg-white/20 transition group-hover:rotate-45">
+              <Icon name="arrow" class="h-5 w-5" />
+            </span>
+          </a>
+          <a
+            href={`tel:${CONTACT.phoneRaw}`}
+            class="inline-flex items-center gap-2 rounded-pill bg-pine-50 px-7 py-4 font-semibold text-pine-700 ring-1 ring-pine-100 transition hover:bg-pine-100"
+          >
+            <Icon name="phone" class="h-5 w-5" />
+            {CONTACT.phone}
+          </a>
+        </div>
+      </div>
+
+      <!-- Image -->
+      <div data-reveal="right" class="relative">
+        <div class="overflow-hidden rounded-[2rem] shadow-card ring-1 ring-pine-100">
+          <img
+            src={PAC.heroImage}
+            alt="Pompe à chaleur installée à l'extérieur d'une maison"
+            width="1200"
+            height="700"
+            fetchpriority="high"
+            class="aspect-[4/3] w-full object-cover"
+          />
+        </div>
+        <!-- badge flottant -->
+        <div class="absolute -bottom-5 -left-5 rounded-2xl bg-pine-800 px-5 py-4 text-white shadow-card">
+          <p class="text-3xl font-bold leading-none text-coral-400">−70 %</p>
+          <p class="mt-1 text-xs text-white/75">sur votre chauffage</p>
+        </div>
+        <!-- Badge circulaire rotatif -->
+        <SpinBadge class="absolute -right-6 -top-6 h-28 w-28 drop-shadow-xl sm:h-32 sm:w-32" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 3 PILIERS ===== -->
+  <section class="mx-auto max-w-5xl px-6 py-12 sm:py-16">
+    <div class="space-y-10 sm:space-y-12">
+      {
+        PAC.pillars.map((pillar, i) => (
+          <article
+            data-reveal
+            data-reveal-delay={String(i + 1)}
+            class="group relative overflow-hidden rounded-[2rem] bg-white p-7 shadow-soft ring-1 ring-pine-100 transition duration-300 hover:-translate-y-1 hover:bg-pine-700 hover:shadow-card hover:ring-pine-700 sm:p-9"
+          >
+            <span class="pointer-events-none absolute -left-6 -top-6 h-28 w-28 rounded-full bg-pine-50 transition duration-300 group-hover:bg-white/10" />
+            <div class="relative flex flex-col gap-6 sm:flex-row sm:items-center">
+              <span class="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-pine-700 text-white transition duration-300 group-hover:bg-white group-hover:text-pine-700">
+                <Icon name={pillar.icon} class="h-8 w-8" />
+              </span>
+              <div class="flex-1">
+                <h2 class="text-2xl font-bold text-ink transition duration-300 group-hover:text-white">
+                  {pillar.title}
+                </h2>
+                <ul class="mt-4 grid gap-2.5 sm:grid-cols-2">
+                  {pillar.items.map((it) => (
+                    <li class="flex items-start gap-2.5 text-[15px] text-pine-700/85 transition duration-300 group-hover:text-white/90">
+                      <span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-coral-500" />
+                      {it}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- ===== AIDES DE L'ÉTAT ===== -->
+  <section class="relative overflow-hidden bg-cream py-20">
+    <!-- Hachures qui défilent + emblème -->
+    <div class="hatch hatch-pan pointer-events-none absolute inset-0"></div>
+    <Emblem class="-right-12 top-12 h-44 w-44 opacity-[0.06]" motion="drift" rotate={10} />
+    <div class="relative mx-auto max-w-7xl px-6">
+      <p data-reveal class="text-xs font-semibold uppercase tracking-[0.18em] text-coral-500">Financement</p>
+      <h2 data-reveal class="mt-3 inline-block text-3xl font-bold text-ink sm:text-4xl"><Framed>{PAC.aidesTitle}</Framed></h2>
+      <p data-reveal class="mt-3 max-w-xl text-lg text-pine-700/80">{PAC.aidesSubtitle}</p>
+
+      <div class="mt-10 grid gap-5 md:grid-cols-2">
+        {
+          PAC.aides.map((aide, i) => (
+            <article
+              data-reveal
+              data-reveal-delay={String((i % 2) + 1)}
+              class="group flex gap-5 rounded-3xl bg-white p-7 shadow-soft ring-1 ring-pine-100 transition hover:-translate-y-1 hover:shadow-card"
+            >
+              <span class="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-pine-50 text-pine-600 transition group-hover:bg-pine-700 group-hover:text-white">
+                <Icon name="hand-coin" class="h-7 w-7" />
+              </span>
+              <div>
+                <h3 class="text-lg font-bold text-ink">{aide.name}</h3>
+                <p class="mt-2 text-[15px] leading-relaxed text-pine-700/85">{aide.text}</p>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PRIX ===== -->
+  <section class="mx-auto max-w-7xl px-6 py-20">
+    <p data-reveal class="text-xs font-semibold uppercase tracking-[0.18em] text-coral-500">Prix</p>
+    <h2 data-reveal class="mt-3 inline-block text-3xl font-bold text-ink sm:text-4xl"><Framed>{PAC.priceTitle}</Framed></h2>
+    <p data-reveal class="mt-3 max-w-xl text-lg text-pine-700/80">{PAC.priceSubtitle}</p>
+
+    <div class="mt-10 grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
+      <!-- Image -->
+      <div data-reveal="left" class="overflow-hidden rounded-[2rem] shadow-card ring-1 ring-pine-100">
+        <img
+          src={PAC.priceImage}
+          alt="Pompe à chaleur installée contre une façade"
+          width="600"
+          height="400"
+          loading="lazy"
+          class="aspect-[3/2] w-full object-cover"
+        />
+      </div>
+
+      <!-- Tableau -->
+      <div data-reveal="right" class="rounded-[2rem] bg-white p-7 shadow-soft ring-1 ring-pine-100 sm:p-9">
+        <dl class="divide-y divide-pine-100">
+          {
+            PAC.priceRows.map((row) => (
+              <div class="flex items-center justify-between gap-4 py-4">
+                <dt class="text-[15px] font-medium text-pine-700/85">{row.label}</dt>
+                <dd class={`shrink-0 text-lg font-bold ${row.discount ? 'text-coral-500' : 'text-ink'}`}>
+                  {row.value}
+                </dd>
+              </div>
+            ))
+          }
+        </dl>
+        <!-- Total -->
+        <div class="mt-4 flex items-center justify-between gap-4 rounded-2xl bg-pine-700 px-6 py-5 text-white">
+          <span class="font-semibold">{PAC.priceTotal.label}</span>
+          <span class="text-2xl font-bold text-coral-400">{PAC.priceTotal.value}</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA ===== -->
+  <Cta
+    title="Passez à la pompe à chaleur."
+    text="Étude personnalisée et devis gratuit pour votre projet de pompe à chaleur à Colmar et ses environs. On vous accompagne sur les aides."
+  />
+</Layout>

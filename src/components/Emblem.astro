@@ -1,0 +1,24 @@
+---
+// Emblème Ø de la marque (favicon agrandi) en décor flottant pour réchauffer les sections.
+// Taille / opacité / position via `class`. Animation via `motion`.
+interface Props {
+  class?: string;
+  motion?: 'float' | 'drift' | 'spin' | 'none';
+  rotate?: number;
+  /** 'pine' (fonds clairs) | 'white' (fonds sombres) */
+  variant?: 'pine' | 'white';
+}
+const { class: cls = '', motion = 'float', rotate = 0, variant = 'pine' } = Astro.props;
+const motionClass =
+  motion === 'drift' ? 'doodle-drift' : motion === 'spin' ? 'doodle-spin' : motion === 'none' ? '' : 'doodle-float';
+const src = variant === 'white' ? '/images/emblem-white.png' : '/images/favicon-32x32-2.png';
+---
+
+<img
+  src={src}
+  alt=""
+  aria-hidden="true"
+  loading="lazy"
+  class={`pointer-events-none absolute select-none ${motionClass} ${cls}`}
+  style={rotate ? `--rot:${rotate}deg;transform:rotate(${rotate}deg)` : undefined}
+/>

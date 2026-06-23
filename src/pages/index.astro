@@ -1,0 +1,671 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Icon from '../components/Icon.astro';
+import Cta from '../components/Cta.astro';
+import Framed from '../components/Framed.astro';
+import Emblem from '../components/Emblem.astro';
+import SpinBadge from '../components/SpinBadge.astro';
+import { SERVICES, VALUES, FAQ, CONTACT, SITE, REVIEWS } from '../consts';
+---
+
+<Layout>
+  <!-- ===================== HERO ===================== -->
+  <section class="relative overflow-hidden">
+    <!-- Halos décoratifs qui respirent -->
+    <div class="animate-blob pointer-events-none absolute -left-40 top-10 h-[28rem] w-[28rem] rounded-full bg-pine-100/50 blur-3xl" style="--o:0.5"></div>
+    <div class="animate-blob pointer-events-none absolute -right-24 bottom-0 h-80 w-80 rounded-full bg-coral-500/[0.06] blur-3xl" style="--o:0.5;animation-delay:-6s"></div>
+    <!-- Emblème Ø de marque en filigrane -->
+    <Emblem class="-right-10 top-24 h-48 w-48 opacity-[0.06] lg:h-64 lg:w-64" motion="drift" rotate={-8} />
+
+    <div class="relative mx-auto grid max-w-7xl items-center gap-12 px-6 pb-16 pt-16 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16 lg:pb-24 lg:pt-24">
+      <!-- Colonne texte -->
+      <div>
+        <p class="fade-up inline-flex items-center gap-2.5 text-sm font-semibold uppercase tracking-[0.18em] text-pine-600">
+          <span class="h-2.5 w-2.5 rounded-sm bg-coral-500"></span>
+          Installation · Détection · Réparation
+        </p>
+
+        <h1 class="fade-up fade-up-1 mt-6 text-[1.45rem] font-bold leading-[1.15] tracking-tight text-ink sm:text-5xl sm:leading-[1.04] lg:text-[3.85rem]">
+          Découvrez l'ensemble de
+          <Framed class="italic text-coral-500">nos services</Framed>
+          <span class="whitespace-nowrap">à {SITE.city}</span>
+        </h1>
+
+        <p class="fade-up fade-up-2 mt-7 max-w-xl text-lg leading-relaxed text-pine-700/80">
+          Plomberie, chauffage, électricité et détection de fuite sans casse.
+          Plus de 10 ans d'expérience au service de votre confort, avec un seul mot d'ordre :
+          <span class="font-semibold text-ink">rapidité, fiabilité, expertise.</span>
+        </p>
+
+        <div class="fade-up fade-up-3 mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
+          <a
+            href="/contact"
+            class="btn-sheen group inline-flex h-14 w-full items-center justify-center gap-2 rounded-pill bg-pine-900 px-7 text-base font-semibold text-white shadow-lg shadow-pine-900/20 transition hover:-translate-y-0.5 hover:bg-pine-800 sm:w-auto"
+          >
+            Devis gratuit
+            <Icon name="arrow" class="h-5 w-5 transition group-hover:translate-x-1" />
+          </a>
+          <a
+            href={`tel:${CONTACT.phoneRaw}`}
+            class="group inline-flex h-14 w-full items-center justify-center gap-3 rounded-pill border border-pine-200 bg-white px-6 text-base font-semibold text-ink shadow-soft transition hover:-translate-y-0.5 hover:border-pine-300 sm:w-auto"
+          >
+            <span class="flex h-9 w-9 items-center justify-center rounded-full bg-coral-500 text-white transition group-hover:rotate-12">
+              <Icon name="phone" class="h-4 w-4" />
+            </span>
+            {CONTACT.phone}
+          </a>
+        </div>
+
+        <!-- Bandeau de réassurance -->
+        <div class="fade-up fade-up-3 mt-12 flex flex-wrap items-center gap-x-8 gap-y-5 border-t border-pine-100 pt-8">
+          {
+            [
+              { icon: 'droplet', big: 'Sans casse', small: 'détection de fuite' },
+              { icon: 'bolt', big: 'Rapide', small: 'sur Colmar & environs' },
+              { icon: 'check', big: 'Devis gratuit', small: 'et sans engagement' },
+            ].map((b) => (
+              <div class="flex items-center gap-3">
+                <span class="flex h-11 w-11 items-center justify-center rounded-xl bg-pine-50 text-pine-500">
+                  <Icon name={b.icon} class="h-5 w-5" />
+                </span>
+                <span class="leading-tight">
+                  <span class="block text-lg font-bold text-ink">{b.big}</span>
+                  <span class="block text-xs text-pine-700/60">{b.small}</span>
+                </span>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+
+      <!-- Colonne image -->
+      <div class="fade-up fade-up-2 relative">
+        <div class="relative overflow-hidden rounded-[2rem] shadow-soft ring-1 ring-pine-100">
+          <img
+            src="/images/MagiOPic-_1__11zon.webp"
+            alt="Technicien MAGI Ø en détection de fuite à Colmar"
+            class="h-[420px] w-full object-cover object-center sm:h-[500px] lg:h-[560px]"
+            fetchpriority="high"
+            width="600"
+            height="800"
+          />
+          <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/15 via-transparent to-transparent"></div>
+        </div>
+
+        <!-- Badge logo flottant -->
+        <div class="absolute right-5 top-5 flex items-center gap-2 rounded-2xl bg-white/95 px-4 py-2.5 shadow-soft backdrop-blur">
+          <img src="/images/logo.png" alt="Logo MAGI Ø" class="h-8 w-auto" width="96" height="32" />
+        </div>
+
+        <!-- Petite carte flottante (réassurance) -->
+        <div class="absolute -bottom-5 left-5 flex items-center gap-3 rounded-2xl bg-white px-5 py-3.5 shadow-soft ring-1 ring-pine-100">
+          <span class="flex h-9 w-9 items-center justify-center rounded-full bg-coral-500 text-white">
+            <Icon name="award" class="h-4 w-4" />
+          </span>
+          <span class="leading-tight">
+            <span class="block text-base font-bold text-ink">10 ans</span>
+            <span class="block text-xs text-pine-700/60">d'expérience</span>
+          </span>
+        </div>
+
+        <!-- Badge circulaire rotatif (sceau dynamique) -->
+        <SpinBadge class="absolute -bottom-7 -right-5 h-28 w-28 drop-shadow-xl sm:h-32 sm:w-32" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BANDEAU DÉFILANT ===================== -->
+  <div class="marquee border-y border-pine-100 bg-pine-50/70 py-4">
+    <div class="marquee-track items-center gap-8 text-lg font-bold uppercase tracking-wider text-pine-600">
+      {
+        Array.from({ length: 2 }).map(() => (
+          <div class="flex items-center gap-8 pr-8">
+            {['Plomberie', 'Chauffage', 'Électricité', 'Détection de fuite', 'Pompe à chaleur', 'Dépannage'].map((w) => (
+              <span class="flex items-center gap-8">
+                {w}
+                <span class="text-coral-500">✦</span>
+              </span>
+            ))}
+          </div>
+        ))
+      }
+    </div>
+  </div>
+
+  <!-- ===================== VALEURS ===================== -->
+  <section class="relative mx-auto mt-16 max-w-7xl px-6">
+    <div class="grid gap-6 md:grid-cols-3">
+      {
+        VALUES.map((v, i) => (
+          <div
+            data-reveal="scale"
+            data-reveal-delay={String(i + 1)}
+            class="card-lift group relative overflow-hidden rounded-3xl border border-pine-100 bg-white p-8 shadow-soft"
+          >
+            <div class="pointer-events-none absolute -right-8 -top-8 h-24 w-24 rounded-full bg-pine-300/0 blur-2xl transition-all duration-500 group-hover:bg-pine-300/30"></div>
+            <div class="icon-pop flex h-14 w-14 items-center justify-center rounded-2xl bg-pine-50 text-pine-500 group-hover:bg-pine-500 group-hover:text-white">
+              <Icon name={v.icon} class="h-7 w-7" />
+            </div>
+            <h3 class="mt-5 text-xl font-bold text-ink">{v.title}</h3>
+            <p class="mt-2 text-[15px] leading-relaxed text-pine-700/80">{v.text}</p>
+            <span class="mt-5 block h-1 w-10 rounded-full bg-coral-500/30 transition-all duration-500 group-hover:w-20 group-hover:bg-coral-500"></span>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- ===================== PRÉSENTATION ===================== -->
+  <section class="mx-auto max-w-7xl px-6 py-24">
+    <div
+      class="relative overflow-hidden rounded-[2.5rem] bg-pine-800 px-7 py-12 text-white shadow-card sm:px-12 lg:px-16 lg:py-20"
+    >
+      <!-- Fond dégradé animé (ondule lentement) -->
+      <div class="presentation-mesh pointer-events-none absolute inset-0"></div>
+      <!-- Photo plomberie fondue dans le vert (identité métier) -->
+      <img
+        src="/images/plombier-intervention.webp"
+        alt=""
+        aria-hidden="true"
+        loading="lazy"
+        class="presentation-photo pointer-events-none absolute inset-y-0 right-0 hidden h-full w-3/5 object-cover opacity-25 mix-blend-luminosity lg:block"
+      />
+      <!-- Lueur conique qui tourne -->
+      <div class="presentation-glow pointer-events-none absolute -right-40 -top-40 h-[36rem] w-[36rem] rounded-full opacity-70"></div>
+      <!-- Texture pointillée -->
+      <div class="presentation-grid pointer-events-none absolute inset-0 opacity-[0.12]"></div>
+      <!-- Orbes flottants -->
+      <div class="animate-float-slow pointer-events-none absolute -left-16 top-10 h-64 w-64 rounded-full bg-pine-300/20 blur-3xl"></div>
+      <div class="animate-float pointer-events-none absolute -right-10 -bottom-10 h-72 w-72 rounded-full bg-coral-500/20 blur-3xl"></div>
+
+      <div class="relative">
+        <!-- Badge marque -->
+        <span data-reveal class="inline-flex items-center gap-2 rounded-pill border border-white/20 bg-white/10 px-4 py-1.5 text-sm font-semibold tracking-wide text-white backdrop-blur">
+          <span class="h-2 w-2 rounded-full bg-coral-500"></span>
+          {SITE.name}
+        </span>
+
+        <h2 data-reveal data-reveal-delay="1" class="mt-6 max-w-2xl text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-[2.6rem]">
+          Plus qu'un service, un accompagnement de confiance
+        </h2>
+
+        <div data-reveal data-reveal-delay="2" class="mt-6 grid max-w-4xl gap-6 lg:grid-cols-2 lg:gap-x-12">
+          <p class="text-[17px] leading-relaxed text-white/80">
+            Chez {SITE.name}, nous mettons notre expertise en plomberie, chauffage, électricité et
+            détection de fuites au service des particuliers, avec des solutions adaptées à chaque
+            logement et à chaque situation.
+          </p>
+          <p class="text-[17px] leading-relaxed text-white/80">
+            Installation neuve, rénovation, dépannage urgent ou recherche de fuite : nous vous
+            accompagnons à chaque étape pour garantir le bon fonctionnement de vos installations,
+            dans le respect des délais et de votre budget.
+          </p>
+        </div>
+
+        <!-- Engagements -->
+        <ul data-reveal data-reveal-delay="3" class="mt-10 grid max-w-3xl gap-x-10 gap-y-4 sm:grid-cols-2">
+          {
+            [
+              'Interlocuteur unique',
+              'Respect des délais annoncés',
+              'Respect des délais',
+              'Solutions adaptées à votre logement',
+              'Équipements modernes et performants',
+              'Tarifs transparents',
+            ].map((item) => (
+              <li class="flex items-center gap-3">
+                <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-pine-300/20 text-pine-300 ring-1 ring-white/10">
+                  <Icon name="check" class="h-4 w-4 [stroke-width:2.5]" />
+                </span>
+                <span class="text-[15px] font-medium text-white/90">{item}</span>
+              </li>
+            ))
+          }
+        </ul>
+
+        <!-- CTA + téléphone -->
+        <div data-reveal data-reveal-delay="4" class="mt-12 flex flex-col gap-6 border-t border-white/15 pt-8 sm:flex-row sm:items-center sm:justify-between">
+          <a
+            href="/contact"
+            class="group inline-flex items-center justify-center gap-2 rounded-pill bg-coral-500 px-8 py-4 font-semibold text-white shadow-lg shadow-coral-500/30 transition hover:-translate-y-0.5 hover:bg-coral-600"
+          >
+            Contactez nous
+            <Icon name="arrow" class="h-5 w-5 transition group-hover:translate-x-1" />
+          </a>
+          <a href={`tel:${CONTACT.phoneRaw}`} class="group flex items-center gap-4">
+            <span class="animate-pulse-ring flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-coral-500 text-white">
+              <Icon name="phone" class="h-5 w-5" />
+            </span>
+            <span class="leading-tight">
+              <span class="block text-sm text-white/60">Des questions ? On y répond</span>
+              <span class="block text-lg font-bold text-white">{CONTACT.phone}</span>
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== STATISTIQUES (compteurs) ===================== -->
+  <section class="relative overflow-hidden bg-pine-700 py-16">
+    <div data-parallax="0.2" class="pointer-events-none absolute -left-16 top-0 h-64 w-64 rounded-full bg-pine-500/40 blur-3xl"></div>
+    <div data-parallax="-0.15" class="pointer-events-none absolute -right-10 bottom-0 h-64 w-64 rounded-full bg-coral-500/15 blur-3xl"></div>
+    <div class="relative mx-auto grid max-w-6xl grid-cols-2 gap-8 px-6 text-center text-white lg:grid-cols-4">
+      {
+        [
+          { n: 10, suffix: '', prefix: '+', l: "ans d'expérience" },
+          { n: 4, suffix: '', prefix: '', l: 'expertises métier' },
+          { n: 90, suffix: '%', prefix: '~', l: 'fuites localisées sans casse' },
+          { n: 100, suffix: '%', prefix: '', l: 'devis gratuits et sans engagement' },
+        ].map((s, i) => (
+          <div data-reveal="scale" data-reveal-delay={String(i + 1)}>
+            <p class="text-4xl font-bold tracking-tight sm:text-5xl">
+              <span data-count={String(s.n)} data-prefix={s.prefix} data-suffix={s.suffix}>{s.prefix}{s.n}{s.suffix}</span>
+            </p>
+            <p class="mx-auto mt-2 max-w-[12rem] text-sm leading-snug text-white/75">{s.l}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- ===================== SERVICES ===================== -->
+  <section class="relative overflow-hidden bg-pine-50/60 py-24">
+    <!-- Hachures de marque qui défilent doucement -->
+    <div class="hatch hatch-pan pointer-events-none absolute inset-0"></div>
+    <!-- Emblème Ø de marque en filigrane -->
+    <Emblem class="-left-12 top-10 h-44 w-44 opacity-[0.07]" motion="drift" rotate={-12} />
+    <Emblem class="bottom-8 right-0 hidden h-28 w-28 opacity-[0.06] lg:block" motion="float" />
+    <div class="relative mx-auto max-w-7xl px-6">
+      <div data-reveal class="mx-auto max-w-2xl text-center">
+        <p class="text-sm font-bold uppercase tracking-wider text-coral-500">Nos services</p>
+        <h2 class="mt-4 inline-block text-3xl font-bold text-ink sm:text-4xl">
+          <Framed>Nos services de plomberie à {SITE.city}</Framed>
+        </h2>
+        <p class="mt-6 text-[17px] text-pine-700/80">
+          Fort de plus de 10 ans d'expérience, {SITE.name} vous accompagne à {SITE.city} et ses environs
+          pour tous vos besoins en plomberie, chauffage, électricité et détection de fuites, en neuf comme
+          en rénovation.
+        </p>
+      </div>
+
+      <div class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          SERVICES.slice(0, 5).map((s, i) => (
+            <a
+              href={`/services/${s.slug}`}
+              data-reveal
+              data-reveal-delay={String((i % 3) + 1)}
+              class="card-lift group relative flex flex-col overflow-hidden rounded-3xl bg-white shadow-soft"
+            >
+              <div class="relative h-48 overflow-hidden">
+                <img src={s.image} alt={s.title} width="500" height="300" loading="lazy" class="h-full w-full object-cover transition duration-700 group-hover:scale-110" />
+                <div class="absolute inset-0 bg-gradient-to-t from-ink/55 via-ink/10 to-transparent"></div>
+                <span class="icon-pop absolute left-4 top-4 flex h-11 w-11 items-center justify-center rounded-xl bg-white/90 text-pine-500 shadow-soft backdrop-blur group-hover:bg-coral-500 group-hover:text-white">
+                  <Icon name={s.icon} class="h-6 w-6" />
+                </span>
+              </div>
+              <div class="flex flex-1 flex-col p-6">
+                <h3 class="text-lg font-bold text-ink">{s.title}</h3>
+                <p class="mt-2 flex-1 text-sm leading-relaxed text-pine-700/80">{s.short}</p>
+                <span class="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-coral-500">
+                  En savoir plus
+                  <Icon name="arrow" class="h-4 w-4 transition group-hover:translate-x-1" />
+                </span>
+              </div>
+            </a>
+          ))
+        }
+
+        <!-- Carte CTA -->
+        <div data-reveal data-reveal-delay="3" class="relative flex flex-col justify-center overflow-hidden rounded-3xl bg-pine-500 p-8 text-white">
+          <div class="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-white/10 blur-2xl"></div>
+          <h3 class="text-2xl font-bold">Un projet en tête ?</h3>
+          <p class="mt-2 text-white/80">Parlons-en. Devis gratuit et sans engagement, réponse rapide.</p>
+          <a href="/contact" class="group mt-6 inline-flex w-fit items-center gap-2 rounded-pill bg-coral-500 px-6 py-3 font-semibold text-white transition hover:bg-coral-600">
+            Demander un devis
+            <Icon name="arrow" class="h-5 w-5 transition group-hover:translate-x-1" />
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== POURQUOI NOUS FAIRE CONFIANCE ===================== -->
+  <section class="mx-auto max-w-7xl px-6 py-24">
+    <div class="grid items-center gap-14 lg:grid-cols-2 lg:gap-20">
+      <!-- Colonne visuelle : collage photos + badge + engrenages -->
+      <div data-reveal="left" class="relative">
+        <!-- Engrenages décoratifs (clin d'œil à l'ancien site) -->
+        <div class="pointer-events-none absolute -bottom-8 right-4 z-0 text-pine-400/60">
+          <Icon name="cog" class="animate-spin-slow h-28 w-28" />
+        </div>
+        <div class="pointer-events-none absolute -bottom-2 right-28 z-0 text-coral-500/30">
+          <Icon name="cog" class="animate-spin-slow-reverse h-16 w-16" />
+        </div>
+
+        <div class="relative z-10 mx-auto max-w-md">
+          <!-- Photo principale -->
+          <div class="overflow-hidden rounded-[2rem] shadow-card ring-1 ring-pine-100">
+            <img
+              src="/images/bg-side.webp"
+              alt={`Plombier ${SITE.name} serrant la main d'un client à ${SITE.city}`}
+              width="600"
+              height="744"
+              loading="lazy"
+              class="h-[420px] w-full object-cover sm:h-[480px]"
+            />
+          </div>
+          <!-- Photo secondaire en surimpression -->
+          <div class="absolute -right-4 -top-8 hidden w-44 overflow-hidden rounded-2xl shadow-soft ring-4 ring-cream sm:block">
+            <img
+              src="/images/plombier-intervention.webp"
+              alt={`Intervention plomberie ${SITE.name}`}
+              width="350"
+              height="244"
+              loading="lazy"
+              class="h-32 w-full object-cover"
+            />
+          </div>
+          <!-- Badge expérience -->
+          <div class="absolute -bottom-6 -left-5 rounded-3xl bg-pine-800 px-7 py-5 text-white shadow-card">
+            <p class="text-4xl font-bold leading-none">+10</p>
+            <p class="mt-1.5 text-sm font-medium leading-tight text-white/70">années<br />d'expérience</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Colonne engagements -->
+      <div data-reveal="right">
+        <p class="inline-flex items-center gap-2 rounded-pill bg-pine-100 px-4 py-1.5 text-sm font-semibold uppercase tracking-wider text-pine-600">
+          <span class="h-2 w-2 rounded-full bg-coral-500"></span>Nos engagements
+        </p>
+        <h2 class="mt-5 max-w-md text-3xl font-bold leading-tight text-ink sm:text-4xl">
+          Pourquoi faire confiance à {SITE.name}
+        </h2>
+
+        <div class="mt-8 space-y-4">
+          {
+            [
+              {
+                icon: 'cog',
+                title: 'Service fiable',
+                text: "Des interventions qualitatives, soignées et respectueuses de l'environnement.",
+                featured: true,
+              },
+              {
+                icon: 'heart',
+                title: 'Satisfaction client',
+                text: 'Votre satisfaction est au cœur de nos priorités, avec des conseils personnalisés et une totale transparence.',
+                featured: false,
+              },
+              {
+                icon: 'award',
+                title: 'Transparence',
+                text: 'Des devis clairs, des explications simples et aucune mauvaise surprise sur les tarifs.',
+                featured: false,
+              },
+            ].map((c, i) => (
+              <div
+                data-reveal
+                data-reveal-delay={String(i + 1)}
+                class="group flex items-start gap-4 rounded-2xl border border-pine-100 bg-white p-5 shadow-soft transition duration-300 hover:-translate-y-0.5 hover:border-pine-700 hover:bg-pine-700 hover:shadow-card"
+              >
+                <span class="icon-pop flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-pine-50 text-pine-500 transition duration-300 group-hover:bg-white/15 group-hover:text-white">
+                  <Icon name={c.icon} class="h-6 w-6" />
+                </span>
+                <div>
+                  <h3 class="text-lg font-bold text-ink transition duration-300 group-hover:text-white">{c.title}</h3>
+                  <p class="mt-1 text-sm leading-relaxed text-pine-700/80 transition duration-300 group-hover:text-white/80">
+                    {c.text}
+                  </p>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== AVIS CLIENTS (carrousel) ===================== -->
+  <section class="relative overflow-hidden py-24">
+    <Emblem class="-right-16 top-12 h-48 w-48 opacity-[0.06]" motion="float" rotate={10} />
+    <div class="relative mx-auto max-w-7xl px-6">
+      <!-- En-tête -->
+      <div class="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+        <div data-reveal class="max-w-2xl">
+          <p class="inline-flex items-center gap-2 rounded-pill bg-pine-100 px-4 py-1.5 text-sm font-semibold uppercase tracking-wider text-pine-600">
+            <span class="h-2 w-2 rounded-full bg-coral-500"></span>Avis clients
+          </p>
+          <h2 class="mt-5 text-3xl font-bold leading-tight text-ink sm:text-4xl">
+            Ils nous ont fait confiance
+          </h2>
+          <div class="mt-5 flex items-center gap-3">
+            <span class="flex gap-0.5 text-amber-400">
+              {Array.from({ length: 5 }).map(() => <Icon name="star" class="h-5 w-5" />)}
+            </span>
+            <span class="text-sm font-semibold text-ink">{REVIEWS.rating.toFixed(1).replace('.', ',')} / 5</span>
+            <span class="inline-flex items-center gap-1.5 text-sm text-pine-700/70">
+              sur <Icon name="google" class="h-4 w-4" /> Google
+            </span>
+          </div>
+        </div>
+
+        <!-- Flèches + lien (desktop) -->
+        <div class="flex items-center gap-3">
+          <a
+            href={REVIEWS.googleUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn-sheen group inline-flex items-center gap-2 rounded-pill bg-pine-700 px-5 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-pine-800"
+          >
+            <Icon name="google" class="h-4 w-4" />
+            Voir tous les avis
+            <Icon name="arrow" class="h-4 w-4 transition group-hover:translate-x-1" />
+          </a>
+          <div class="hidden gap-2 sm:flex">
+            <button type="button" data-rev-dir="-1" aria-label="Avis précédent" class="flex h-11 w-11 items-center justify-center rounded-full bg-white text-pine-700 shadow-soft ring-1 ring-pine-100 transition hover:bg-pine-700 hover:text-white">
+              <Icon name="arrow" class="h-5 w-5 rotate-180" />
+            </button>
+            <button type="button" data-rev-dir="1" aria-label="Avis suivant" class="flex h-11 w-11 items-center justify-center rounded-full bg-white text-pine-700 shadow-soft ring-1 ring-pine-100 transition hover:bg-pine-700 hover:text-white">
+              <Icon name="arrow" class="h-5 w-5" />
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Piste du carrousel -->
+      <div id="reviews-track" data-reveal class="reviews-track mt-12 flex snap-x snap-mandatory gap-6 overflow-x-auto pb-4">
+        {
+          REVIEWS.items.map((r) => (
+            <article class="flex min-w-full snap-start flex-col rounded-3xl bg-white p-7 ring-1 ring-pine-100/70 lg:min-w-[31.8%]">
+              <div class="flex items-center gap-3">
+                <span class="flex h-11 w-11 flex-none items-center justify-center rounded-full bg-pine-700 text-base font-bold text-white">
+                  {r.name.trim().charAt(0).toUpperCase()}
+                </span>
+                <div class="min-w-0">
+                  <p class="truncate font-semibold text-ink">{r.name}</p>
+                  <p class="truncate text-xs text-pine-700/60">{r.meta}</p>
+                </div>
+                <Icon name="google" class="ml-auto h-5 w-5 flex-none" />
+              </div>
+              <div class="mt-4 flex gap-0.5 text-amber-400">
+                {Array.from({ length: r.rating }).map(() => <Icon name="star" class="h-4 w-4" />)}
+              </div>
+              <p class="mt-3 flex-1 text-sm leading-relaxed text-pine-700/85">{r.text}</p>
+              <p class="mt-5 text-xs font-medium text-pine-700/50">{r.when}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FAQ ===================== -->
+  <section class="bg-pine-50/50 py-24">
+    <div class="mx-auto grid max-w-7xl gap-12 px-6 lg:grid-cols-5 lg:gap-16">
+      <!-- Colonne intro -->
+      <div data-reveal class="lg:col-span-2 lg:sticky lg:top-28 lg:self-start">
+        <p class="inline-flex items-center gap-2 rounded-pill bg-pine-100 px-4 py-1.5 text-sm font-semibold uppercase tracking-wider text-pine-600">
+          Foire aux questions
+        </p>
+        <h2 class="mt-5 text-3xl font-bold leading-tight text-ink sm:text-4xl lg:text-[2.75rem]">
+          Vous avez une question ?<br class="hidden sm:block" /> Trouvez votre réponse ici
+        </h2>
+        <p class="mt-5 max-w-md text-[17px] leading-relaxed text-pine-700/80">
+          Retrouvez ici les réponses aux questions les plus fréquentes concernant nos services de
+          plomberie, de détection de fuites et de dépannage à {SITE.city} et ses environs.
+        </p>
+        <a href="/contact" class="btn-sheen group mt-8 inline-flex items-center gap-2 rounded-pill bg-pine-700 px-6 py-3.5 font-semibold text-white transition hover:-translate-y-0.5 hover:bg-pine-800">
+          Une autre question ?
+          <Icon name="arrow" class="h-5 w-5 transition group-hover:translate-x-1" />
+        </a>
+      </div>
+
+      <!-- Colonne accordéon -->
+      <div class="space-y-4 lg:col-span-3">
+        {
+          FAQ.map((item, i) => (
+            <div
+              data-reveal
+              data-reveal-delay={String((i % 4) + 1)}
+              class="faq-item overflow-hidden rounded-2xl border border-pine-100 bg-white shadow-soft"
+            >
+              <button type="button" class="faq-trigger flex w-full items-center justify-between gap-4 p-5 text-left" aria-expanded="false">
+                <span class="text-[17px] font-semibold text-ink">{item.q}</span>
+                <span class="faq-icon flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-pine-50 text-pine-600">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" class="h-5 w-5"><path d="M12 5v14M5 12h14" /></svg>
+                </span>
+              </button>
+              <div class="faq-body">
+                <div>
+                  <p class="px-5 pb-5 leading-relaxed text-pine-700/80">{item.a}</p>
+                </div>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+
+    <script is:inline>
+      (() => {
+        const items = document.querySelectorAll('.faq-item');
+        items.forEach((item) => {
+          const trigger = item.querySelector('.faq-trigger');
+          if (!trigger) return;
+          trigger.addEventListener('click', () => {
+            const isOpen = item.classList.contains('is-open');
+            // Ferme les autres (accordéon exclusif, comme l'ancien site)
+            items.forEach((other) => {
+              other.classList.remove('is-open');
+              other.querySelector('.faq-trigger')?.setAttribute('aria-expanded', 'false');
+            });
+            if (!isOpen) {
+              item.classList.add('is-open');
+              trigger.setAttribute('aria-expanded', 'true');
+            }
+          });
+        });
+      })();
+    </script>
+  </section>
+
+  <!-- ===================== CTA FINAL ===================== -->
+  <Cta
+    class="mb-24"
+    title={`Besoin d'un plombier à ${SITE.city} ?`}
+    text="Contactez MAGI Ø pour une intervention rapide ou un devis gratuit. Nous sommes à votre écoute."
+  />
+
+  <!-- Carrousel avis : boucle infinie (clonage) + flèches + défilement auto -->
+  <script is:inline>
+    (() => {
+      const track = document.getElementById('reviews-track');
+      if (!track) return;
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      // Duplique la série de cartes : [originaux][clones]. Quand on dépasse la
+      // 1re moitié, on recule instantanément d'une demi-largeur → boucle sans saut visible.
+      const originals = Array.from(track.children);
+      originals.forEach((c) => {
+        const clone = c.cloneNode(true);
+        clone.setAttribute('aria-hidden', 'true');
+        track.appendChild(clone);
+      });
+
+      const step = () => {
+        const card = track.querySelector('article');
+        const gap = parseFloat(getComputedStyle(track).columnGap || '24') || 24;
+        return card ? card.getBoundingClientRect().width + gap : track.clientWidth;
+      };
+      const half = () => track.scrollWidth / 2;
+
+      // Recale la position dans la 1re moitié sans animation (effet infini).
+      let recaling = false;
+      const normalize = () => {
+        if (recaling) return;
+        const h = half();
+        if (track.scrollLeft >= h) {
+          recaling = true;
+          track.scrollLeft -= h;
+          recaling = false;
+        } else if (track.scrollLeft < 0) {
+          recaling = true;
+          track.scrollLeft += h;
+          recaling = false;
+        }
+      };
+      track.addEventListener('scroll', normalize, { passive: true });
+
+      const go = (dir) => {
+        // Avant d'aller à gauche depuis le tout début, saute en avant pour avoir de la marge.
+        if (dir < 0 && track.scrollLeft < step()) track.scrollLeft += half();
+        track.scrollBy({ left: step() * dir, behavior: 'smooth' });
+      };
+
+      document.querySelectorAll('[data-rev-dir]').forEach((btn) => {
+        btn.addEventListener('click', () => go(parseInt(btn.getAttribute('data-rev-dir'), 10)));
+      });
+
+      // Défilement automatique, en pause au survol / focus / interaction tactile
+      if (!reduce) {
+        let timer = null;
+        const start = () => {
+          if (timer) return;
+          timer = setInterval(() => go(1), 4500);
+        };
+        const stop = () => {
+          clearInterval(timer);
+          timer = null;
+        };
+        track.addEventListener('pointerenter', stop);
+        track.addEventListener('pointerleave', start);
+        track.addEventListener('pointerdown', stop);
+        track.addEventListener('focusin', stop);
+        // Démarre uniquement quand la section est visible (économie de ressources)
+        if ('IntersectionObserver' in window) {
+          new IntersectionObserver(
+            (entries) => entries.forEach((e) => (e.isIntersecting ? start() : stop())),
+            { threshold: 0.2 }
+          ).observe(track);
+        } else {
+          start();
+        }
+      }
+    })();
+  </script>
+</Layout>
+
+<style>
+  /* Carrousel avis : masque la barre de défilement sans casser le scroll-snap. */
+  .reviews-track {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    scroll-padding-left: 0;
+  }
+  .reviews-track::-webkit-scrollbar {
+    display: none;
+  }
+</style>

@@ -1,0 +1,217 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Icon from '../components/Icon.astro';
+import Emblem from '../components/Emblem.astro';
+import { CONTACT, SITE } from '../consts';
+
+const web3formsKey = import.meta.env.PUBLIC_WEB3FORMS_KEY || '';
+
+const cards = [
+  { icon: 'phone', label: 'Téléphone', value: CONTACT.phone, href: `tel:${CONTACT.phoneRaw}` },
+  { icon: 'mail', label: 'Email', value: CONTACT.email, href: `mailto:${CONTACT.email}` },
+  { icon: 'pin', label: 'Adresse', value: `${CONTACT.address}, ${CONTACT.zip} ${CONTACT.cityName}`, href: CONTACT.mapsUrl },
+];
+---
+
+<Layout
+  title="Contact"
+  description="Contactez MAGI Ø, plombier chauffagiste à Colmar. Devis gratuit et sans engagement. Téléphone 06 35 82 42 37."
+>
+  <PageHeader
+    eyebrow="Contact"
+    title="Discutons de votre projet"
+    subtitle="Partagez-nous vos besoins en plomberie, vos questions ou vos demandes de partenariat. On vous répond rapidement."
+  />
+
+  <section class="relative overflow-hidden py-20">
+    <!-- Emblème Ø filigrane -->
+    <Emblem class="-right-14 top-20 h-44 w-44 opacity-[0.06]" motion="drift" rotate={8} />
+    <div class="relative mx-auto max-w-7xl px-6">
+    <div class="grid gap-12 lg:grid-cols-5">
+      <!-- Infos -->
+      <div class="lg:col-span-2">
+        <div class="space-y-4">
+          {
+            cards.map((c, i) => (
+              <a
+                href={c.href}
+                target={c.icon === 'pin' ? '_blank' : undefined}
+                rel={c.icon === 'pin' ? 'noopener noreferrer' : undefined}
+                data-reveal
+                data-reveal-delay={String(i + 1)}
+                class="group flex items-center gap-4 rounded-2xl border border-pine-100 bg-white p-5 shadow-soft transition hover:-translate-y-0.5 hover:shadow-card"
+              >
+                <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-pine-50 text-pine-500 transition group-hover:bg-pine-500 group-hover:text-white">
+                  <Icon name={c.icon} class="h-6 w-6" />
+                </span>
+                <span class="min-w-0">
+                  <span class="block text-sm font-medium text-pine-700/70">{c.label}</span>
+                  <span class="block truncate font-semibold text-ink">{c.value}</span>
+                </span>
+              </a>
+            ))
+          }
+          <div data-reveal data-reveal-delay="4" class="flex items-center gap-4 rounded-2xl bg-pine-500 p-5 text-white">
+            <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-white/15">
+              <Icon name="clock" class="h-6 w-6" />
+            </span>
+            <span>
+              <span class="block text-sm font-medium text-white/70">Horaires</span>
+              <span class="block font-semibold">{CONTACT.hours}</span>
+            </span>
+          </div>
+        </div>
+
+        <!-- Carte Google Maps — chargée UNIQUEMENT après consentement aux cookies
+             (RGPD/CNIL). Avant consentement : visuel de remplacement + bouton. -->
+        <div data-reveal class="mt-6 overflow-hidden rounded-2xl shadow-soft">
+          <div
+            id="map-consent"
+            data-map-title={`Localisation ${SITE.name} à ${CONTACT.cityName}`}
+            data-map-src="https://www.google.com/maps?q=12%20Rue%20du%20Peuplier%2068000%20Colmar&z=15&output=embed"
+            class="relative h-64 w-full"
+          >
+            <div id="map-placeholder" class="flex h-full w-full flex-col items-center justify-center gap-3 bg-pine-50 px-6 text-center">
+              <Icon name="pin" class="h-8 w-8 text-pine-400" />
+              <p class="max-w-xs text-sm leading-relaxed text-pine-700/80">
+                La carte Google Maps dépose des cookies. Activez-la pour localiser notre adresse.
+              </p>
+              <button type="button" id="map-load-btn" class="rounded-pill bg-pine-700 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-pine-600">
+                Afficher la carte
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Formulaire -->
+      <div data-reveal data-reveal-delay="1" class="lg:col-span-3">
+        <form id="contact-form" class="rounded-[2rem] border border-pine-100 bg-white p-7 shadow-card sm:p-9">
+          <input type="hidden" name="access_key" value={web3formsKey} />
+          <input type="hidden" name="subject" value="Nouveau message depuis magi-o.fr" />
+          <input type="hidden" name="from_name" value="Site MAGI Ø" />
+          <!-- Anti-spam honeypot -->
+          <input type="checkbox" name="botcheck" class="hidden" style="display:none" tabindex="-1" autocomplete="off" />
+
+          <div class="grid gap-5 sm:grid-cols-2">
+            <div>
+              <label for="name" class="mb-1.5 block text-sm font-semibold text-ink">Nom complet *</label>
+              <input id="name" name="name" type="text" required class="w-full rounded-xl border border-pine-200 bg-pine-50/40 px-4 py-3 text-ink outline-none transition focus:border-pine-500 focus:bg-white focus:ring-2 focus:ring-pine-500/20" placeholder="Jean Dupont" />
+            </div>
+            <div>
+              <label for="phone" class="mb-1.5 block text-sm font-semibold text-ink">Téléphone</label>
+              <input id="phone" name="phone" type="tel" class="w-full rounded-xl border border-pine-200 bg-pine-50/40 px-4 py-3 text-ink outline-none transition focus:border-pine-500 focus:bg-white focus:ring-2 focus:ring-pine-500/20" placeholder="06 12 34 56 78" />
+            </div>
+          </div>
+          <div class="mt-5">
+            <label for="email" class="mb-1.5 block text-sm font-semibold text-ink">Email *</label>
+            <input id="email" name="email" type="email" required class="w-full rounded-xl border border-pine-200 bg-pine-50/40 px-4 py-3 text-ink outline-none transition focus:border-pine-500 focus:bg-white focus:ring-2 focus:ring-pine-500/20" placeholder="vous@email.com" />
+          </div>
+          <div class="mt-5">
+            <label for="message" class="mb-1.5 block text-sm font-semibold text-ink">Votre message *</label>
+            <textarea id="message" name="message" rows="5" required class="w-full resize-y rounded-xl border border-pine-200 bg-pine-50/40 px-4 py-3 text-ink outline-none transition focus:border-pine-500 focus:bg-white focus:ring-2 focus:ring-pine-500/20" placeholder="Décrivez votre projet ou votre besoin..."></textarea>
+          </div>
+
+          <button type="submit" id="submit-btn" class="group mt-6 inline-flex w-full items-center justify-center gap-2 rounded-pill bg-coral-500 px-7 py-4 text-base font-semibold text-white shadow-lg shadow-coral-500/30 transition hover:bg-coral-600 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto">
+            <span id="submit-label">Envoyer le message</span>
+            <Icon name="arrow" class="h-5 w-5 transition group-hover:translate-x-1" />
+          </button>
+
+          <p id="form-result" class="mt-4 hidden rounded-xl px-4 py-3 text-sm font-medium"></p>
+          {!web3formsKey && (
+            <p class="mt-4 rounded-xl bg-amber-50 px-4 py-3 text-sm text-amber-800">
+              ⚙️ Clé Web3Forms manquante : ajoutez <code>PUBLIC_WEB3FORMS_KEY</code> dans <code>.env</code> pour activer l'envoi.
+            </p>
+          )}
+        </form>
+      </div>
+    </div>
+    </div>
+  </section>
+
+  <!-- Carte Google Maps : injectée seulement si le consentement est accordé -->
+  <script is:inline>
+    (() => {
+      const wrap = document.getElementById('map-consent');
+      if (!wrap) return;
+
+      function loadMap() {
+        if (wrap.querySelector('iframe')) return; // déjà chargée
+        const iframe = document.createElement('iframe');
+        iframe.src = wrap.dataset.mapSrc;
+        iframe.title = wrap.dataset.mapTitle;
+        iframe.loading = 'lazy';
+        iframe.className = 'h-64 w-full border-0';
+        iframe.setAttribute('referrerpolicy', 'no-referrer-when-downgrade');
+        iframe.setAttribute('allowfullscreen', '');
+        wrap.innerHTML = '';
+        wrap.appendChild(iframe);
+      }
+
+      // Bouton « Afficher la carte » = accepte le dépôt de cookies (carte tierce).
+      document.getElementById('map-load-btn')?.addEventListener('click', () => {
+        if (window.magioConsent) window.magioConsent.set('granted');
+        else loadMap();
+      });
+
+      // Réagit au consentement global (bandeau / réglages footer).
+      document.addEventListener('magio:consent', (e) => {
+        if (e.detail === 'granted') loadMap();
+      });
+
+      // Cas où le choix a déjà été fait avant le chargement de ce script.
+      if (window.magioConsent && window.magioConsent.get() === 'granted') loadMap();
+    })();
+  </script>
+
+  <script is:inline>
+    (() => {
+      const form = document.getElementById('contact-form');
+      if (!form) return;
+      const result = document.getElementById('form-result');
+      const btn = document.getElementById('submit-btn');
+      const label = document.getElementById('submit-label');
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const data = new FormData(form);
+        if (!data.get('access_key')) {
+          show("Configuration du formulaire incomplète. Appelez-nous directement !", false);
+          return;
+        }
+        btn.disabled = true;
+        const prev = label.textContent;
+        label.textContent = 'Envoi en cours...';
+        try {
+          const res = await fetch('https://api.web3forms.com/submit', {
+            method: 'POST',
+            headers: { Accept: 'application/json' },
+            body: data,
+          });
+          const json = await res.json();
+          if (json.success) {
+            form.reset();
+            show('Merci ! Votre message a bien été envoyé. Nous vous recontactons rapidement.', true);
+          } else {
+            show("Une erreur est survenue. Réessayez ou appelez-nous directement.", false);
+          }
+        } catch {
+          show("Connexion impossible. Réessayez ou appelez-nous directement.", false);
+        } finally {
+          btn.disabled = false;
+          label.textContent = prev;
+        }
+      });
+
+      function show(msg, ok) {
+        result.textContent = msg;
+        result.classList.remove('hidden');
+        result.classList.toggle('bg-pine-50', ok);
+        result.classList.toggle('text-pine-700', ok);
+        result.classList.toggle('bg-red-50', !ok);
+        result.classList.toggle('text-red-700', !ok);
+      }
+    })();
+  </script>
+</Layout>
