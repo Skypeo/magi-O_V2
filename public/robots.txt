@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://magi-o.fr/sitemap-index.xml

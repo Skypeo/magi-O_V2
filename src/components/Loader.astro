@@ -1,0 +1,101 @@
+---
+// ============================================================
+// Loader « eau » — l'emblème de la marque se remplit d'eau,
+// avec une vague qui ondule (2 couches) et des bulles qui remontent.
+// Puis le rideau se lève (clip-path).
+//
+// À monter UNE SEULE FOIS dans Layout.astro, juste après <body>.
+// Dépend de /images/emblem-white.png (silhouette blanche de l'emblème,
+// fournie dans claude-code/public-images/).
+// ============================================================
+---
+
+<div id="loader" aria-hidden="true">
+  <div class="loader-vig"></div>
+  <div class="loader-stack">
+    <div class="crest">
+      <div class="crest-base"></div>
+      <div class="water"></div>
+      <span class="bubble" style="left:33%;animation-delay:1s"></span>
+      <span class="bubble" style="left:50%;animation-delay:1.5s"></span>
+      <span class="bubble" style="left:64%;animation-delay:2.1s"></span>
+    </div>
+    <span class="loader-cap">Colmar &amp; environs</span>
+  </div>
+</div>
+
+<style>
+  #loader {
+    position: fixed; inset: 0; z-index: 120; display: grid; place-items: center;
+    background: radial-gradient(130% 130% at 50% 38%, #2c3a35 0%, #1f2926 58%, #161d1a 100%);
+    transition: clip-path 1s cubic-bezier(0.76, 0, 0.24, 1), opacity 0.5s ease 0.55s;
+    will-change: clip-path;
+  }
+  #loader.done { clip-path: inset(0 0 100% 0); opacity: 0; pointer-events: none; }
+
+  .loader-vig {
+    position: absolute; inset: 0; pointer-events: none; opacity: 0.5;
+    background: radial-gradient(60% 50% at 50% 46%, transparent 55%, rgb(0 0 0 / 0.45) 100%);
+  }
+  .loader-stack { display: flex; flex-direction: column; align-items: center; gap: 2.1rem; }
+
+  /* L'emblème sert de masque : l'eau ne remplit QUE la silhouette du blason. */
+  .crest {
+    position: relative; width: min(74vw, 300px); aspect-ratio: 612 / 408;
+    -webkit-mask: url(/images/emblem-white.png) center / contain no-repeat;
+    mask: url(/images/emblem-white.png) center / contain no-repeat;
+  }
+  .crest-base { position: absolute; inset: 0; background: rgb(132 199 185 / 0.15); }
+
+  .water {
+    position: absolute; left: 0; right: 0; bottom: 0; height: 0; overflow: visible;
+    background: linear-gradient(180deg, #9fd6c9, #5a8b7d);
+    animation: loader-fill 0.75s cubic-bezier(0.45, 0.05, 0.25, 1) 0.05s forwards;
+  }
+  .water::before, .water::after {
+    content: ''; position: absolute; left: -60%; right: -60%; top: -15px; height: 20px;
+    background-repeat: repeat-x; background-size: 170px 20px; will-change: transform;
+  }
+  .water::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='170' height='20'%3E%3Cpath d='M0 10 C42 0 42 20 85 10 C128 0 128 20 170 10 L170 20 L0 20 Z' fill='%239fd6c9'/%3E%3C/svg%3E");
+    animation: loader-wave 1.05s linear infinite;
+  }
+  .water::after {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='170' height='20'%3E%3Cpath d='M0 10 C42 0 42 20 85 10 C128 0 128 20 170 10 L170 20 L0 20 Z' fill='%23cfeae2'/%3E%3C/svg%3E");
+    opacity: 0.45; animation: loader-wave 1.7s linear infinite reverse;
+  }
+  .bubble {
+    position: absolute; bottom: 6%; width: 7px; height: 7px; border-radius: 9999px;
+    background: rgb(255 255 255 / 0.55); opacity: 0; animation: loader-rise 2.6s ease-in infinite;
+  }
+  .loader-cap {
+    font-size: 0.62rem; letter-spacing: 0.46em; text-transform: uppercase; color: #84c7b9;
+    opacity: 0; animation: loader-fadein 0.4s ease 0.45s forwards;
+  }
+
+  @keyframes loader-fill { to { height: 112%; } }
+  @keyframes loader-wave { to { transform: translateX(170px); } }
+  @keyframes loader-rise {
+    0%   { transform: translateY(0) scale(0.5); opacity: 0; }
+    25%  { opacity: 0.7; }
+    100% { transform: translateY(-150px) scale(1); opacity: 0; }
+  }
+  @keyframes loader-fadein { to { opacity: 1; } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .water { height: 112%; animation: none; }
+    .water::before, .water::after, .bubble { animation: none; }
+    .loader-cap { opacity: 1; animation: none; }
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var l = document.getElementById('loader');
+    if (!l) return;
+    function hide() { l.classList.add('done'); }
+    window.addEventListener('load', function () { setTimeout(hide, 600); });
+    setTimeout(hide, 1200); // garde-fou si l'event load tarde
+    l.addEventListener('click', hide); // cliquer pour passer
+  })();
+</script>

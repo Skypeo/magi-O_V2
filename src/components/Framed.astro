@@ -1,0 +1,16 @@
+---
+// Encadre un mot/titre d'un trait orange au-dessus ET en dessous (rappel du logo MAGI O).
+// Les traits se tracent (scaleX) à l'affichage.
+interface Props {
+  class?: string;
+  /** épaisseur des traits */
+  thickness?: string;
+}
+const { class: cls = '', thickness = 'h-[3px]' } = Astro.props;
+---
+
+<span class={`relative inline-block ${cls}`}>
+  <span class={`rule-grow pointer-events-none absolute inset-x-0 -top-1 ${thickness} origin-left rounded-full bg-coral-500`}></span>
+  <slot />
+  <span class={`rule-grow rule-grow-2 pointer-events-none absolute inset-x-0 -bottom-1 ${thickness} origin-right rounded-full bg-coral-500`}></span>
+</span>

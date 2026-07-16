@@ -1,0 +1,475 @@
+@import 'tailwindcss';
+
+/* ============================================================
+   DM Sans — AUTO-HÉBERGÉE (perf + RGPD : aucune requête vers
+   les serveurs Google, donc aucune transmission d'IP).
+   Police variable : un seul fichier couvre les graisses 400→700.
+   ============================================================ */
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('/fonts/dm-sans-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('/fonts/dm-sans-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+/* ============================================================
+   MAGI O — Design tokens (charte reprise de l'ancien site)
+   Vert sapin + accent corail + DM Sans
+   ============================================================ */
+@theme {
+  /* Vert de marque */
+  --color-pine-50: #f1f5f3;
+  --color-pine-100: #dde8e3;
+  --color-pine-200: #bcd0c8;
+  --color-pine-300: #84c7b9; /* menthe claire de l'ancien site */
+  --color-pine-400: #5a8b7d;
+  --color-pine-500: #44655e; /* vert principal */
+  --color-pine-600: #3a564f;
+  --color-pine-700: #354743; /* vert foncé */
+  --color-pine-800: #2a3733;
+  --color-pine-900: #1f2926;
+
+  /* Accent corail (CTA) */
+  --color-coral-400: #ef5a3f;
+  --color-coral-500: #e63a27; /* accent principal */
+  --color-coral-600: #db3e15;
+  --color-coral-700: #b62f10;
+
+  /* Encre / texte */
+  --color-ink: #131022;
+
+  /* Blanc cassé (fond général du site) */
+  --color-cream: #f5f8f6;
+
+  /* Typo */
+  --font-sans: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+
+  /* Rayons & ombres premium */
+  --radius-pill: 9999px;
+  --shadow-soft: 0 10px 40px -12px rgb(19 16 34 / 0.18);
+  --shadow-card: 0 18px 50px -20px rgb(19 16 34 / 0.25);
+}
+
+/* ---- Base ---- */
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Pas de scroll horizontal parasite (transforms d'apparition translateX,
+   cercles décoratifs -right-*). `clip` plutôt que `hidden` pour ne pas
+   casser les `position: sticky` de la page. */
+html,
+body {
+  overflow-x: clip;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-ink);
+  background-color: var(--color-cream);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background-color: var(--color-coral-500);
+  color: #fff;
+}
+
+/* ============================================================
+   Animations légères (CSS pur — zéro librairie)
+   ============================================================ */
+
+/* Apparition au scroll : pilotée par IntersectionObserver (data-reveal) */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+[data-reveal-delay='1'] { transition-delay: 0.08s; }
+[data-reveal-delay='2'] { transition-delay: 0.16s; }
+[data-reveal-delay='3'] { transition-delay: 0.24s; }
+[data-reveal-delay='4'] { transition-delay: 0.32s; }
+[data-reveal-delay='5'] { transition-delay: 0.40s; }
+[data-reveal-delay='6'] { transition-delay: 0.48s; }
+
+/* Variantes directionnelles d'apparition (du caractère, pas de l'uniforme) */
+[data-reveal='left'] { transform: translateX(-52px); }
+[data-reveal='right'] { transform: translateX(52px); }
+[data-reveal='scale'] { transform: scale(0.88); }
+[data-reveal='zoom'] { transform: scale(1.1); }
+[data-reveal='blur'] { transform: translateY(34px); filter: blur(12px); }
+[data-reveal].is-visible { transform: none; filter: none; }
+
+/* ============================================================
+   Couche « motion » — scroll, parallax, marquee, compteurs
+   ============================================================ */
+
+/* Parallax doux (piloté en JS via --py) */
+[data-parallax] { transform: translate3d(0, var(--py, 0), 0); will-change: transform; }
+
+/* Bandeau défilant (marquee) */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.marquee { overflow: hidden; }
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 32s linear infinite;
+}
+.marquee:hover .marquee-track { animation-play-state: paused; }
+
+/* Apparition « masque » verticale pour les gros titres */
+.reveal-mask { overflow: hidden; }
+.reveal-mask > * {
+  display: inline-block;
+  transform: translateY(110%);
+  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal-mask.is-visible > * { transform: translateY(0); }
+
+/* Entrée immédiate (hero, au-dessus de la ligne de flottaison) */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(26px); }
+  to { opacity: 1; transform: none; }
+}
+.fade-up { animation: fade-up 0.85s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.fade-up-1 { animation-delay: 0.12s; }
+.fade-up-2 { animation-delay: 0.24s; }
+.fade-up-3 { animation-delay: 0.36s; }
+
+/* Rotation lente des engrenages */
+@keyframes spin-slow {
+  to { transform: rotate(360deg); }
+}
+.animate-spin-slow { animation: spin-slow 28s linear infinite; }
+.animate-spin-slow-reverse { animation: spin-slow 22s linear infinite reverse; }
+
+/* Engrenages qui s'engrènent : même cadence, sens alternés (transform-origin centre) */
+.gear-cw { animation: spin-slow 9s linear infinite; transform-origin: 50% 50%; }
+.gear-ccw { animation: spin-slow 9s linear infinite reverse; transform-origin: 50% 50%; }
+
+/* Pulse douce pour le bouton d'appel */
+@keyframes pulse-ring {
+  0% { box-shadow: 0 0 0 0 rgb(230 58 39 / 0.45); }
+  70% { box-shadow: 0 0 0 12px rgb(230 58 39 / 0); }
+  100% { box-shadow: 0 0 0 0 rgb(230 58 39 / 0); }
+}
+.animate-pulse-ring { animation: pulse-ring 2.4s ease-out infinite; }
+
+/* Léger flottement */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+.animate-float { animation: float 6s ease-in-out infinite; }
+
+/* Soulignement animé des liens de nav */
+.nav-link {
+  position: relative;
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 100%;
+  height: 2px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.3s ease;
+}
+.nav-link:hover::after,
+.nav-link[aria-current='page']::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* Flottement lent (variante) */
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0) translateX(0); }
+  50% { transform: translateY(-16px) translateX(6px); }
+}
+.animate-float-slow { animation: float-slow 9s ease-in-out infinite; }
+
+/* Dégradé animé (fond mesh hero) */
+@keyframes gradient-pan {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.animate-gradient { background-size: 200% 200%; animation: gradient-pan 14s ease infinite; }
+
+/* Scintillement (badge / puce) */
+@keyframes shimmer {
+  0% { transform: translateX(-120%); }
+  100% { transform: translateX(220%); }
+}
+
+/* Bouton premium : reflet qui balaie au survol */
+.btn-sheen { position: relative; overflow: hidden; isolation: isolate; }
+.btn-sheen::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 25%, rgb(255 255 255 / 0.35) 50%, transparent 75%);
+  transform: translateX(-120%);
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  z-index: -1;
+}
+.btn-sheen:hover::before { transform: translateX(120%); }
+
+/* Carte premium : légère élévation + lueur */
+.card-lift {
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease;
+}
+.card-lift:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 28px 60px -24px rgb(19 16 34 / 0.35);
+}
+
+/* Icône qui « rebondit » dans son halo au survol de la carte */
+.icon-pop {
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.3s, color 0.3s;
+}
+.group:hover .icon-pop { transform: translateY(-3px) scale(1.08) rotate(-4deg); }
+
+/* ============================================================
+   Section « accompagnement de confiance » — fond animé premium
+   ============================================================ */
+.presentation-mesh {
+  background: linear-gradient(120deg, #2a3733, #354743, #44655e, #3a564f, #2a3733);
+  background-size: 240% 240%;
+  animation: gradient-pan 18s ease infinite;
+}
+/* Texture pointillée discrète */
+.presentation-grid {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.5) 1px, transparent 1.4px);
+  background-size: 26px 26px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 40%, #000 40%, transparent 78%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 40%, #000 40%, transparent 78%);
+}
+/* Photo plomberie fondue dans le fond vert */
+.presentation-photo {
+  mask-image: linear-gradient(to left, #000 0%, rgba(0, 0, 0, 0.45) 45%, transparent 85%);
+  -webkit-mask-image: linear-gradient(to left, #000 0%, rgba(0, 0, 0, 0.45) 45%, transparent 85%);
+}
+/* Lueur conique qui balaie lentement */
+.presentation-glow {
+  background: conic-gradient(from 0deg, transparent 0deg, rgba(132, 199, 185, 0.28) 55deg, transparent 130deg);
+  animation: spin-slow 22s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .presentation-mesh,
+  .presentation-glow {
+    animation: none !important;
+  }
+}
+
+/* ============================================================
+   CTA « Get in touch » — anneaux concentriques animés (radar)
+   ============================================================ */
+/* Respiration douce de tout le système d'anneaux */
+@keyframes radar-breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+.radar-breathe { animation: radar-breathe 7s ease-in-out infinite; }
+
+/* Onde qui se propage vers l'extérieur depuis le centre lumineux */
+@keyframes radar-emit {
+  0% { transform: scale(0.16); opacity: 0; }
+  12% { opacity: 0.6; }
+  100% { transform: scale(1.08); opacity: 0; }
+}
+.radar-emit {
+  animation: radar-emit 4.5s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+/* Pulsation du cœur lumineux */
+@keyframes radar-core {
+  0%, 100% { opacity: 0.75; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.12); }
+}
+.radar-core { animation: radar-core 3.4s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .radar-breathe,
+  .radar-emit,
+  .radar-core { animation: none !important; }
+}
+
+/* ============================================================
+   Touche « crayonné » — traits dessinés à la main + doodles de marque
+   ============================================================ */
+
+/* Trait/cercle crayonné qui « se dessine » à l'apparition.
+   pathLength=1 → indépendant de la taille réelle du tracé. */
+.sketch path,
+.sketch line,
+.sketch circle,
+.sketch ellipse {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+.sketch.is-visible path,
+.sketch.is-visible line,
+.sketch.is-visible circle,
+.sketch.is-visible ellipse {
+  animation: sketch-draw 1.1s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+.sketch.is-visible .sketch-2 { animation-delay: 0.18s; }
+@keyframes sketch-draw {
+  to { stroke-dashoffset: 0; }
+}
+
+/* Doodles décoratifs flottants (emblème, gribouillis, flèches…) */
+@keyframes doodle-float {
+  0%, 100% { transform: translateY(0) rotate(var(--rot, 0deg)); }
+  50% { transform: translateY(-14px) rotate(calc(var(--rot, 0deg) + 5deg)); }
+}
+@keyframes doodle-drift {
+  0%, 100% { transform: translate(0, 0) rotate(var(--rot, 0deg)); }
+  33% { transform: translate(10px, -12px) rotate(calc(var(--rot, 0deg) + 4deg)); }
+  66% { transform: translate(-8px, 8px) rotate(calc(var(--rot, 0deg) - 4deg)); }
+}
+.doodle-float { animation: doodle-float 9s ease-in-out infinite; }
+.doodle-drift { animation: doodle-drift 16s ease-in-out infinite; }
+.doodle-spin { animation: spin-slow 40s linear infinite; }
+
+/* Hachures de marque (diagonales) qui défilent doucement en fond de section.
+   Très discrètes — ne surchargent pas. */
+.hatch {
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(53, 71, 67, 0.06) 0 2px,
+    transparent 2px 12px
+  );
+}
+.hatch-light {
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.07) 0 2px,
+    transparent 2px 12px
+  );
+}
+.hatch-coral {
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(230, 58, 39, 0.07) 0 2px,
+    transparent 2px 12px
+  );
+}
+@keyframes hatch-pan {
+  from { background-position: 0 0; }
+  to { background-position: 68px 0; }
+}
+.hatch-pan { animation: hatch-pan 6s linear infinite; }
+
+/* Badge circulaire rotatif (texte qui tourne) */
+.badge-spin { animation: spin-slow 18s linear infinite; }
+
+/* Traits de marque (au-dessus + en dessous, façon logo MAGI O) qui se tracent */
+@keyframes rule-grow {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+.rule-grow { transform: scaleX(0); animation: rule-grow 0.7s cubic-bezier(0.65, 0, 0.35, 1) 0.25s forwards; }
+.rule-grow-2 { animation-delay: 0.4s; }
+
+/* Léger « tremblement » de marque (vie sans distraction) */
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(2.5deg); }
+  75% { transform: rotate(-2.5deg); }
+}
+.animate-wiggle { animation: wiggle 5s ease-in-out infinite; }
+
+/* Texture « papier » discrète pour réchauffer les sections blanches */
+.paper-dots {
+  background-image: radial-gradient(rgba(53, 71, 67, 0.06) 1px, transparent 1.6px);
+  background-size: 22px 22px;
+}
+
+/* Halo qui respire (pour donner vie aux blobs décoratifs existants) */
+@keyframes blob-breathe {
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: var(--o, 0.5); }
+  50% { transform: translate(12px, -16px) scale(1.12); opacity: calc(var(--o, 0.5) * 1.35); }
+}
+.animate-blob { animation: blob-breathe 12s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .sketch.is-visible path,
+  .sketch.is-visible line,
+  .sketch.is-visible circle,
+  .sketch.is-visible ellipse { animation: none; stroke-dashoffset: 0; }
+  .doodle-float,
+  .doodle-drift,
+  .doodle-spin,
+  .animate-wiggle,
+  .animate-blob,
+  .hatch-pan,
+  .badge-spin { animation: none !important; }
+}
+
+/* ============================================================
+   Accordéon FAQ — fluide dans les deux sens (grid-rows 0fr→1fr)
+   ============================================================ */
+.faq-item {
+  transition: border-color 0.3s ease, box-shadow 0.35s ease, background-color 0.3s ease;
+}
+.faq-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.faq-body > div { overflow: hidden; }
+.faq-item.is-open .faq-body { grid-template-rows: 1fr; }
+.faq-item.is-open {
+  border-color: var(--color-pine-300);
+  box-shadow: var(--shadow-card);
+}
+.faq-icon { transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.3s, color 0.3s; }
+.faq-item.is-open .faq-icon {
+  transform: rotate(135deg);
+  background-color: var(--color-pine-600);
+  color: #fff;
+}
+
+/* Respect des préférences d'accessibilité */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  [data-reveal] { opacity: 1; transform: none; filter: none; }
+  .fade-up { animation: none; opacity: 1; transform: none; }
+  .reveal-mask > * { transform: none; }
+  [data-parallax] { transform: none !important; }
+}

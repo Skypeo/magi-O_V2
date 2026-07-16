@@ -1,0 +1,69 @@
+---
+import Icon from './Icon.astro';
+import { CONTACT } from '../consts';
+
+interface Props {
+  /** Titre principal */
+  title?: string;
+  /** Paragraphe d'accroche */
+  text?: string;
+  /** Marge basse (utile selon la page) */
+  class?: string;
+}
+
+const {
+  title = 'Parlons de votre projet.',
+  text = `Devis gratuit et sans engagement à ${CONTACT.cityName} et ses environs. On s'occupe du reste.`,
+  class: extraClass = 'mb-20',
+} = Astro.props;
+---
+
+<!-- CTA — fond orange + radar animé (composant partagé) -->
+<section class={`mx-auto max-w-7xl px-6 ${extraClass}`}>
+  <div
+    data-reveal
+    class="relative overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-coral-500 to-coral-600 px-8 py-16 text-white shadow-card sm:px-14 sm:py-20"
+  >
+    <!-- Radar : anneaux concentriques animés (bas-droite) -->
+    <div class="pointer-events-none absolute bottom-0 right-0 aspect-square w-[115%] max-w-[760px] translate-x-[28%] translate-y-[30%] sm:w-[80%]">
+      <div class="radar-breathe absolute inset-0 grid place-items-center">
+        <span class="absolute h-full w-full rounded-full bg-white/[0.06]"></span>
+        <span class="absolute h-[80%] w-[80%] rounded-full bg-white/[0.09]"></span>
+        <span class="absolute h-[60%] w-[60%] rounded-full bg-white/[0.14]"></span>
+        <span class="absolute h-[42%] w-[42%] rounded-full bg-white/[0.22]"></span>
+        <span class="absolute h-[26%] w-[26%] rounded-full bg-white/40"></span>
+        <span class="radar-core absolute h-[15%] w-[15%] rounded-full bg-white blur-[2px]"></span>
+        <span class="radar-emit absolute h-[60%] w-[60%] rounded-full ring-2 ring-white/50"></span>
+        <span class="radar-emit absolute h-[60%] w-[60%] rounded-full ring-2 ring-white/50" style="animation-delay:1.5s"></span>
+        <span class="radar-emit absolute h-[60%] w-[60%] rounded-full ring-2 ring-white/50" style="animation-delay:3s"></span>
+      </div>
+    </div>
+
+    <!-- Contenu (aligné à gauche) -->
+    <div class="relative max-w-xl">
+      <h2 class="text-4xl font-bold leading-[1.05] tracking-tight sm:text-5xl">{title}</h2>
+      <p class="mt-4 max-w-md text-lg leading-relaxed text-white/90">{text}</p>
+
+      <div class="mt-9 flex flex-col gap-4 sm:flex-row sm:flex-wrap">
+        <a
+          href="/contact"
+          class="group inline-flex items-center justify-between gap-4 rounded-pill bg-ink py-2 pl-7 pr-2 text-base font-semibold text-white shadow-lg shadow-ink/30 transition hover:-translate-y-0.5 hover:bg-pine-900"
+        >
+          Demander un devis
+          <span class="flex h-10 w-10 items-center justify-center rounded-full bg-coral-500 text-white transition group-hover:rotate-45 group-hover:bg-coral-400">
+            <Icon name="arrow" class="h-5 w-5" />
+          </span>
+        </a>
+        <a
+          href={`tel:${CONTACT.phoneRaw}`}
+          class="group inline-flex items-center justify-between gap-4 rounded-pill bg-ink py-2 pl-7 pr-2 text-base font-semibold text-white shadow-lg shadow-ink/30 transition hover:-translate-y-0.5 hover:bg-pine-900"
+        >
+          {CONTACT.phone}
+          <span class="flex h-10 w-10 items-center justify-center rounded-full bg-white text-ink transition group-hover:scale-110">
+            <Icon name="phone" class="h-4 w-4" />
+          </span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
