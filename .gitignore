@@ -19,3 +19,4 @@ npm-debug.log*
 studio/dist/
 studio/node_modules/
 studio/.env
+.fuse_hidden*
