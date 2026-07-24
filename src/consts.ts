@@ -23,9 +23,11 @@ export const CONTACT = {
   mapsUrl: 'https://www.google.com/maps/search/?api=1&query=12+Rue+du+Peuplier+68000+Colmar',
 };
 
+// Réseaux sociaux. Laisser une chaîne vide masque l'icône correspondante
+// (l'Instagram n'est pas encore fourni par la cliente).
 export const SOCIAL = {
-  facebook: 'https://www.facebook.com/',
-  instagram: 'https://www.instagram.com/',
+  facebook: 'https://www.facebook.com/p/MAGI-O-61555832830809/',
+  instagram: '',
 };
 
 // Avis clients (Google). `googleUrl` = lien « voir tous les avis ».
@@ -116,6 +118,10 @@ export interface ServiceSection {
   items?: string[];
   /** Photo illustrant la section (mise en page alternée) */
   image?: string;
+  /** Vidéo illustrant la section (affichée à la place de l'image) */
+  video?: string;
+  /** Image d'aperçu (poster) affichée avant lecture de la vidéo */
+  poster?: string;
 }
 
 export interface Service {
@@ -171,7 +177,7 @@ export const SERVICES: Service[] = [
       },
       {
         heading: 'Réparation',
-        image: '/images/plomberie_img/55822-1.webp',
+        image: '/images/plomberie_img/reparation-avant-apres.webp',
         paragraphs: [
           "Nous intervenons rapidement pour la réparation de toutes vos fuites d'eau, qu'elles concernent des tuyaux, des robinets, des raccords ou des appareils sanitaires.",
           "Grâce à notre expertise et à des outils de détection de pointe, nous localisons les fuites avec précision, y compris dans les zones difficiles d'accès.",
@@ -189,7 +195,7 @@ export const SERVICES: Service[] = [
       },
       {
         heading: "Dépannage d'urgence",
-        image: '/images/plomberie_img/image-2-600x400.webp',
+        image: '/images/plomberie_img/depannage-cuivre.webp',
         paragraphs: [
           "Nous offrons un service de dépannage d'urgence à Colmar et dans les environs, disponible 24h/24 et 7j/7, pour répondre rapidement à tout problème de plomberie imprévu.",
           "Fuite importante, bouchon ou dysfonctionnement urgent : notre équipe se déplace rapidement afin de résoudre le problème et limiter les dégâts.",
@@ -209,7 +215,6 @@ export const SERVICES: Service[] = [
   },
   {
     // NOUVELLE PAGE — Rénovation (salle de bain + adaptation PMR / MaPrimeAdapt').
-    // Photos de chantier fournies ultérieurement par la cliente (visuels de plomberie en attendant).
     slug: 'renovation',
     title: 'Rénovation',
     navLabel: 'Rénovation salle de bain',
@@ -225,7 +230,7 @@ export const SERVICES: Service[] = [
     sections: [
       {
         heading: 'Une salle de bain à votre image',
-        image: '/images/plomberie_img/image-1-600x400.webp',
+        image: '/images/renovation/salle-de-bain-2.webp',
         paragraphs: [
           "Remplacement de baignoire par douche, rénovation complète, mise aux normes de la plomberie : nous rénovons votre salle de bain de A à Z, avec des matériaux durables et un chantier propre, dans le respect des délais annoncés.",
           "Nous suivons les tendances et innovations du secteur (coloris, matériaux, équipements design) et vous conseillons pour une salle de bain à la fois esthétique, fonctionnelle et actuelle.",
@@ -233,7 +238,7 @@ export const SERVICES: Service[] = [
       },
       {
         heading: "Adapter votre salle de bain pour plus d'autonomie",
-        image: '/images/plomberie_img/image-2-600x400.webp',
+        image: '/images/renovation/salle-de-bain-3.webp',
         text:
           "Douche à l'italienne, receveur extra-plat, barres d'appui, hauteurs normées : nous réalisons des salles de bain adaptées aux personnes à mobilité réduite ou aux seniors souhaitant vieillir chez eux en toute sécurité.",
         items: [
@@ -245,6 +250,7 @@ export const SERVICES: Service[] = [
       },
       {
         heading: 'Autres rénovations',
+        image: '/images/renovation/salle-de-bain-5.webp',
         paragraphs: [
           "Nous intervenons également sur d'autres projets de rénovation liés à la plomberie et au chauffage : rénovation de cuisine (arrivées d'eau, évacuation), remplacement de colonnes d'eau en habitat collectif, ou tout autre projet nécessitant une intervention sur vos réseaux sanitaires.",
         ],
@@ -270,7 +276,7 @@ export const SERVICES: Service[] = [
       'Matériaux durables et chantier propre',
       'Respect des délais annoncés',
     ],
-    image: '/images/plomberie_img/55822-1.webp',
+    image: '/images/renovation/salle-de-bain-1.webp',
     icon: 'bath',
     legacyPaths: [],
   },
@@ -346,29 +352,35 @@ export const SERVICES: Service[] = [
     intro:
       "Recherche de fuites sans casse grâce à des équipements de haute technologie : caméras thermiques et endoscopiques, relevés hygrométriques, traçage par gaz, fumigène ou colorant, et recherche acoustique pour identifier les fuites invisibles.",
     lead: [
-      "Nous proposons des services de recherche de fuites sans casse, en utilisant des équipements de haute technologie et des techniques de pointe permettant de localiser précisément l'origine d'une fuite tout en préservant vos installations.",
-      "Grâce à l'utilisation de caméras thermiques et endoscopiques, nous inspectons en profondeur vos canalisations, murs et réseaux, y compris dans les zones difficiles d'accès ou encastrées.",
-      "Nous complétons ces investigations par des relevés hygrométriques, ainsi que par des méthodes de traçage par gaz, fumigène ou colorant, afin de détecter avec précision les fuites situées dans des réseaux enterrés ou dissimulés.",
-      "Lorsque nécessaire, nous utilisons également la recherche acoustique, qui permet d'identifier les fuites invisibles en analysant les sons générés par l'écoulement de l'eau.",
-      "Ces techniques modernes nous permettent d'obtenir des résultats rapides, fiables et sans dégradation.",
+      "Recherche de fuites sans casse grâce à des équipements de haute technologie et des techniques de pointe : nous localisons précisément l'origine d'une fuite tout en préservant vos installations, avec des résultats rapides, fiables et sans dégradation.",
     ],
     sections: [
       {
-        heading: 'Recherche de fuite destructive',
-        image: '/images/fuite/image-384x512-1-1-384x400.webp',
+        heading: 'Recherche de fuite technique',
+        image: '/images/fuite/recherche-fuite-technique.webp',
         paragraphs: [
-          "Lorsque les méthodes de détection non destructives ne suffisent pas à localiser l'origine d'une fuite, nous pouvons être amenés à réaliser une recherche destructive ciblée.",
-          "Cette intervention consiste à effectuer des ouvertures limitées et maîtrisées, uniquement lorsque cela est indispensable, afin d'accéder directement à la source du problème. Nous intervenons avec soin et rigueur, dans le but de réduire au maximum les dommages et de procéder à une réparation rapide et efficace.",
-          "Bien que plus intrusive, cette méthode garantit une résolution fiable et définitive lorsque les autres techniques atteignent leurs limites.",
+          "Grâce à des caméras thermiques et endoscopiques, nous inspectons en profondeur vos canalisations, murs et réseaux, y compris dans les zones difficiles d'accès ou encastrées.",
+          "Nous complétons ces investigations par des relevés hygrométriques, ainsi que par des méthodes de traçage par gaz, fumigène ou colorant, afin de détecter avec précision les fuites situées dans des réseaux enterrés ou dissimulés.",
+          "Lorsque nécessaire, nous utilisons également la recherche acoustique, qui permet d'identifier les fuites invisibles en analysant les sons générés par l'écoulement de l'eau.",
         ],
       },
       {
         heading: 'Diagnostic et expertise',
-        image: '/images/fuite/image-384x512-1-384x400.webp',
+        video: '/images/fuite/diagnostic-camera-thermique.mp4',
+        poster: '/images/fuite/diagnostic-camera-thermique-poster.webp',
         paragraphs: [
           "Nous réalisons également des diagnostics complets pour identifier l'origine de divers problèmes liés à vos installations.",
           "À l'aide de relevés de taux d'humidité, nous détectons les zones sujettes aux infiltrations et aux problèmes d'humidité. Nous analysons également les surconsommations d'eau, afin d'identifier d'éventuelles fuites ou dysfonctionnements invisibles.",
           "En cas de doute sur la performance de vos installations, nous effectuons un diagnostic d'isolation thermique, permettant de repérer les pertes d'énergie liées à une mauvaise isolation ou à un défaut d'installation.",
+        ],
+      },
+      {
+        heading: 'Recherche de fuite destructive',
+        image: '/images/fuite/recherche-fuite-destructive.webp',
+        paragraphs: [
+          "En dernier recours, lorsque les méthodes de détection non destructives ne suffisent pas à localiser l'origine d'une fuite, nous pouvons être amenés à réaliser une recherche destructive ciblée.",
+          "Cette intervention consiste à effectuer des ouvertures limitées et maîtrisées, uniquement lorsque cela est indispensable, afin d'accéder directement à la source du problème. Nous intervenons avec soin et rigueur, dans le but de réduire au maximum les dommages et de procéder à une réparation rapide et efficace.",
+          "Bien que plus intrusive, cette méthode garantit une résolution fiable et définitive lorsque les autres techniques atteignent leurs limites.",
         ],
       },
       {
@@ -392,7 +404,7 @@ export const SERVICES: Service[] = [
       'Interventions ciblées et maîtrisées',
       'Diagnostics fiables et rapports exploitables',
     ],
-    image: '/images/fuite/MagiOPic-_1__11zon.webp',
+    image: '/images/fuite/recherche-fuite-technique.webp',
     icon: 'droplet',
     legacyPaths: ['/service/detection-de-fuite', '/service-category/detection-de-fuite'],
   },

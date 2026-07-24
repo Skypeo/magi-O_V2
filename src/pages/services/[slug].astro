@@ -163,24 +163,37 @@ const leadParagraphs = service.lead ?? [service.intro];
         <div class="mt-12 space-y-14">
           {
             service.sections.map((sec, i) => {
-              const flip = i % 2 === 1; // alterne le côté de la photo
+              const flip = i % 2 === 1; // alterne le côté du média
+              const hasMedia = Boolean(sec.image || sec.video);
               return (
                 <article
                   data-reveal
-                  class={`grid items-center gap-7 ${sec.image ? 'lg:grid-cols-2 lg:gap-10' : ''}`}
+                  class={`grid items-center gap-7 ${hasMedia ? 'lg:grid-cols-2 lg:gap-10' : ''}`}
                 >
-                  {/* Photo */}
-                  {sec.image && (
+                  {/* Média : vidéo si fournie, sinon photo */}
+                  {hasMedia && (
                     <div class={`group relative ${flip ? 'lg:order-2' : ''}`}>
                       <div class="overflow-hidden rounded-3xl shadow-card ring-1 ring-pine-100">
-                        <img
-                          src={sec.image}
-                          alt={sec.heading}
-                          loading="lazy"
-                          width="600"
-                          height="400"
-                          class="aspect-[3/2] w-full object-cover transition duration-700 group-hover:scale-105"
-                        />
+                        {sec.video ? (
+                          <video
+                            src={sec.video}
+                            poster={sec.poster}
+                            controls
+                            muted
+                            playsinline
+                            preload="metadata"
+                            class="aspect-[3/2] w-full bg-ink object-contain"
+                          />
+                        ) : (
+                          <img
+                            src={sec.image}
+                            alt={sec.heading}
+                            loading="lazy"
+                            width="600"
+                            height="400"
+                            class="aspect-[3/2] w-full object-cover transition duration-700 group-hover:scale-105"
+                          />
+                        )}
                       </div>
                       {/* petit liseré corail décoratif */}
                       <span class={`pointer-events-none absolute -z-10 h-24 w-24 rounded-3xl bg-coral-500/15 ${flip ? '-right-4 -top-4' : '-left-4 -bottom-4'}`} />
@@ -188,7 +201,7 @@ const leadParagraphs = service.lead ?? [service.intro];
                   )}
 
                   {/* Texte */}
-                  <div class={sec.image && flip ? 'lg:order-1' : ''}>
+                  <div class={hasMedia && flip ? 'lg:order-1' : ''}>
                     <h3 class="flex items-center gap-3 text-2xl font-bold text-ink">
                       <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-pine-50 text-pine-500">
                         <Icon name="check" class="h-5 w-5" />

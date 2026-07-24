@@ -25,23 +25,30 @@ function slugify(value: string): string {
 const FALLBACK: RealisationItem[] = [
   {
     id: 'fb-detection-fuite',
-    slug: 'detection-de-fuite',
-    titre: 'Réparation de fuite',
+    slug: 'detection-de-fuite-technique',
+    titre: 'Détection de fuite technique',
     categorie: 'Détection de fuite',
     description:
-      "Les fuites n'attendent pas le retour des beaux jours. Retour en image sur une détection de fuite par gaz traceur et réparation sur une canalisation enterrée dans une cour. Un travail fastidieux et de précision.",
-    imgUrl: '/images/realisation-detection-fuite.jpg',
-    gallery: ['/images/realisation-detection-fuite.jpg'],
+      "Les fuites n'attendent pas le retour des beaux jours. Retour en image sur une recherche de fuite technique (matériel de pointe, recherche acoustique et caméra thermique), puis une intervention ciblée sur une canalisation dissimulée. Un travail fastidieux et de précision.",
+    imgUrl: '/images/fuite/recherche-fuite-technique.webp',
+    gallery: [
+      '/images/fuite/recherche-fuite-technique.webp',
+      '/images/fuite/recherche-fuite-destructive.webp',
+    ],
   },
   {
     id: 'fb-salle-de-bain',
-    slug: 'renovation-salle-de-bain',
-    titre: 'Rénovation de salle de bain',
+    slug: 'renovation-salle-de-bain-pmr',
+    titre: 'Rénovation de salle de bain (douche PMR)',
     categorie: 'Salle de bain',
     description:
-      'Installation et rénovation de salle de bain : des chantiers propres, soignés et durables, réalisés dans les règles de l’art.',
-    imgUrl: '/images/realisation-plomberie.jpg',
-    gallery: ['/images/realisation-plomberie.jpg'],
+      "Transformation d'une salle de bain vétuste en une douche à l'italienne moderne, avec faïence effet marbre, receveur extra-plat et siège de douche escamotable pour l'accessibilité PMR. Un chantier propre, de la dépose à la finition.",
+    imgUrl: '/images/realisations/sdb-pmr-douche.webp',
+    gallery: [
+      '/images/realisations/sdb-pmr-douche.webp',
+      '/images/realisations/sdb-pmr-avant.webp',
+      '/images/realisations/sdb-pmr-siege.webp',
+    ],
   },
 ];
 
