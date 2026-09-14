@@ -23,6 +23,11 @@ const photos = [item.imgUrl, ...item.gallery].filter(
 
 <Layout
   title={item.titre}
+  breadcrumb={[
+    { name: 'Accueil', url: '/' },
+    { name: 'Nos réalisations', url: '/realisations/' },
+    { name: item.titre },
+  ]}
   description={item.description ?? `Réalisation ${item.categorie} par MAGI O à Colmar.`}
   image={item.imgUrl ?? undefined}
 >

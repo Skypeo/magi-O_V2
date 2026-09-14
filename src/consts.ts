@@ -128,6 +128,10 @@ export interface Service {
   slug: string;
   title: string;
   navLabel: string;
+  /** Title complet repris verbatim dans <title> (50 a 60 caracteres, avec la ville) */
+  seoTitle?: string;
+  /** H1 de la page service : la prestation et le lieu */
+  h1?: string;
   subtitle: string;
   short: string;
   description: string;
@@ -152,6 +156,8 @@ export interface Service {
 export const SERVICES: Service[] = [
   {
     slug: 'plomberie',
+    seoTitle: "Plombier à Colmar : fuite, débouchage, sanitaire · MAGI O",
+    h1: "Plombier à Colmar : installation, réparation, débouchage",
     title: 'Travaux de plomberie',
     navLabel: 'Travaux de plomberie',
     subtitle: '',
@@ -216,6 +222,8 @@ export const SERVICES: Service[] = [
   {
     // NOUVELLE PAGE — Rénovation (salle de bain + adaptation PMR / MaPrimeAdapt').
     slug: 'renovation',
+    seoTitle: "Rénovation de salle de bain à Colmar · Douche PMR · MAGI O",
+    h1: "Rénovation de salle de bain à Colmar",
     title: 'Rénovation',
     navLabel: 'Rénovation salle de bain',
     subtitle: 'Salle de bain & accessibilité PMR',
@@ -282,6 +290,8 @@ export const SERVICES: Service[] = [
   },
   {
     slug: 'chauffage',
+    seoTitle: "Chauffagiste Colmar : chaudière et pompe à chaleur · MAGI O",
+    h1: "Chauffagiste à Colmar : chaudière et pompe à chaleur",
     title: 'Chauffage & pompe à chaleur',
     navLabel: 'Chauffage',
     subtitle: '',
@@ -343,6 +353,8 @@ export const SERVICES: Service[] = [
   },
   {
     slug: 'detection-de-fuite',
+    seoTitle: "Recherche de fuite d'eau à Colmar, sans casse · MAGI O",
+    h1: "Recherche de fuite d'eau à Colmar, sans casse",
     title: 'Détection de fuite',
     navLabel: 'Détection de fuite',
     subtitle: '',

@@ -25,9 +25,16 @@ const leadParagraphs = service.lead ?? [service.intro];
 ---
 
 <Layout
-  title={service.title}
+  seoTitle={service.seoTitle}
   description={service.description}
   image={service.image}
+  service={service}
+  faq={service.faq}
+  breadcrumb={[
+    { name: 'Accueil', url: '/' },
+    { name: 'Nos services', url: '/services/' },
+    { name: service.navLabel },
+  ]}
 >
   <!-- ===== Hero — image plombier, voile orange brûlé profond (toutes les pages services) ===== -->
   <section class="relative mt-4 overflow-hidden bg-[#3d1206] text-white">
@@ -66,7 +73,7 @@ const leadParagraphs = service.lead ?? [service.intro];
       <div class="fade-up flex h-16 w-16 items-center justify-center rounded-2xl bg-white/15 text-white ring-1 ring-white/25 backdrop-blur-sm">
         <Icon name={service.icon} class="h-8 w-8" />
       </div>
-      <h1 class="fade-up fade-up-1 mt-6 max-w-3xl text-4xl font-bold leading-tight sm:text-5xl">{service.title}</h1>
+      <h1 class="fade-up fade-up-1 mt-6 max-w-3xl text-4xl font-bold leading-tight sm:text-5xl">{service.h1 ?? service.title}</h1>
       {service.subtitle && (
         <p class="fade-up fade-up-2 mt-3 text-xl font-semibold text-white/95">{service.subtitle}</p>
       )}

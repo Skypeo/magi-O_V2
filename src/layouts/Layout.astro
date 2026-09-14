@@ -4,21 +4,35 @@ import Loader from '../components/Loader.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import CookieBanner from '../components/CookieBanner.astro';
-import { SITE, CONTACT, SOCIAL } from '../consts';
+import { SITE, CONTACT, SOCIAL, REVIEWS } from '../consts';
+import type { Service, FaqItem } from '../consts';
 
 interface Props {
   title?: string;
+  /** Title complet repris verbatim, sans suffixe de marque ajoute */
+  seoTitle?: string;
   description?: string;
   image?: string;
+  /** Service decrit par la page : produit un noeud Service dans le graphe */
+  service?: Service;
+  /** Questions/reponses visibles sur la page : produit un noeud FAQPage */
+  faq?: FaqItem[];
+  /** Fil d'Ariane, le dernier element etant la page courante (sans url) */
+  breadcrumb?: { name: string; url?: string }[];
 }
 
 const {
   title,
+  seoTitle,
   description = SITE.description,
   image = '/images/hero-bg.jpg',
+  service,
+  faq,
+  breadcrumb,
 } = Astro.props;
 
-const pageTitle = title ? `${title} — ${SITE.name}` : `${SITE.name} — Plombier chauffagiste à ${SITE.city}`;
+const pageTitle =
+  seoTitle ?? (title ? `${title} · ${SITE.name}` : `${SITE.name} · Plombier chauffagiste à ${SITE.city}`);
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
 const ogImage = new URL(image, Astro.site).href;
 
@@ -28,8 +42,7 @@ const ogImage = new URL(image, Astro.site).href;
 const socialLinks = [SOCIAL.facebook, SOCIAL.instagram].filter(
   (u) => u && !/^https?:\/\/(www\.)?(facebook|instagram)\.com\/?$/.test(u)
 );
-const jsonLd = {
-  '@context': 'https://schema.org',
+const business = {
   '@type': 'Plumber',
   '@id': `${SITE.url}/#business`,
   name: SITE.name,
@@ -46,11 +59,7 @@ const jsonLd = {
     addressLocality: CONTACT.cityName,
     addressCountry: 'FR',
   },
-  geo: {
-    '@type': 'GeoCoordinates',
-    latitude: 48.0794,
-    longitude: 7.3585,
-  },
+  geo: { '@type': 'GeoCoordinates', latitude: 48.0794, longitude: 7.3585 },
   hasMap: CONTACT.mapsUrl,
   areaServed: { '@type': 'City', name: 'Colmar' },
   ...(socialLinks.length ? { sameAs: socialLinks } : {}),
@@ -61,7 +70,76 @@ const jsonLd = {
     closes: '17:00',
   },
   priceRange: '€€',
+  // Avis réellement affichés sur le site, repris de la fiche Google. Google
+  // n'affiche pas d'étoiles pour des avis auto-hébergés sur une LocalBusiness :
+  // c'est posé pour les moteurs de réponse, pas pour le rich snippet.
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: String(REVIEWS.rating),
+    reviewCount: String(REVIEWS.items.length),
+    bestRating: '5',
+  },
+  review: REVIEWS.items.map((r) => ({
+    '@type': 'Review',
+    author: { '@type': 'Person', name: r.name },
+    reviewRating: { '@type': 'Rating', ratingValue: String(r.rating), bestRating: '5' },
+    reviewBody: r.text,
+  })),
 };
+
+// Un seul nœud entreprise, référencé partout ailleurs par son @id : sans cela,
+// un moteur croit avoir affaire à autant d'entreprises qu'il y a de pages.
+const graph: Record<string, unknown>[] = [
+  business,
+  {
+    '@type': 'WebSite',
+    '@id': `${SITE.url}/#website`,
+    url: SITE.url,
+    name: SITE.name,
+    inLanguage: 'fr-FR',
+    publisher: { '@id': `${SITE.url}/#business` },
+  },
+];
+
+if (service) {
+  graph.push({
+    '@type': 'Service',
+    '@id': `${canonical}#service`,
+    name: service.h1 ?? service.title,
+    serviceType: service.title,
+    description: service.description,
+    provider: { '@id': `${SITE.url}/#business` },
+    areaServed: { '@type': 'City', name: 'Colmar' },
+    url: canonical,
+  });
+}
+
+if (faq && faq.length) {
+  graph.push({
+    '@type': 'FAQPage',
+    '@id': `${canonical}#faq`,
+    mainEntity: faq.map((item) => ({
+      '@type': 'Question',
+      name: item.q,
+      acceptedAnswer: { '@type': 'Answer', text: item.a },
+    })),
+  });
+}
+
+if (breadcrumb && breadcrumb.length) {
+  graph.push({
+    '@type': 'BreadcrumbList',
+    '@id': `${canonical}#fil`,
+    itemListElement: breadcrumb.map((etape, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: etape.name,
+      ...(etape.url ? { item: new URL(etape.url, Astro.site).href } : {}),
+    })),
+  });
+}
+
+const jsonLd = { '@context': 'https://schema.org', '@graph': graph };
 ---
 
 <!doctype html>
