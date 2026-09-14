@@ -2,31 +2,97 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "trailingSlash": true,
   "redirects": [
-    { "source": "/nos-services", "destination": "/services", "permanent": true },
-    { "source": "/services-plomberie-colmar", "destination": "/services", "permanent": true },
-    { "source": "/case-studies", "destination": "/realisations", "permanent": true },
-    { "source": "/nos-realisations", "destination": "/realisations", "permanent": true },
-
-    { "source": "/service/plombier-colmar-travaux-plomberie", "destination": "/services/plomberie", "permanent": true },
-    { "source": "/service-category/plomberie", "destination": "/services/plomberie", "permanent": true },
-
-    { "source": "/service/chauffagiste-colmar", "destination": "/services/chauffage", "permanent": true },
-    { "source": "/service-category/chauffage", "destination": "/services/chauffage", "permanent": true },
-    { "source": "/pompe-a-chaleur-colmar", "destination": "/services/chauffage", "permanent": true },
-    { "source": "/services/pompe-a-chaleur", "destination": "/services/chauffage", "permanent": true },
-
-    { "source": "/service/detection-de-fuite", "destination": "/services/detection-de-fuite", "permanent": true },
-    { "source": "/service-category/detection-de-fuite", "destination": "/services/detection-de-fuite", "permanent": true },
-
-    { "source": "/service/electricien-colmar", "destination": "/services", "permanent": true },
-    { "source": "/service-category/electricite", "destination": "/services", "permanent": true },
-    { "source": "/services/electricite", "destination": "/services", "permanent": true }
+    {
+      "source": "/nos-services/",
+      "destination": "/services/",
+      "permanent": true
+    },
+    {
+      "source": "/services-plomberie-colmar/",
+      "destination": "/services/",
+      "permanent": true
+    },
+    {
+      "source": "/case-studies/",
+      "destination": "/realisations/",
+      "permanent": true
+    },
+    {
+      "source": "/nos-realisations/",
+      "destination": "/realisations/",
+      "permanent": true
+    },
+    {
+      "source": "/service/plombier-colmar-travaux-plomberie/",
+      "destination": "/services/plomberie/",
+      "permanent": true
+    },
+    {
+      "source": "/service-category/plomberie/",
+      "destination": "/services/plomberie/",
+      "permanent": true
+    },
+    {
+      "source": "/service/chauffagiste-colmar/",
+      "destination": "/services/chauffage/",
+      "permanent": true
+    },
+    {
+      "source": "/service-category/chauffage/",
+      "destination": "/services/chauffage/",
+      "permanent": true
+    },
+    {
+      "source": "/pompe-a-chaleur-colmar/",
+      "destination": "/services/chauffage/",
+      "permanent": true
+    },
+    {
+      "source": "/services/pompe-a-chaleur/",
+      "destination": "/services/chauffage/",
+      "permanent": true
+    },
+    {
+      "source": "/service/detection-de-fuite/",
+      "destination": "/services/detection-de-fuite/",
+      "permanent": true
+    },
+    {
+      "source": "/service-category/detection-de-fuite/",
+      "destination": "/services/detection-de-fuite/",
+      "permanent": true
+    },
+    {
+      "source": "/service/electricien-colmar/",
+      "destination": "/services/",
+      "permanent": true
+    },
+    {
+      "source": "/service-category/electricite/",
+      "destination": "/services/",
+      "permanent": true
+    },
+    {
+      "source": "/services/electricite/",
+      "destination": "/services/",
+      "permanent": true
+    }
   ],
   "headers": [
     {
       "source": "/(.*)",
-      "has": [{ "type": "host", "value": "(.*)\\.vercel\\.app" }],
-      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
+      "has": [
+        {
+          "type": "host",
+          "value": "(.*)\\.vercel\\.app"
+        }
+      ],
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
     }
   ]
 }
