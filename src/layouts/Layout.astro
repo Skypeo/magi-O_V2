@@ -18,6 +18,8 @@ interface Props {
   service?: Service;
   /** Questions/reponses visibles sur la page : produit un noeud FAQPage */
   faq?: FaqItem[];
+  /** Prestation locale decrite par la page (page de commune) */
+  serviceLocal?: { nom: string; description: string; zone: string };
   /** Fil d'Ariane, le dernier element etant la page courante (sans url) */
   breadcrumb?: { name: string; url?: string }[];
 }
@@ -28,6 +30,7 @@ const {
   description = SITE.description,
   image = '/images/hero-bg.jpg',
   service,
+  serviceLocal,
   faq,
   breadcrumb,
 } = Astro.props;
@@ -114,6 +117,19 @@ if (service) {
     description: service.description,
     provider: { '@id': `${SITE.url}/#business` },
     areaServed: { '@type': 'City', name: 'Colmar' },
+    url: canonical,
+  });
+}
+
+if (serviceLocal) {
+  graph.push({
+    '@type': 'Service',
+    '@id': `${canonical}#service`,
+    name: serviceLocal.nom,
+    serviceType: 'Plomberie, chauffage et recherche de fuite',
+    description: serviceLocal.description,
+    provider: { '@id': `${SITE.url}/#business` },
+    areaServed: { '@type': 'City', name: serviceLocal.zone },
     url: canonical,
   });
 }

@@ -11,7 +11,9 @@ interface Props {
 const { class: cls = '', motion = 'float', rotate = 0, variant = 'pine' } = Astro.props;
 const motionClass =
   motion === 'drift' ? 'doodle-drift' : motion === 'spin' ? 'doodle-spin' : motion === 'none' ? '' : 'doodle-float';
-const src = variant === 'white' ? '/images/emblem-white.png' : '/images/favicon-32x32-2.png';
+// L'emblème décoratif utilisait le favicon 32 px, affiché jusqu'à 192 px : visiblement
+// pixellisé, et signalé par Lighthouse. emblem-pine.png est la version haute définition.
+const src = variant === 'white' ? '/images/emblem-white.png' : '/images/emblem-pine.png';
 ---
 
 <img

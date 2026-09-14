@@ -37,6 +37,12 @@ const { zone, chantiers, voisines } = Astro.props;
 <Layout
   seoTitle={`Plombier chauffagiste à ${zone.nom} (68) · MAGI O`}
   description={`MAGI O intervient à ${zone.nom} pour la plomberie, la rénovation de salle de bain, le chauffage et la recherche de fuite sans casse. Devis gratuit.`}
+  faq={zone.faq}
+  serviceLocal={{
+    nom: `Plombier chauffagiste à ${zone.nom}`,
+    description: `Plomberie, rénovation de salle de bain, chauffage et recherche de fuite sans casse à ${zone.nom}, par MAGI O, installé à Colmar.`,
+    zone: zone.nom,
+  }}
   breadcrumb={[
     { name: 'Accueil', url: '/' },
     { name: "Zone d'intervention", url: '/zones/' },
@@ -45,24 +51,25 @@ const { zone, chantiers, voisines } = Astro.props;
 >
   <PageHeader
     eyebrow={SECTEURS[zone.secteur]}
-    title={`Plombier chauffagiste à ${zone.nom}`}
-    subtitle={`${zone.contexte} Environ ${zone.population.toLocaleString('fr-FR')} habitants.`}
+    title={zone.h1}
+    subtitle={zone.accroche}
   />
 
   <!-- ===================== SITUATION ===================== -->
   <section class="relative py-16 sm:py-20">
     <div class="mx-auto max-w-3xl px-6">
-      <h2 data-reveal class="text-2xl font-bold text-ink sm:text-3xl">
-        Le bâti de {zone.nom}
-      </h2>
-      <p data-reveal class="mt-5 text-lg leading-relaxed text-pine-700/80">{zone.habitat}</p>
-      <p data-reveal data-reveal-delay="1" class="mt-5 text-lg leading-relaxed text-pine-700/80">
+      <p data-reveal class="text-lg leading-relaxed text-pine-700/80">{zone.intro}</p>
+      <h2 data-reveal class="mt-10 text-2xl font-bold text-ink sm:text-3xl">{zone.titreBati}</h2>
+      <p data-reveal class="mt-5 leading-relaxed text-pine-700/80">{zone.contexte}</p>
+      <p data-reveal class="mt-4 leading-relaxed text-pine-700/80">{zone.habitat}</p>
+      <p data-reveal data-reveal-delay="1" class="mt-4 leading-relaxed text-pine-700/80">
         {zone.angle}
       </p>
-      <p data-reveal data-reveal-delay="2" class="mt-5 leading-relaxed text-pine-700/80">
-        Installé à {CONTACT.cityName}, à quelques minutes de {zone.nom}, {SITE.name} traite
-        l'installation sanitaire, la rénovation de salle de bain, le chauffage et la recherche de
-        fuite avec la même équipe. Devis gratuit et sans engagement.
+      <p data-reveal data-reveal-delay="2" class="mt-4 leading-relaxed text-pine-700/80">
+        {zone.precision}
+      </p>
+      <p data-reveal data-reveal-delay="2" class="mt-4 text-sm text-muted">
+        {zone.nom} compte environ {zone.population.toLocaleString('fr-FR')} habitants.
       </p>
       <div data-reveal data-reveal-delay="2" class="mt-8 flex flex-wrap gap-3">
         <a
@@ -86,9 +93,10 @@ const { zone, chantiers, voisines } = Astro.props;
   <!-- ===================== PRESTATIONS ===================== -->
   <section class="bg-pine-50/50 py-16 sm:py-20">
     <div class="mx-auto max-w-7xl px-6">
-      <h2 data-reveal class="text-3xl font-bold text-ink sm:text-4xl">
-        Nos prestations à {zone.nom}
-      </h2>
+      <h2 data-reveal class="text-3xl font-bold text-ink sm:text-4xl">{zone.titrePrestations}</h2>
+      <p data-reveal class="mt-5 max-w-3xl text-lg leading-relaxed text-pine-700/80">
+        {zone.prestations}
+      </p>
       <div class="mt-10 grid gap-7 sm:grid-cols-2 lg:grid-cols-4">
         {
           SERVICES.map((s, i) => (
@@ -102,9 +110,6 @@ const { zone, chantiers, voisines } = Astro.props;
                 <Icon name={s.icon} class="h-6 w-6" />
               </span>
               <h3 class="mt-5 break-words text-lg font-bold text-ink">{s.title}</h3>
-              <p class="mt-2 line-clamp-4 break-words text-[15px] leading-relaxed text-pine-700/80">
-                {s.short}
-              </p>
               <span class="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-coral-500">
                 En savoir plus
                 <Icon name="arrow" class="h-4 w-4 transition group-hover:translate-x-1" />
@@ -157,6 +162,57 @@ const { zone, chantiers, voisines } = Astro.props;
     )
   }
 
+  <!-- ===================== FAQ DE LA COMMUNE ===================== -->
+  <section class="bg-pine-50/50 py-16 sm:py-20">
+    <div class="mx-auto max-w-3xl px-6">
+      <h2 data-reveal class="text-3xl font-bold text-ink sm:text-4xl">{zone.titreFaq}</h2>
+      <div class="mt-8 space-y-4">
+        {
+          zone.faq.map((item) => (
+            <div class="faq-item overflow-hidden rounded-2xl border border-pine-100 bg-white shadow-soft">
+              <button
+                type="button"
+                class="faq-trigger flex w-full items-center justify-between gap-4 p-5 text-left"
+                aria-expanded="false"
+              >
+                <span class="min-w-0 break-words text-[17px] font-semibold text-ink">{item.q}</span>
+                <span class="faq-icon flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-pine-50 text-pine-600">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" class="h-5 w-5">
+                    <path d="M12 5v14M5 12h14" />
+                  </svg>
+                </span>
+              </button>
+              <div class="faq-body">
+                <div>
+                  <p class="px-5 pb-5 leading-relaxed text-pine-700/80">{item.a}</p>
+                </div>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+    <script is:inline>
+      (() => {
+        document.querySelectorAll('.faq-item').forEach((item) => {
+          const trigger = item.querySelector('.faq-trigger');
+          if (!trigger) return;
+          trigger.addEventListener('click', () => {
+            const ouvert = item.classList.contains('is-open');
+            document.querySelectorAll('.faq-item').forEach((autre) => {
+              autre.classList.remove('is-open');
+              autre.querySelector('.faq-trigger')?.setAttribute('aria-expanded', 'false');
+            });
+            if (!ouvert) {
+              item.classList.add('is-open');
+              trigger.setAttribute('aria-expanded', 'true');
+            }
+          });
+        });
+      })();
+    </script>
+  </section>
+
   <!-- ===================== COMMUNES VOISINES ===================== -->
   {
     voisines.length > 0 && (
@@ -189,6 +245,6 @@ const { zone, chantiers, voisines } = Astro.props;
   <Cta
     class="mb-24"
     title={`Un projet ou une fuite à ${zone.nom} ?`}
-    text="Contactez MAGI O pour une intervention ou un devis gratuit. Nous sommes à votre écoute."
+    text={zone.accroche}
   />
 </Layout>
