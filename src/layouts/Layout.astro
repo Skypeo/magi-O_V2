@@ -71,7 +71,7 @@ const business = {
     '@type': 'OpeningHoursSpecification',
     dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
     opens: '08:00',
-    closes: '17:00',
+    closes: '19:00',
   },
   priceRange: '€€',
   // Avis réellement affichés sur le site, repris de la fiche Google. Google
@@ -80,7 +80,7 @@ const business = {
   aggregateRating: {
     '@type': 'AggregateRating',
     ratingValue: String(REVIEWS.rating),
-    reviewCount: String(REVIEWS.items.length),
+    reviewCount: String(REVIEWS.nombre),
     bestRating: '5',
   },
   review: REVIEWS.items.map((r) => ({

@@ -19,7 +19,7 @@ export const CONTACT = {
   address: '12 Rue du Peuplier',
   zip: '68000',
   cityName: 'Colmar',
-  hours: 'Lundi – Vendredi : 8h00 – 17h00',
+  hours: 'Lundi – Vendredi : 8h00 – 19h00',
   mapsUrl: 'https://www.google.com/maps/search/?api=1&query=12+Rue+du+Peuplier+68000+Colmar',
 };
 
@@ -32,7 +32,11 @@ export const SOCIAL = {
 
 // Avis clients (Google). `googleUrl` = lien « voir tous les avis ».
 export const REVIEWS = {
-  rating: 5,
+  // Note et total repris de la fiche Google, pas des seuls avis affiches
+  // ci-dessous : un visiteur qui clique sur le lien doit retrouver les
+  // memes chiffres.
+  rating: 4.6,
+  nombre: 17,
   googleUrl:
     'https://www.google.com/search?sa=X&sca_esv=7c3c44d1206346ec&rlz=1C1VDKB_frFR949FR949&hl=fr-FR&biw=1536&bih=695&sxsrf=APpeQnsgQdUTk_qO3C8jUInfuuARyqEAOA:1782139710042&q=MAGI%20O%20-%20Plombier%20Chauffagiste%20Electricien%20Avis&rflfq=1&num=20&stick=H4sIAAAAAAAAAONgkxIxNLW0tDSzNDI3NTA2MDexMDQzN9rAyPiKUd_X0d1TwV9BVyEgJz83KTO1SME5I7E0LS0xPbO4JFXBNSc1uaQoMzkzNU_BsSyzeBErqToA3iqlEX8AAAA&rldimm=15999692750307481672&tbm=lcl&ved=0CAwQ5foLahcKEwiA16nji5uVAxUAAAAAHQAAAAAQCQ#lkt=LocalPoiReviews&arid=Ci9DQUlRQUNvZENodHljRjlvT2tZMmFFODFWVWN0VlRCVVgxSmlXVTh5VVdwNVdIYxAB',
   items: [
@@ -205,7 +209,7 @@ export const SERVICES: Service[] = [
         heading: "Dépannage d'urgence",
         image: '/images/plomberie_img/depannage-cuivre.webp',
         paragraphs: [
-          "Nous offrons un service de dépannage d'urgence à Colmar et dans les environs, disponible 24h/24 et 7j/7, pour répondre rapidement à tout problème de plomberie imprévu.",
+          "Nous offrons un service de dépannage d'urgence à Colmar et dans les environs, du lundi au vendredi de 8h à 19h, pour répondre rapidement à tout problème de plomberie imprévu.",
           "Fuite importante, bouchon ou dysfonctionnement urgent : notre équipe se déplace rapidement afin de résoudre le problème et limiter les dégâts.",
           "Nous garantissons une intervention rapide et professionnelle pour restaurer votre confort dans les plus brefs délais.",
         ],
@@ -215,7 +219,7 @@ export const SERVICES: Service[] = [
       'Installation neuve et rénovation',
       'Réparation de fuites sans dégâts',
       'Débouchage haute pression',
-      "Dépannage d'urgence 24h/24",
+      "Dépannage d'urgence du lundi au vendredi",
     ],
     image: '/images/realisation-plomberie.jpg',
     icon: 'pipe',
