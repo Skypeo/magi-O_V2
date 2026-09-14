@@ -18,6 +18,14 @@ interface Props {
   service?: Service;
   /** Questions/reponses visibles sur la page : produit un noeud FAQPage */
   faq?: FaqItem[];
+  /** Vrai uniquement sur la page qui AFFICHE les avis : Google exige que les
+   *  donnees structurees decrivent du contenu visible sur cette page-la. */
+  avisAffiches?: boolean;
+  /** Vrai sur les pages qui affichent reellement l'identite de l'entreprise
+   *  (accueil, contact). Ailleurs, un noeud minimal suffit a l'identifier :
+   *  repeter adresse, horaires, geo et zone sur 23 pages duplique 250 mots
+   *  et n'apporte rien a un moteur. */
+  ficheComplete?: boolean;
   /** Prestation locale decrite par la page (page de commune) */
   serviceLocal?: { nom: string; description: string; zone: string };
   /** Fil d'Ariane, le dernier element etant la page courante (sans url) */
@@ -29,6 +37,8 @@ const {
   seoTitle,
   description = SITE.description,
   image = '/images/hero-bg.jpg',
+  avisAffiches = false,
+  ficheComplete = false,
   service,
   serviceLocal,
   faq,
@@ -46,67 +56,79 @@ const ogImage = new URL(image, Astro.site).href;
 const socialLinks = [SOCIAL.facebook, SOCIAL.instagram].filter(
   (u) => u && !/^https?:\/\/(www\.)?(facebook|instagram)\.com\/?$/.test(u)
 );
-const business = {
+const identite = {
   '@type': 'Plumber',
   '@id': `${SITE.url}/#business`,
   name: SITE.name,
-  description: SITE.description,
   url: SITE.url,
   telephone: CONTACT.phoneRaw,
-  email: CONTACT.email,
-  image: ogImage,
-  logo: new URL('/images/logo.png', Astro.site).href,
-  address: {
-    '@type': 'PostalAddress',
-    streetAddress: CONTACT.address,
-    postalCode: CONTACT.zip,
-    addressLocality: CONTACT.cityName,
-    addressCountry: 'FR',
-  },
-  geo: { '@type': 'GeoCoordinates', latitude: 48.0794, longitude: 7.3585 },
-  hasMap: CONTACT.mapsUrl,
-  areaServed: [
-    { '@type': 'City', name: CONTACT.cityName },
-    ...ZONES.map((z) => ({ '@type': 'City', name: z.nom })),
-  ],
-  ...(socialLinks.length ? { sameAs: socialLinks } : {}),
-  openingHoursSpecification: {
-    '@type': 'OpeningHoursSpecification',
-    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-    opens: '08:00',
-    closes: '19:00',
-  },
-  priceRange: '€€',
-  // Avis réellement affichés sur le site, repris de la fiche Google. Google
-  // n'affiche pas d'étoiles pour des avis auto-hébergés sur une LocalBusiness :
-  // c'est posé pour les moteurs de réponse, pas pour le rich snippet.
-  aggregateRating: {
-    '@type': 'AggregateRating',
-    ratingValue: String(REVIEWS.rating),
-    reviewCount: String(REVIEWS.nombre),
-    bestRating: '5',
-  },
-  review: REVIEWS.items.map((r) => ({
-    '@type': 'Review',
-    author: { '@type': 'Person', name: r.name },
-    reviewRating: { '@type': 'Rating', ratingValue: String(r.rating), bestRating: '5' },
-    reviewBody: r.text,
-  })),
 };
+
+// La fiche complete ne figure que la ou elle est affichee. Partout ailleurs,
+// le noeud minimal ci-dessus suffit : il porte le meme @id, donc la meme entite.
+const business = ficheComplete
+  ? {
+      ...identite,
+      description: SITE.description,
+      email: CONTACT.email,
+      image: ogImage,
+      logo: new URL('/images/logo.png', Astro.site).href,
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: CONTACT.address,
+        postalCode: CONTACT.zip,
+        addressLocality: CONTACT.cityName,
+        addressCountry: 'FR',
+      },
+      geo: { '@type': 'GeoCoordinates', latitude: 48.0794, longitude: 7.3585 },
+      hasMap: CONTACT.mapsUrl,
+      areaServed: [
+        { '@type': 'City', name: CONTACT.cityName },
+        ...ZONES.map((z) => ({ '@type': 'City', name: z.nom })),
+      ],
+      ...(socialLinks.length ? { sameAs: socialLinks } : {}),
+      openingHoursSpecification: {
+        '@type': 'OpeningHoursSpecification',
+        dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+        opens: '08:00',
+        closes: '19:00',
+      },
+      priceRange: '€€',
+      ...(avisAffiches
+        ? {
+            aggregateRating: {
+              '@type': 'AggregateRating',
+              ratingValue: String(REVIEWS.rating),
+              reviewCount: String(REVIEWS.nombre),
+              bestRating: '5',
+            },
+            review: REVIEWS.items.map((r) => ({
+              '@type': 'Review',
+              author: { '@type': 'Person', name: r.name },
+              reviewRating: { '@type': 'Rating', ratingValue: String(r.rating), bestRating: '5' },
+              reviewBody: r.text,
+            })),
+          }
+        : {}),
+    }
+  : identite;
 
 // Un seul nœud entreprise, référencé partout ailleurs par son @id : sans cela,
 // un moteur croit avoir affaire à autant d'entreprises qu'il y a de pages.
 const graph: Record<string, unknown>[] = [
   business,
-  {
+];
+
+if (ficheComplete) {
+  graph.push({
     '@type': 'WebSite',
     '@id': `${SITE.url}/#website`,
     url: SITE.url,
     name: SITE.name,
     inLanguage: 'fr-FR',
     publisher: { '@id': `${SITE.url}/#business` },
-  },
-];
+  });
+}
 
 if (service) {
   graph.push({

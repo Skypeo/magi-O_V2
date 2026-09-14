@@ -40,7 +40,7 @@ const { zone, chantiers, voisines } = Astro.props;
   faq={zone.faq}
   serviceLocal={{
     nom: `Plombier chauffagiste à ${zone.nom}`,
-    description: `Plomberie, rénovation de salle de bain, chauffage et recherche de fuite sans casse à ${zone.nom}, par MAGI O, installé à Colmar.`,
+    description: zone.prestations,
     zone: zone.nom,
   }}
   breadcrumb={[
