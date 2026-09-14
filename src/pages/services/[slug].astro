@@ -274,6 +274,32 @@ const leadParagraphs = service.lead ?? [service.intro];
           )
         }
 
+        <!-- Page fille mise en avant (ex. remplacement chaudiere vers PAC) -->
+        {
+          service.approfondir && (
+            <a
+              href={service.approfondir.href}
+              data-reveal
+              class="group relative mt-14 block overflow-hidden rounded-[2rem] bg-pine-700 p-8 text-white shadow-card transition hover:-translate-y-1 sm:p-10"
+            >
+              <span class="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-coral-500/15 blur-2xl" />
+              <div class="relative">
+                <h3 class="flex items-center gap-3 text-2xl font-bold text-white">
+                  <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white/15 text-white">
+                    <Icon name={service.icon} class="h-6 w-6" />
+                  </span>
+                  {service.approfondir.titre}
+                </h3>
+                <p class="mt-5 leading-relaxed text-white/85">{service.approfondir.texte}</p>
+                <span class="mt-7 inline-flex items-center gap-2 rounded-pill bg-coral-500 px-6 py-3 font-semibold text-white transition group-hover:bg-coral-600">
+                  Voir le détail
+                  <Icon name="arrow" class="h-5 w-5 transition group-hover:translate-x-1" />
+                </span>
+              </div>
+            </a>
+          )
+        }
+
         <!-- Pourquoi faire appel à MAGI O ? -->
         {
           service.benefits.length > 0 && (

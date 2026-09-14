@@ -1,0 +1,194 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import Icon from '../../components/Icon.astro';
+import Cta from '../../components/Cta.astro';
+import { SERVICES, CONTACT, SITE } from '../../consts';
+import { ZONES, SECTEURS } from '../../data/zones';
+import type { Zone } from '../../data/zones';
+import { getRealisationItems } from '../../lib/realisations';
+import type { RealisationItem } from '../../lib/realisations';
+
+export async function getStaticPaths() {
+  const chantiers = await getRealisationItems();
+  return ZONES.map((zone) => ({
+    params: { commune: zone.slug },
+    props: {
+      zone,
+      // Les chantiers dont le texte mentionne la commune remontent ici.
+      // Tant que la cliente n'a rien saisi dans Sanity, la section n'existe pas.
+      chantiers: chantiers.filter((c) =>
+        `${c.titre} ${c.description ?? ''}`.toLowerCase().includes(zone.nom.toLowerCase())
+      ),
+      voisines: ZONES.filter((z) => z.secteur === zone.secteur && z.slug !== zone.slug).slice(0, 5),
+    },
+  }));
+}
+
+interface Props {
+  zone: Zone;
+  chantiers: RealisationItem[];
+  voisines: Zone[];
+}
+
+const { zone, chantiers, voisines } = Astro.props;
+---
+
+<Layout
+  seoTitle={`Plombier chauffagiste à ${zone.nom} (68) · MAGI O`}
+  description={`MAGI O intervient à ${zone.nom} pour la plomberie, la rénovation de salle de bain, le chauffage et la recherche de fuite sans casse. Devis gratuit.`}
+  breadcrumb={[
+    { name: 'Accueil', url: '/' },
+    { name: "Zone d'intervention", url: '/zones/' },
+    { name: zone.nom },
+  ]}
+>
+  <PageHeader
+    eyebrow={SECTEURS[zone.secteur]}
+    title={`Plombier chauffagiste à ${zone.nom}`}
+    subtitle={`${zone.contexte} Environ ${zone.population.toLocaleString('fr-FR')} habitants.`}
+  />
+
+  <!-- ===================== SITUATION ===================== -->
+  <section class="relative py-16 sm:py-20">
+    <div class="mx-auto max-w-3xl px-6">
+      <h2 data-reveal class="text-2xl font-bold text-ink sm:text-3xl">
+        Le bâti de {zone.nom}
+      </h2>
+      <p data-reveal class="mt-5 text-lg leading-relaxed text-pine-700/80">{zone.habitat}</p>
+      <p data-reveal data-reveal-delay="1" class="mt-5 text-lg leading-relaxed text-pine-700/80">
+        {zone.angle}
+      </p>
+      <p data-reveal data-reveal-delay="2" class="mt-5 leading-relaxed text-pine-700/80">
+        Installé à {CONTACT.cityName}, à quelques minutes de {zone.nom}, {SITE.name} traite
+        l'installation sanitaire, la rénovation de salle de bain, le chauffage et la recherche de
+        fuite avec la même équipe. Devis gratuit et sans engagement.
+      </p>
+      <div data-reveal data-reveal-delay="2" class="mt-8 flex flex-wrap gap-3">
+        <a
+          href={`tel:${CONTACT.phoneRaw}`}
+          class="btn-sheen group inline-flex items-center gap-2 rounded-pill bg-coral-500 px-6 py-3.5 font-semibold text-white transition hover:-translate-y-0.5 hover:bg-coral-600"
+        >
+          <Icon name="phone" class="h-5 w-5" />
+          {CONTACT.phone}
+        </a>
+        <a
+          href="/contact/"
+          class="group inline-flex items-center gap-2 rounded-pill border border-pine-200 px-6 py-3.5 font-semibold text-pine-700 transition hover:-translate-y-0.5 hover:border-pine-400"
+        >
+          Demander un devis
+          <Icon name="arrow" class="h-5 w-5 transition group-hover:translate-x-1" />
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== PRESTATIONS ===================== -->
+  <section class="bg-pine-50/50 py-16 sm:py-20">
+    <div class="mx-auto max-w-7xl px-6">
+      <h2 data-reveal class="text-3xl font-bold text-ink sm:text-4xl">
+        Nos prestations à {zone.nom}
+      </h2>
+      <div class="mt-10 grid gap-7 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          SERVICES.map((s, i) => (
+            <a
+              href={`/services/${s.slug}/`}
+              data-reveal
+              data-reveal-delay={String((i % 4) + 1)}
+              class="group flex min-w-0 flex-col rounded-3xl bg-white p-6 shadow-soft transition hover:-translate-y-1 hover:shadow-card"
+            >
+              <span class="flex h-11 w-11 items-center justify-center rounded-xl bg-pine-50 text-pine-600">
+                <Icon name={s.icon} class="h-6 w-6" />
+              </span>
+              <h3 class="mt-5 break-words text-lg font-bold text-ink">{s.title}</h3>
+              <p class="mt-2 line-clamp-4 break-words text-[15px] leading-relaxed text-pine-700/80">
+                {s.short}
+              </p>
+              <span class="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-coral-500">
+                En savoir plus
+                <Icon name="arrow" class="h-4 w-4 transition group-hover:translate-x-1" />
+              </span>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CHANTIERS DE LA COMMUNE ===================== -->
+  {
+    chantiers.length > 0 && (
+      <section class="py-16 sm:py-20">
+        <div class="mx-auto max-w-7xl px-6">
+          <h2 data-reveal class="text-3xl font-bold text-ink sm:text-4xl">
+            Nos chantiers à {zone.nom}
+          </h2>
+          <div class="mt-10 grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
+            {chantiers.map((c) => (
+              <a
+                href={`/realisations/${c.slug}/`}
+                data-reveal
+                class="group flex min-w-0 flex-col overflow-hidden rounded-3xl bg-white shadow-soft transition hover:-translate-y-1 hover:shadow-card"
+              >
+                {c.imgUrl && (
+                  <div class="relative aspect-[4/3] overflow-hidden">
+                    <img
+                      src={c.imgUrl}
+                      alt={c.titre}
+                      width="500"
+                      height="375"
+                      loading="lazy"
+                      class="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                    />
+                  </div>
+                )}
+                <div class="p-6">
+                  <p class="text-sm font-semibold uppercase tracking-wider text-coral-500">
+                    {c.categorie}
+                  </p>
+                  <h3 class="mt-2 break-words text-lg font-bold text-ink">{c.titre}</h3>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <!-- ===================== COMMUNES VOISINES ===================== -->
+  {
+    voisines.length > 0 && (
+      <section class="py-16 sm:py-20">
+        <div class="mx-auto max-w-3xl px-6">
+          <h2 data-reveal class="text-2xl font-bold text-ink sm:text-3xl">
+            Nous intervenons aussi autour de {zone.nom}
+          </h2>
+          <div data-reveal class="mt-6 flex flex-wrap gap-2.5">
+            {voisines.map((v) => (
+              <a
+                href={`/zones/${v.slug}/`}
+                class="rounded-pill border border-pine-200 px-4 py-2 text-sm font-semibold text-pine-700 transition hover:-translate-y-0.5 hover:border-pine-400"
+              >
+                {v.nom}
+              </a>
+            ))}
+            <a
+              href="/zones/"
+              class="rounded-pill bg-pine-700 px-4 py-2 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-pine-800"
+            >
+              Toute la zone
+            </a>
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <Cta
+    class="mb-24"
+    title={`Un projet ou une fuite à ${zone.nom} ?`}
+    text="Contactez MAGI O pour une intervention ou un devis gratuit. Nous sommes à votre écoute."
+  />
+</Layout>

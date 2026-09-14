@@ -76,6 +76,26 @@
       "source": "/services/electricite/",
       "destination": "/services/",
       "permanent": true
+    },
+    {
+      "source": "/partenariat-pro/",
+      "destination": "/contact/",
+      "permanent": true
+    },
+    {
+      "source": "/realisations/electricite/",
+      "destination": "/realisations/",
+      "permanent": true
+    },
+    {
+      "source": "/realisations/chauffage/",
+      "destination": "/realisations/",
+      "permanent": true
+    },
+    {
+      "source": "/case/electricite/",
+      "destination": "/realisations/",
+      "permanent": true
     }
   ],
   "headers": [

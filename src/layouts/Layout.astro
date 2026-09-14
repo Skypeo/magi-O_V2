@@ -6,6 +6,7 @@ import Footer from '../components/Footer.astro';
 import CookieBanner from '../components/CookieBanner.astro';
 import { SITE, CONTACT, SOCIAL, REVIEWS } from '../consts';
 import type { Service, FaqItem } from '../consts';
+import { ZONES } from '../data/zones';
 
 interface Props {
   title?: string;
@@ -61,7 +62,10 @@ const business = {
   },
   geo: { '@type': 'GeoCoordinates', latitude: 48.0794, longitude: 7.3585 },
   hasMap: CONTACT.mapsUrl,
-  areaServed: { '@type': 'City', name: 'Colmar' },
+  areaServed: [
+    { '@type': 'City', name: CONTACT.cityName },
+    ...ZONES.map((z) => ({ '@type': 'City', name: z.nom })),
+  ],
   ...(socialLinks.length ? { sameAs: socialLinks } : {}),
   openingHoursSpecification: {
     '@type': 'OpeningHoursSpecification',

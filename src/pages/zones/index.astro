@@ -1,0 +1,68 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import Icon from '../../components/Icon.astro';
+import Cta from '../../components/Cta.astro';
+import { CONTACT, SITE } from '../../consts';
+import { zonesParSecteur, ZONES } from '../../data/zones';
+
+const groupes = zonesParSecteur();
+---
+
+<Layout
+  seoTitle="Zone d'intervention à Colmar et alentours · MAGI O"
+  description={`Plomberie, chauffage et recherche de fuite à Colmar et dans les ${ZONES.length} communes de l'agglomération : Horbourg-Wihr, Wintzenheim, Turckheim, Ingersheim et alentours.`}
+  breadcrumb={[{ name: 'Accueil', url: '/' }, { name: "Zone d'intervention" }]}
+>
+  <PageHeader
+    eyebrow="Zone d'intervention"
+    title="Où intervient MAGI O autour de Colmar"
+    subtitle={`Installés à ${CONTACT.cityName}, nous nous déplaçons dans toute l'agglomération, du vignoble à la plaine du Ried.`}
+  />
+
+  <section class="py-16 sm:py-20">
+    <div class="mx-auto max-w-5xl px-6">
+      <p data-reveal class="max-w-2xl text-lg leading-relaxed text-pine-700/80">
+        {SITE.name} est basé au {CONTACT.address}, à {CONTACT.cityName}. Nous intervenons dans la
+        ville et dans les communes qui l'entourent, pour la plomberie, la rénovation de salle de
+        bain, le chauffage et la recherche de fuite.
+      </p>
+
+      <div class="mt-12 space-y-12">
+        {
+          groupes.map((groupe, i) => (
+            <div data-reveal data-reveal-delay={String((i % 4) + 1)}>
+              <h2 class="text-xl font-bold text-ink sm:text-2xl">{groupe.libelle}</h2>
+              <div class="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                {groupe.communes.map((c) => (
+                  <a
+                    href={`/zones/${c.slug}/`}
+                    class="group flex min-w-0 items-center justify-between gap-3 rounded-2xl border border-pine-100 bg-white px-5 py-4 shadow-soft transition hover:-translate-y-0.5 hover:border-pine-300 hover:shadow-card"
+                  >
+                    <span class="min-w-0 break-words font-semibold text-ink">{c.nom}</span>
+                    <Icon
+                      name="arrow"
+                      class="h-5 w-5 shrink-0 text-coral-500 transition group-hover:translate-x-1"
+                    />
+                  </a>
+                ))}
+              </div>
+            </div>
+          ))
+        }
+      </div>
+
+      <p data-reveal class="mt-12 max-w-2xl leading-relaxed text-pine-700/80">
+        Votre commune ne figure pas dans cette liste ? Appelez-nous au
+        <a href={`tel:${CONTACT.phoneRaw}`} class="font-semibold text-coral-500">{CONTACT.phone}</a>,
+        nous vous dirons si nous pouvons intervenir chez vous.
+      </p>
+    </div>
+  </section>
+
+  <Cta
+    class="mb-24"
+    title="Une question sur votre commune ?"
+    text="Contactez MAGI O pour savoir si nous intervenons chez vous, et obtenir un devis gratuit."
+  />
+</Layout>

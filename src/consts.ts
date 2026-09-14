@@ -146,6 +146,8 @@ export interface Service {
   benefits: string[];
   image: string;
   icon: string;
+  /** Page fille a mettre en avant depuis cette page service */
+  approfondir?: { href: string; titre: string; texte: string };
   /** Anciennes URLs WordPress à rediriger vers cette page */
   legacyPaths: string[];
   /** Page autonome (layout dédié) — exclue du template générique et de la sidebar « autres services » */
@@ -316,31 +318,18 @@ export const SERVICES: Service[] = [
         ],
       },
     ],
-    callout: {
-      title: 'Pourquoi passer à la pompe à chaleur ?',
-      paragraphs: [
-        "Une pompe à chaleur consomme moins d'énergie qu'une chaudière classique et réduit durablement votre facture de chauffage. MAGI O étudie votre installation actuelle, vous conseille sur le modèle adapté à votre logement, puis assure une installation complète et un réglage optimal pour votre confort.",
-        "En remplaçant votre ancienne chaudière gaz ou fioul, vous pouvez également bénéficier de plusieurs aides de l'État, rendant votre projet encore plus avantageux.",
-      ],
-    },
     faq: [
-      {
-        q: 'Pouvez-vous remplacer une chaudière par une pompe à chaleur ?',
-        a: "Oui. Nous étudions votre installation existante, dimensionnons la pompe à chaleur adaptée, puis réalisons l'installation complète, sa mise en service et son réglage.",
-      },
-      {
-        q: "Quelle est la différence de coût entre une chaudière et une pompe à chaleur à l'usage ?",
-        a: "Une pompe à chaleur représente un investissement de départ plus élevé, mais sa consommation électrique est nettement inférieure à celle d'une chaudière classique, ce qui réduit votre facture d'énergie sur le long terme. Nous vous conseillons sur le modèle le plus adapté et le plus rentable pour votre logement.",
-      },
       {
         q: 'Intervenez-vous en cas de panne de chauffage ?',
         a: "Oui, nous intervenons pour diagnostiquer la panne et procéder, si nécessaire, au remplacement de l'équipement défectueux (chaudière, pompe à chaleur, radiateur).",
       },
-      {
-        q: "Faut-il changer toute l'installation pour passer à la pompe à chaleur ?",
-        a: "Pas nécessairement. Nous étudions votre réseau existant (radiateurs, plancher chauffant) pour déterminer s'il est compatible avec une pompe à chaleur ou si des adaptations sont nécessaires.",
-      },
     ],
+    approfondir: {
+      href: '/services/chauffage/remplacement-chaudiere-pompe-a-chaleur/',
+      titre: 'Remplacer sa chaudière par une pompe à chaleur',
+      texte:
+        "Étude de l'installation existante, dimensionnement, pose et mise en service : le détail du remplacement, et les réponses aux questions qui reviennent le plus.",
+    },
     benefits: [
       'Étude personnalisée de votre installation',
       'Solutions performantes et économes en énergie',
