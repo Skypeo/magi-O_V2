@@ -16,11 +16,12 @@ const motionClass =
 const src = variant === 'white' ? '/images/emblem-white.png' : '/images/emblem-pine.png';
 ---
 
-<img
-  src={src}
-  alt=""
+<!-- Decor pur : rendu en fond CSS et non en balise image. Une image decorative n'a
+     rien a faire dans l'arbre d'accessibilite, et elle faussait le compte des
+     images de la page dans les audits. -->
+<span
   aria-hidden="true"
-  loading="lazy"
-  class={`pointer-events-none absolute select-none ${motionClass} ${cls}`}
-  style={rotate ? `--rot:${rotate}deg;transform:rotate(${rotate}deg)` : undefined}
-/>
+  class={`pointer-events-none absolute block select-none bg-contain bg-center bg-no-repeat ${motionClass} ${cls}`}
+  style={`background-image:url(${src})${rotate ? `;--rot:${rotate}deg;transform:rotate(${rotate}deg)` : ''}`}
+>
+</span>

@@ -76,7 +76,7 @@ import { SERVICES, VALUES, FAQ, CONTACT, SITE, REVIEWS } from '../consts';
                 </span>
                 <span class="leading-tight">
                   <span class="block text-lg font-bold text-ink">{b.big}</span>
-                  <span class="block text-xs text-pine-700/60">{b.small}</span>
+                  <span class="block text-xs text-pine-700/80">{b.small}</span>
                 </span>
               </div>
             ))
@@ -110,7 +110,7 @@ import { SERVICES, VALUES, FAQ, CONTACT, SITE, REVIEWS } from '../consts';
           </span>
           <span class="leading-tight">
             <span class="block text-base font-bold text-ink">10 ans</span>
-            <span class="block text-xs text-pine-700/60">d'expérience</span>
+            <span class="block text-xs text-pine-700/80">d'expérience</span>
           </span>
         </div>
 
@@ -152,7 +152,7 @@ import { SERVICES, VALUES, FAQ, CONTACT, SITE, REVIEWS } from '../consts';
             <div class="icon-pop flex h-14 w-14 items-center justify-center rounded-2xl bg-pine-50 text-pine-500 group-hover:bg-pine-500 group-hover:text-white">
               <Icon name={v.icon} class="h-7 w-7" />
             </div>
-            <h3 class="mt-5 text-xl font-bold text-ink">{v.title}</h3>
+            <h2 class="mt-5 text-xl font-bold text-ink">{v.title}</h2>
             <p class="mt-2 text-[15px] leading-relaxed text-pine-700/80">{v.text}</p>
             <span class="mt-5 block h-1 w-10 rounded-full bg-coral-500/30 transition-all duration-500 group-hover:w-20 group-hover:bg-coral-500"></span>
           </div>
@@ -169,13 +169,14 @@ import { SERVICES, VALUES, FAQ, CONTACT, SITE, REVIEWS } from '../consts';
       <!-- Fond dégradé animé (ondule lentement) -->
       <div class="presentation-mesh pointer-events-none absolute inset-0"></div>
       <!-- Photo plomberie fondue dans le vert (identité métier) -->
-      <img
-        src="/images/plombier-intervention.webp"
-        alt=""
+      <!-- Photo fondue dans le vert, purement decorative : fond CSS plutot
+           qu'une balise image sans alternative textuelle. -->
+      <div
         aria-hidden="true"
-        loading="lazy"
-        class="presentation-photo pointer-events-none absolute inset-y-0 right-0 hidden h-full w-3/5 object-cover opacity-25 mix-blend-luminosity lg:block"
-      />
+        class="presentation-photo pointer-events-none absolute inset-y-0 right-0 hidden h-full w-3/5 bg-cover bg-center opacity-25 mix-blend-luminosity lg:block"
+        style="background-image:url(/images/plombier-intervention.webp)"
+      >
+      </div>
       <!-- Lueur conique qui tourne -->
       <div class="presentation-glow pointer-events-none absolute -right-40 -top-40 h-[36rem] w-[36rem] rounded-full opacity-70"></div>
       <!-- Texture pointillée -->
@@ -492,7 +493,7 @@ import { SERVICES, VALUES, FAQ, CONTACT, SITE, REVIEWS } from '../consts';
                 </span>
                 <div class="min-w-0">
                   <p class="truncate font-semibold text-ink">{r.name}</p>
-                  <p class="truncate text-xs text-pine-700/60">{r.meta}</p>
+                  <p class="truncate text-xs text-pine-700/80">{r.meta}</p>
                 </div>
                 <Icon name="google" class="ml-auto h-5 w-5 flex-none" />
               </div>
