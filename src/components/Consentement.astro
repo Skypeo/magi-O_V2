@@ -1,0 +1,201 @@
+---
+/**
+ * Consentement aux traceurs.
+ *
+ * CE COMPOSANT BLOQUE REELLEMENT. Un bandeau qui s affiche pendant que le
+ * traceur est deja charge ne protege de rien et declare une chose fausse :
+ * la CNIL sanctionne precisement ce cas. Ici, rien ne part avant un oui.
+ *
+ * COMMENT DECLARER UN TRACEUR
+ * Ecrire le script avec type="text/plain" et data-consentement :
+ *
+ *   <script type="text/plain" data-consentement="mesure"
+ *     src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXX"></script>
+ *
+ * Le navigateur ignore un script de type text/plain. Apres acceptation, ce
+ * composant le reecrit en vrai script et il s execute. Avant, jamais.
+ *
+ * QUAND LE BANDEAU APPARAIT
+ * Uniquement s il y a au moins un script en attente. Un site sans traceur
+ * n affiche rien, et c est la situation conforme : le consentement n est
+ * exige que pour les traceurs non strictement necessaires. Afficher un
+ * bandeau sans traceur ne protege de rien, fait fuir des visiteurs, et
+ * annonce au visiteur une collecte qui n existe pas.
+ *
+ * Pour l afficher malgre tout, passer forcer={true}.
+ *
+ * ROUVRIR LE CHOIX
+ * Obligatoire : le visiteur doit pouvoir revenir sur sa decision.
+ * Mettre un lien dans le pied de page :
+ *   <button type="button" onclick="rouvrirConsentement()">Gerer les cookies</button>
+ */
+interface Props {
+  /** Lien vers la page qui detaille les traceurs et les droits. */
+  politique?: string;
+  /** Afficher meme sans traceur en attente. Deconseille. */
+  forcer?: boolean;
+}
+const { politique = "/politique-de-confidentialite/", forcer = false } = Astro.props;
+---
+
+<div id="consentement" class="consentement" role="dialog" aria-modal="false"
+  aria-labelledby="consentement-titre" data-forcer={forcer ? "oui" : "non"} hidden>
+  <div class="boite">
+    <div class="texte">
+      <p id="consentement-titre" class="titre">Cookies de mesure d’audience</p>
+      <p class="detail">
+        Nous aimerions mesurer la fréquentation du site pour l’améliorer. Ces cookies
+        ne sont pas nécessaires à son fonctionnement : le site marche exactement pareil
+        si vous refusez.
+        <a href={politique}>En savoir plus</a>
+      </p>
+    </div>
+    <div class="boutons">
+      <button type="button" data-choix="refus" class="bouton">Refuser</button>
+      <button type="button" data-choix="accord" class="bouton">Accepter</button>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Neutre volontairement : le composant se pose sur n importe quel site.
+     Chaque site peut redefinir ces variables dans son propre CSS. */
+  .consentement {
+    --fond: #16161a;
+    --texte: #f2f2f0;
+    --doux: #b4b4ae;
+    --trait: rgba(242, 242, 240, 0.22);
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 1rem;
+    padding-bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+    display: flex;
+    justify-content: center;
+    pointer-events: none;
+  }
+  .boite {
+    pointer-events: auto;
+    width: min(56rem, 100%);
+    background: var(--fond);
+    color: var(--texte);
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
+    padding: 1.1rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    font-family: inherit;
+    font-size: 0.92rem;
+    line-height: 1.55;
+  }
+  @media (min-width: 46rem) {
+    .boite { flex-direction: row; align-items: center; gap: 1.75rem; }
+  }
+  .texte { display: flex; flex-direction: column; gap: 0.25rem; }
+  .titre { margin: 0; font-weight: 600; }
+  .detail { margin: 0; color: var(--doux); }
+  .detail a { color: inherit; }
+
+  /* Refuser et Accepter ont le meme poids visuel : la CNIL exige que refuser
+     soit aussi simple qu accepter. Un bouton de refus efface serait un
+     dark pattern, et un motif de sanction. */
+  .boutons { display: flex; gap: 0.6rem; flex-shrink: 0; }
+  .bouton {
+    flex: 1 1 auto;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0.6rem 1.15rem;
+    border-radius: 8px;
+    border: 1px solid var(--trait);
+    background: transparent;
+    color: var(--texte);
+    white-space: nowrap;
+  }
+  .bouton:hover { border-color: var(--texte); }
+  .bouton:focus-visible { outline: 2px solid var(--texte); outline-offset: 2px; }
+  @media (min-width: 46rem) { .bouton { flex: 0 0 auto; } }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .boite { animation: monte 320ms cubic-bezier(0.22, 1, 0.36, 1); }
+    @keyframes monte { from { transform: translateY(110%); } to { transform: none; } }
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var CLE = 'consentement-traceurs';
+    var VERSION = 1;
+
+    function lire() {
+      try {
+        var brut = localStorage.getItem(CLE);
+        if (!brut) return null;
+        var v = JSON.parse(brut);
+        return v && v.version === VERSION ? v : null;
+      } catch (e) { return null; }
+    }
+    function ecrire(choix) {
+      try {
+        localStorage.setItem(CLE, JSON.stringify({
+          version: VERSION, choix: choix, date: new Date().toISOString()
+        }));
+      } catch (e) { /* navigation privee : le choix vaut pour cette visite */ }
+    }
+
+    // Reecrit chaque script en attente en vrai script, ce qui l execute.
+    function liberer() {
+      var attente = document.querySelectorAll('script[type="text/plain"][data-consentement]');
+      for (var i = 0; i < attente.length; i++) {
+        var vieux = attente[i];
+        var neuf = document.createElement('script');
+        for (var j = 0; j < vieux.attributes.length; j++) {
+          var a = vieux.attributes[j];
+          if (a.name !== 'type' && a.name !== 'data-consentement') neuf.setAttribute(a.name, a.value);
+        }
+        if (!vieux.src) neuf.textContent = vieux.textContent;
+        vieux.parentNode.replaceChild(neuf, vieux);
+      }
+    }
+
+    function demarrer() {
+      var boite = document.getElementById('consentement');
+      if (!boite) return;
+      var enAttente = document.querySelectorAll('script[type="text/plain"][data-consentement]').length;
+      var forcer = boite.dataset.forcer === 'oui';
+      var deja = lire();
+
+      if (deja && deja.choix === 'accord') { liberer(); return; }
+      if (deja) return;
+      // Rien a faire accepter : on n affiche rien. Un bandeau sans traceur
+      // annoncerait une collecte qui n existe pas.
+      if (!enAttente && !forcer) return;
+
+      boite.hidden = false;
+
+      var boutons = boite.querySelectorAll('[data-choix]');
+      for (var i = 0; i < boutons.length; i++) {
+        boutons[i].addEventListener('click', function () {
+          var choix = this.dataset.choix;
+          ecrire(choix);
+          boite.hidden = true;
+          if (choix === 'accord') liberer();
+        });
+      }
+    }
+
+    // Obligatoire : le visiteur doit pouvoir revenir sur son choix.
+    window.rouvrirConsentement = function () {
+      try { localStorage.removeItem(CLE); } catch (e) {}
+      var boite = document.getElementById('consentement');
+      if (boite) { boite.hidden = false; boite.querySelector('.bouton').focus(); }
+    };
+
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', demarrer);
+    else demarrer();
+    document.addEventListener('astro:page-load', demarrer);
+  })();
+</script>
