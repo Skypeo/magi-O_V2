@@ -29,7 +29,7 @@ const FALLBACK: RealisationItem[] = [
     titre: 'Détection de fuite technique',
     categorie: 'Détection de fuite',
     description:
-      "Les fuites n'attendent pas le retour des beaux jours. Retour en image sur une recherche de fuite technique (matériel de pointe, recherche acoustique et caméra thermique), puis une intervention ciblée sur une canalisation dissimulée. Un travail fastidieux et de précision.",
+      "Recherche de fuite technique à Colmar : matériel de pointe, recherche acoustique et caméra thermique, puis intervention ciblée sur une canalisation dissimulée.",
     imgUrl: '/images/fuite/recherche-fuite-technique.webp',
     gallery: [
       '/images/fuite/recherche-fuite-technique.webp',
@@ -42,7 +42,7 @@ const FALLBACK: RealisationItem[] = [
     titre: 'Rénovation de salle de bain (douche PMR)',
     categorie: 'Salle de bain',
     description:
-      "Transformation d'une salle de bain vétuste en une douche à l'italienne moderne, avec faïence effet marbre, receveur extra-plat et siège de douche escamotable pour l'accessibilité PMR. Un chantier propre, de la dépose à la finition.",
+      "Transformation d'une salle de bain vétuste en douche à l'italienne : faïence effet marbre, receveur extra-plat et siège escamotable pour l'accessibilité PMR.",
     imgUrl: '/images/realisations/sdb-pmr-douche.webp',
     gallery: [
       '/images/realisations/sdb-pmr-douche.webp',

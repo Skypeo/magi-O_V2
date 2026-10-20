@@ -19,7 +19,7 @@ export const PAC = {
   seoTitle: 'Remplacer sa chaudière par une pompe à chaleur à Colmar',
   h1: 'Remplacer sa chaudière par une pompe à chaleur à Colmar',
   description:
-    "Remplacement de chaudière gaz ou fioul par une pompe à chaleur à Colmar : étude de l'installation existante, dimensionnement, pose et mise en service par MAGI O.",
+    "Remplacement de chaudière gaz ou fioul par une pompe à chaleur à Colmar : étude de l'installation existante, dimensionnement, pose et mise en service.",
   /** Repris du `lead` de la page Chauffage, recentré sur le remplacement. */
   lead: [
     "Que votre chaudière tombe en panne, arrive en fin de vie, ou que vous souhaitiez simplement réduire votre facture d'énergie, MAGI O vous accompagne dans le choix de la solution la plus adaptée à votre logement, sans jamais vous pousser vers un équipement surdimensionné ou inutilement coûteux.",

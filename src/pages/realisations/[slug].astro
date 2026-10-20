@@ -84,7 +84,9 @@ const photos = [item.imgUrl, ...item.gallery].filter(
             >
               <img
                 src={url}
-                alt={`${item.titre} — photo ${i + 1}`}
+                alt={`${item.titre}, photo ${i + 1}`}
+                width="1200"
+                height="900"
                 loading={i === 0 ? 'eager' : 'lazy'}
                 class={`w-full object-cover transition duration-500 group-hover:scale-105 ${i === 0 ? 'aspect-[16/9]' : 'aspect-[4/3]'}`}
               />
@@ -110,7 +112,7 @@ const photos = [item.imgUrl, ...item.gallery].filter(
                 class="realisation-card group relative block aspect-[4/5] overflow-hidden rounded-3xl bg-pine-700 shadow-soft transition duration-300 hover:-translate-y-1.5 hover:shadow-card"
               >
                 {r.imgUrl ? (
-                  <img src={r.imgUrl} alt={r.titre} loading="lazy" class="absolute inset-0 h-full w-full object-cover transition duration-700 ease-out group-hover:scale-110" />
+                  <img src={r.imgUrl} alt={r.titre} width="500" height="375" loading="lazy" class="absolute inset-0 h-full w-full object-cover transition duration-700 ease-out group-hover:scale-110" />
                 ) : (
                   <div class="absolute inset-0 flex items-center justify-center bg-pine-100 text-pine-400">
                     <Icon name="droplet" class="h-12 w-12" />

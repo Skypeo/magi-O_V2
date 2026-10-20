@@ -4,7 +4,7 @@ import Loader from '../components/Loader.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import CookieBanner from '../components/CookieBanner.astro';
-import { SITE, CONTACT, SOCIAL, REVIEWS } from '../consts';
+import { SITE, CONTACT, SOCIAL, REVIEWS, MISE_A_JOUR, PUBLICATION, FICHE_GOOGLE } from '../consts';
 import type { Service, FaqItem } from '../consts';
 import { ZONES } from '../data/zones';
 import Consentement from '../components/Consentement.astro';
@@ -57,12 +57,31 @@ const ogImage = new URL(image, Astro.site).href;
 const socialLinks = [SOCIAL.facebook, SOCIAL.instagram].filter(
   (u) => u && !/^https?:\/\/(www\.)?(facebook|instagram)\.com\/?$/.test(u)
 );
+// sameAs : fiche Google et profils qui designent LA MEME entreprise.
+const sameAs = [FICHE_GOOGLE, ...socialLinks].filter((u) => u.startsWith('http'));
+const ID_ENTREPRISE = `${SITE.url}/#business`;
+const ID_SITE = `${SITE.url}/#website`;
+const ID_PUBLICATION = `${SITE.url}/#publication`;
+// Noeud entreprise present sur TOUTES les pages, sous un seul @id. Le type
+// double (Plumber + LocalBusiness) rend l'entite lisible aux outils qui ne
+// connaissent pas la sous-classe Plumber. Il porte l'identite minimale
+// (nom, url, logo, telephone, adresse, sameAs) ; le reste de la fiche ne
+// figure que la ou elle est affichee (accueil, contact).
 const identite = {
-  '@type': 'Plumber',
-  '@id': `${SITE.url}/#business`,
+  '@type': ['Plumber', 'LocalBusiness'],
+  '@id': ID_ENTREPRISE,
   name: SITE.name,
-  url: SITE.url,
+  url: `${SITE.url}/`,
+  logo: new URL('/images/logo.png', Astro.site).href,
   telephone: CONTACT.phoneRaw,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: CONTACT.address,
+    postalCode: CONTACT.zip,
+    addressLocality: CONTACT.cityName,
+    addressCountry: 'FR',
+  },
+  ...(sameAs.length ? { sameAs } : {}),
 };
 
 // La fiche complete ne figure que la ou elle est affichee. Partout ailleurs,
@@ -73,21 +92,12 @@ const business = ficheComplete
       description: SITE.description,
       email: CONTACT.email,
       image: ogImage,
-      logo: new URL('/images/logo.png', Astro.site).href,
-      address: {
-        '@type': 'PostalAddress',
-        streetAddress: CONTACT.address,
-        postalCode: CONTACT.zip,
-        addressLocality: CONTACT.cityName,
-        addressCountry: 'FR',
-      },
       geo: { '@type': 'GeoCoordinates', latitude: 48.0794, longitude: 7.3585 },
       hasMap: CONTACT.mapsUrl,
       areaServed: [
         { '@type': 'City', name: CONTACT.cityName },
         ...ZONES.map((z) => ({ '@type': 'City', name: z.nom })),
       ],
-      ...(socialLinks.length ? { sameAs: socialLinks } : {}),
       openingHoursSpecification: {
         '@type': 'OpeningHoursSpecification',
         dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
@@ -120,16 +130,38 @@ const graph: Record<string, unknown>[] = [
   business,
 ];
 
-if (ficheComplete) {
-  graph.push({
-    '@type': 'WebSite',
-    '@id': `${SITE.url}/#website`,
-    url: SITE.url,
-    name: SITE.name,
-    inLanguage: 'fr-FR',
-    publisher: { '@id': `${SITE.url}/#business` },
-  });
-}
+// Site et page : sur toutes les pages. La page porte la date de mise a jour
+// (la meme que celle affichee en pied de page) et son responsable de
+// publication, nomme et relie a sa page d'identite (mentions legales).
+graph.push({
+  '@type': 'WebSite',
+  '@id': ID_SITE,
+  url: `${SITE.url}/`,
+  name: SITE.name,
+  inLanguage: 'fr-FR',
+  publisher: { '@id': ID_ENTREPRISE },
+});
+
+graph.push({
+  '@type': 'WebPage',
+  '@id': `${canonical}#page`,
+  url: canonical,
+  name: pageTitle,
+  description,
+  isPartOf: { '@id': ID_SITE },
+  about: { '@id': ID_ENTREPRISE },
+  author: {
+    '@type': 'Person',
+    '@id': ID_PUBLICATION,
+    name: PUBLICATION.nom,
+    jobTitle: PUBLICATION.role,
+    url: new URL(PUBLICATION.page, Astro.site).href,
+    worksFor: { '@id': ID_ENTREPRISE },
+  },
+  publisher: { '@id': ID_ENTREPRISE },
+  inLanguage: 'fr-FR',
+  dateModified: MISE_A_JOUR,
+});
 
 if (service) {
   graph.push({
@@ -138,7 +170,7 @@ if (service) {
     name: service.h1 ?? service.title,
     serviceType: service.title,
     description: service.description,
-    provider: { '@id': `${SITE.url}/#business` },
+    provider: { '@id': ID_ENTREPRISE },
     areaServed: { '@type': 'City', name: 'Colmar' },
     url: canonical,
   });
@@ -151,7 +183,7 @@ if (serviceLocal) {
     name: serviceLocal.nom,
     serviceType: 'Plomberie, chauffage et recherche de fuite',
     description: serviceLocal.description,
-    provider: { '@id': `${SITE.url}/#business` },
+    provider: { '@id': ID_ENTREPRISE },
     areaServed: { '@type': 'City', name: serviceLocal.zone },
     url: canonical,
   });

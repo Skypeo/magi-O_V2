@@ -9,7 +9,7 @@ export const SITE = {
   city: 'Colmar',
   url: 'https://magi-o.fr',
   description:
-    "MAGI O, votre artisan plombier-chauffagiste à Colmar (68) et dans le Haut-Rhin. Plus de 10 ans d'expérience. Rénovation de salle de bain, détection de fuite sans casse, chauffage et pompe à chaleur. Devis gratuit.",
+    "Artisan plombier chauffagiste à Colmar et dans le Haut-Rhin. Détection de fuite sans casse, rénovation de salle de bain, chauffage. Devis gratuit.",
 };
 
 export const CONTACT = {
@@ -29,6 +29,24 @@ export const SOCIAL = {
   facebook: 'https://www.facebook.com/p/MAGI-O-61555832830809/',
   instagram: '',
 };
+
+// Date de la derniere mise a jour du contenu (AAAA-MM-JJ). Une seule source
+// pour le dateModified du JSON-LD et la date affichee en pied de page : les
+// deux disent toujours la meme chose. A changer a chaque modification reelle.
+export const MISE_A_JOUR = '2026-10-20';
+
+// Responsable de la publication, tel que nomme dans les mentions legales.
+// Signe les pages dans le JSON-LD ; sa page d'identite sur le site est celle
+// des mentions legales, ou il figure en clair.
+export const PUBLICATION = {
+  nom: 'Hamza HAMADA-OUSSENI',
+  role: 'Responsable de la publication',
+  page: '/mentions-legales/',
+};
+
+// Fiche Google de l'entreprise. Le cid est le `rldimm` du lien d'avis
+// ci-dessous (REVIEWS.googleUrl) : c'est la meme fiche, sous son adresse stable.
+export const FICHE_GOOGLE = 'https://www.google.com/maps?cid=15999692750307481672';
 
 // Avis clients (Google). `googleUrl` = lien « voir tous les avis ».
 export const REVIEWS = {
@@ -303,7 +321,7 @@ export const SERVICES: Service[] = [
     subtitle: '',
     short: 'Chaudières, pompes à chaleur, radiateurs et planchers chauffants.',
     description:
-      "Chaudières, pompes à chaleur, radiateurs, planchers chauffants : MAGI O installe, remplace et entretient votre système de chauffage à Colmar et dans le Haut-Rhin, avec une expertise particulière sur le remplacement de chaudière par une pompe à chaleur.",
+      "Chaudières, pompes à chaleur, radiateurs et planchers chauffants : MAGI O installe, remplace et entretient votre chauffage à Colmar et dans le Haut-Rhin.",
     intro:
       "Que votre chaudière tombe en panne, arrive en fin de vie, ou que vous souhaitiez simplement réduire votre facture d'énergie, MAGI O vous accompagne dans le choix de la solution la plus adaptée à votre logement.",
     lead: [

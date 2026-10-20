@@ -5,7 +5,7 @@ import Cta from '../components/Cta.astro';
 import Framed from '../components/Framed.astro';
 import Emblem from '../components/Emblem.astro';
 import SpinBadge from '../components/SpinBadge.astro';
-import { SERVICES, VALUES, FAQ, CONTACT, SITE, REVIEWS } from '../consts';
+import { SERVICES, VALUES, FAQ, CONTACT, SITE, REVIEWS, FICHE_GOOGLE } from '../consts';
 ---
 
 <Layout
@@ -274,6 +274,13 @@ import { SERVICES, VALUES, FAQ, CONTACT, SITE, REVIEWS } from '../consts';
         ))
       }
     </div>
+    <!-- Un chiffre se cite avec sa source. La note vient de la fiche Google ;
+         l'anciennete et le taux de localisation sans casse sont des donnees
+         declarees par l'entreprise, sans source externe : on le dit. -->
+    <p class="relative mx-auto mt-10 max-w-4xl px-6 text-center text-xs leading-relaxed text-white/70">
+      Sources : ancienneté et part des fuites localisées sans casse, données déclarées par {SITE.name} ;
+      note de {REVIEWS.rating.toFixed(1).replace('.', ',')} / 5, <cite class="not-italic"><a href={FICHE_GOOGLE} target="_blank" rel="noopener" class="underline transition hover:text-white">fiche Google de {SITE.name}</a></cite>.
+    </p>
   </section>
 
   <!-- ===================== SERVICES ===================== -->
