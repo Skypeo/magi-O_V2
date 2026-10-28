@@ -67,7 +67,7 @@ export const PAC = {
   faq: [
     {
       q: 'Pouvez-vous remplacer une chaudière par une pompe à chaleur ?',
-      a: "Oui. Nous étudions votre installation existante, dimensionnons la pompe à chaleur adaptée, puis réalisons l'installation complète, sa mise en service et son réglage.",
+      a: "Oui. Nous étudions votre installation existante, dimensionnons la pompe à chaleur adaptée, puis réalisons l'installation complète, sa mise en service et son réglage. Le remplacement concerne les chaudières gaz comme fioul, et l'ancienne chaudière est retirée au moment de la pose.",
     },
     {
       q: "Quelle est la différence de coût entre une chaudière et une pompe à chaleur à l'usage ?",
@@ -75,7 +75,7 @@ export const PAC = {
     },
     {
       q: "Faut-il changer toute l'installation pour passer à la pompe à chaleur ?",
-      a: "Pas nécessairement. Nous étudions votre réseau existant (radiateurs, plancher chauffant) pour déterminer s'il est compatible avec une pompe à chaleur ou si des adaptations sont nécessaires.",
+      a: "Pas nécessairement. Nous étudions votre réseau existant (radiateurs, plancher chauffant) pour déterminer s'il est compatible avec une pompe à chaleur ou si des adaptations sont nécessaires. Un plancher chauffant s'y prête particulièrement bien.",
     },
   ] as FaqItem[],
   image: '/images/service-pac-freon.jpg',

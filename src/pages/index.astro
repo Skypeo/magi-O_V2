@@ -9,7 +9,8 @@ import { SERVICES, VALUES, FAQ, CONTACT, SITE, REVIEWS, FICHE_GOOGLE } from '../
 ---
 
 <Layout
-  seoTitle="Plombier chauffagiste à Colmar · Devis gratuit · MAGI O"
+  seoTitle="Plombier chauffagiste à Colmar · Dépannage, fuite · MAGI O"
+  description={`Fuite, WC bouché, chaudière en panne à Colmar ? Dépannage du lundi au vendredi, 8h à 19h, recherche de fuite sans casse, devis gratuit. Noté ${REVIEWS.rating.toFixed(1).replace('.', ',')}/5 sur Google.`}
   faq={FAQ}
   avisAffiches
   ficheComplete
@@ -45,7 +46,7 @@ import { SERVICES, VALUES, FAQ, CONTACT, SITE, REVIEWS, FICHE_GOOGLE } from '../
 
         <div class="fade-up fade-up-3 mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
           <a
-            href="/contact"
+            href="/contact/"
             class="btn-sheen group inline-flex h-14 w-full items-center justify-center gap-2 rounded-pill bg-pine-900 px-7 text-base font-semibold text-white shadow-lg shadow-pine-900/20 transition hover:-translate-y-0.5 hover:bg-pine-800 sm:w-auto"
           >
             Devis gratuit
@@ -233,7 +234,7 @@ import { SERVICES, VALUES, FAQ, CONTACT, SITE, REVIEWS, FICHE_GOOGLE } from '../
         <!-- CTA + téléphone -->
         <div data-reveal data-reveal-delay="4" class="mt-12 flex flex-col gap-6 border-t border-white/15 pt-8 sm:flex-row sm:items-center sm:justify-between">
           <a
-            href="/contact"
+            href="/contact/"
             class="group inline-flex items-center justify-center gap-2 rounded-pill bg-coral-500 px-8 py-4 font-semibold text-white shadow-lg shadow-coral-500/30 transition hover:-translate-y-0.5 hover:bg-coral-600"
           >
             Contactez nous
@@ -307,7 +308,7 @@ import { SERVICES, VALUES, FAQ, CONTACT, SITE, REVIEWS, FICHE_GOOGLE } from '../
         {
           SERVICES.slice(0, 5).map((s, i) => (
             <a
-              href={`/services/${s.slug}`}
+              href={`/services/${s.slug}/`}
               data-reveal
               data-reveal-delay={String((i % 3) + 1)}
               class="card-lift group relative flex flex-col overflow-hidden rounded-3xl bg-white shadow-soft"
@@ -336,7 +337,7 @@ import { SERVICES, VALUES, FAQ, CONTACT, SITE, REVIEWS, FICHE_GOOGLE } from '../
           <div class="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-white/10 blur-2xl"></div>
           <h3 class="text-2xl font-bold">Un projet en tête ?</h3>
           <p class="mt-2 text-white/80">Parlons-en. Devis gratuit et sans engagement, réponse rapide.</p>
-          <a href="/contact" class="group mt-6 inline-flex w-fit items-center gap-2 rounded-pill bg-coral-500 px-6 py-3 font-semibold text-white transition hover:bg-coral-600">
+          <a href="/contact/" class="group mt-6 inline-flex w-fit items-center gap-2 rounded-pill bg-coral-500 px-6 py-3 font-semibold text-white transition hover:bg-coral-600">
             Demander un devis
             <Icon name="arrow" class="h-5 w-5 transition group-hover:translate-x-1" />
           </a>
@@ -531,7 +532,7 @@ import { SERVICES, VALUES, FAQ, CONTACT, SITE, REVIEWS, FICHE_GOOGLE } from '../
           Retrouvez ici les réponses aux questions les plus fréquentes concernant nos services de
           plomberie, de détection de fuites et de dépannage à {SITE.city} et ses environs.
         </p>
-        <a href="/contact" class="btn-sheen group mt-8 inline-flex items-center gap-2 rounded-pill bg-pine-700 px-6 py-3.5 font-semibold text-white transition hover:-translate-y-0.5 hover:bg-pine-800">
+        <a href="/contact/" class="btn-sheen group mt-8 inline-flex items-center gap-2 rounded-pill bg-pine-700 px-6 py-3.5 font-semibold text-white transition hover:-translate-y-0.5 hover:bg-pine-800">
           Une autre question ?
           <Icon name="arrow" class="h-5 w-5 transition group-hover:translate-x-1" />
         </a>

@@ -58,7 +58,7 @@ const majLisible = new Date(MISE_A_JOUR + 'T00:00:00Z').toLocaleDateString('fr-F
         <ul class="mt-5 space-y-3 text-sm">
           {SERVICES.slice(0, 5).map((s) => (
             <li>
-              <a href={`/services/${s.slug}`} class="text-white/75 transition hover:text-white">{s.title}</a>
+              <a href={`/services/${s.slug}/`} class="text-white/75 transition hover:text-white">{s.title}</a>
             </li>
           ))}
         </ul>
@@ -91,8 +91,8 @@ const majLisible = new Date(MISE_A_JOUR + 'T00:00:00Z').toLocaleDateString('fr-F
     <div class="mt-14 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-8 text-sm text-white/70 md:flex-row">
       <p>© {year} {SITE.name}. Tous droits réservés.</p>
       <nav class="flex flex-wrap items-center justify-center gap-x-5 gap-y-2" aria-label="Liens légaux">
-        <a href="/mentions-legales" class="transition hover:text-white">Mentions légales</a>
-        <a href="/politique-de-confidentialite" class="transition hover:text-white">Politique de confidentialité</a>
+        <a href="/mentions-legales/" class="transition hover:text-white">Mentions légales</a>
+        <a href="/politique-de-confidentialite/" class="transition hover:text-white">Politique de confidentialité</a>
         <button type="button" data-cookie-settings class="transition hover:text-white">Gérer les cookies</button>
       </nav>
     </div>

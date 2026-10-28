@@ -6,6 +6,7 @@ import Emblem from '../../components/Emblem.astro';
 import SpinBadge from '../../components/SpinBadge.astro';
 import Framed from '../../components/Framed.astro';
 import { SERVICES, CONTACT, SITE } from '../../consts';
+import { ZONES } from '../../data/zones';
 
 export function getStaticPaths() {
   // Les services « standalone » (ex. pompe à chaleur) ont leur propre page dédiée.
@@ -66,7 +67,7 @@ const leadParagraphs = service.lead ?? [service.intro];
       <nav class="mb-6 flex items-center gap-2 text-sm text-white/75" aria-label="Fil d'Ariane">
         <a href="/" class="transition hover:text-white">Accueil</a>
         <span>/</span>
-        <a href="/services" class="transition hover:text-white">Services</a>
+        <a href="/services/" class="transition hover:text-white">Services</a>
         <span>/</span>
         <span class="text-white">{service.title}</span>
       </nav>
@@ -78,10 +79,10 @@ const leadParagraphs = service.lead ?? [service.intro];
       {service.subtitle && (
         <p class="fade-up fade-up-2 mt-3 text-xl font-semibold text-white/95">{service.subtitle}</p>
       )}
-      <p class="fade-up fade-up-3 mt-5 max-w-2xl text-lg leading-relaxed text-white/90">{service.description}</p>
+      <p data-reponse class="fade-up fade-up-3 mt-5 max-w-2xl text-lg leading-relaxed text-white/90">{service.reponse ?? service.description}</p>
 
       <div class="fade-up fade-up-3 mt-8 flex flex-wrap gap-4">
-        <a href="/contact" class="btn-sheen group inline-flex items-center gap-2 rounded-pill bg-white px-7 py-4 font-semibold text-coral-600 shadow-lg shadow-coral-900/20 transition hover:bg-pine-50">
+        <a href="/contact/" class="btn-sheen group inline-flex items-center gap-2 rounded-pill bg-white px-7 py-4 font-semibold text-coral-600 shadow-lg shadow-coral-900/20 transition hover:bg-pine-50">
           Devis gratuit
           <Icon name="arrow" class="h-5 w-5 transition group-hover:translate-x-1" />
         </a>
@@ -114,7 +115,7 @@ const leadParagraphs = service.lead ?? [service.intro];
               const active = s.slug === service.slug;
               return (
                 <a
-                  href={`/services/${s.slug}`}
+                  href={`/services/${s.slug}/`}
                   aria-current={active ? 'page' : undefined}
                   class={`group flex items-center gap-3 rounded-2xl border px-4 py-3.5 transition ${
                     active
@@ -243,6 +244,24 @@ const leadParagraphs = service.lead ?? [service.intro];
           }
         </div>
 
+        <!-- Matiere editoriale propre a la page -->
+        {
+          service.contexte && service.contexte.length > 0 && (
+            <div class="mt-14 space-y-12">
+              {service.contexte.map((bloc) => (
+                <div data-reveal>
+                  <h2 class="text-2xl font-bold text-ink sm:text-3xl">{bloc.titre}</h2>
+                  <div class="mt-5 space-y-4">
+                    {bloc.paragraphes.map((p) => (
+                      <p class="leading-relaxed text-pine-700/85">{p}</p>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )
+        }
+
         <!-- Bloc mis en avant (ex. « Pourquoi passer à la pompe à chaleur ? ») -->
         {
           service.callout && (
@@ -264,7 +283,7 @@ const leadParagraphs = service.lead ?? [service.intro];
                   ))}
                 </div>
                 <a
-                  href="/contact"
+                  href="/contact/"
                   class="group mt-7 inline-flex items-center gap-2 rounded-pill bg-coral-500 px-6 py-3 font-semibold text-white transition hover:bg-coral-600"
                 >
                   Demander un devis
@@ -317,6 +336,24 @@ const leadParagraphs = service.lead ?? [service.intro];
             </div>
           )
         }
+
+        <!-- Communes desservies : maillage vers les pages de zone -->
+        <div data-reveal class="mt-12 border-t border-pine-100 pt-10">
+          <h3 class="text-xl font-bold text-ink">Autour de {CONTACT.cityName}</h3>
+          <p class="mt-3 leading-relaxed text-pine-700/85">
+            Nous intervenons à {CONTACT.cityName} et dans les communes de l'agglomération :
+          </p>
+          <div class="mt-5 flex flex-wrap gap-2.5">
+            {ZONES.map((z) => (
+              <a
+                href={`/zones/${z.slug}/`}
+                class="rounded-pill border border-pine-100 bg-white px-4 py-2 text-sm font-medium text-pine-700 transition hover:border-pine-300"
+              >
+                {z.nom}
+              </a>
+            ))}
+          </div>
+        </div>
 
         <!-- FAQ dédiée au service -->
         {

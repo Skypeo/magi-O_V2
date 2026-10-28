@@ -15,7 +15,8 @@ import { SERVICES, CONTACT } from '../consts';
   <PageHeader
     eyebrow="Nos prestations"
     title="Nos services de plomberie et chauffage à Colmar"
-    subtitle="Un seul artisan pour la plomberie, la rénovation de salle de bain, le chauffage et la détection de fuite à Colmar et ses environs."
+    subtitle="MAGI O est une entreprise de plomberie et de chauffage installée à Colmar. Elle assure les travaux de plomberie et le dépannage d'urgence du lundi au vendredi de 8h à 19h, la rénovation de salle de bain, y compris adaptée PMR, l'installation et le remplacement de chaudières et de pompes à chaleur, et la recherche de fuite sans casse, à Colmar et dans les communes de l'agglomération."
+    reponse
   />
 
   <section class="relative overflow-hidden py-20">
@@ -27,7 +28,7 @@ import { SERVICES, CONTACT } from '../consts';
       {
         SERVICES.map((s, i) => (
           <a
-            href={`/services/${s.slug}`}
+            href={`/services/${s.slug}/`}
             data-reveal
             data-reveal-delay={String((i % 3) + 1)}
             class="group flex flex-col overflow-hidden rounded-3xl bg-white shadow-soft transition hover:-translate-y-1 hover:shadow-card"

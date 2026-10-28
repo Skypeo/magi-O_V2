@@ -40,7 +40,7 @@ const photos = [item.imgUrl, ...item.gallery].filter(
       <nav class="mb-5 flex items-center gap-2 text-sm text-white/60" aria-label="Fil d'Ariane">
         <a href="/" class="transition hover:text-white">Accueil</a>
         <span>/</span>
-        <a href="/realisations" class="transition hover:text-white">Nos réalisations</a>
+        <a href="/realisations/" class="transition hover:text-white">Nos réalisations</a>
         <span>/</span>
         <span class="text-white/90">{item.titre}</span>
       </nav>
@@ -106,7 +106,7 @@ const photos = [item.imgUrl, ...item.gallery].filter(
           <div class="mt-10 grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
             {others.map((r, i) => (
               <a
-                href={`/realisations/${r.slug}`}
+                href={`/realisations/${r.slug}/`}
                 data-reveal
                 data-reveal-delay={String((i % 3) + 1)}
                 class="realisation-card group relative block aspect-[4/5] overflow-hidden rounded-3xl bg-pine-700 shadow-soft transition duration-300 hover:-translate-y-1.5 hover:shadow-card"

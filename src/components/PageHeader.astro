@@ -5,8 +5,10 @@ interface Props {
   eyebrow?: string;
   title: string;
   subtitle?: string;
+  /** Le sous-titre est le bloc de reponse directe de la page (data-reponse) */
+  reponse?: boolean;
 }
-const { eyebrow, title, subtitle } = Astro.props;
+const { eyebrow, title, subtitle, reponse = false } = Astro.props;
 const crumbs = Astro.url.pathname.split('/').filter(Boolean);
 ---
 
@@ -46,7 +48,7 @@ const crumbs = Astro.url.pathname.split('/').filter(Boolean);
       </p>
     )}
     <h1 class="fade-up fade-up-1 max-w-3xl text-4xl font-bold leading-tight sm:text-5xl">{title}</h1>
-    {subtitle && <p class="fade-up fade-up-2 mt-5 max-w-2xl text-lg leading-relaxed text-white/80">{subtitle}</p>}
+    {subtitle && <p data-reponse={reponse ? '' : undefined} class="fade-up fade-up-2 mt-5 max-w-2xl text-lg leading-relaxed text-white/80">{subtitle}</p>}
   </div>
 
   <div class="absolute -bottom-px left-0 right-0 leading-[0]">

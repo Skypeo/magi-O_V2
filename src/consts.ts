@@ -33,7 +33,7 @@ export const SOCIAL = {
 // Date de la derniere mise a jour du contenu (AAAA-MM-JJ). Une seule source
 // pour le dateModified du JSON-LD et la date affichee en pied de page : les
 // deux disent toujours la meme chose. A changer a chaque modification reelle.
-export const MISE_A_JOUR = '2026-10-20';
+export const MISE_A_JOUR = '2026-10-28';
 
 // Responsable de la publication, tel que nomme dans les mentions legales.
 // Signe les pages dans le JSON-LD ; sa page d'identite sur le site est celle
@@ -98,9 +98,9 @@ export const REVIEWS = {
 
 export const NAV = [
   { label: 'Accueil', href: '/' },
-  { label: 'Services', href: '/services' },
-  { label: 'Nos réalisations', href: '/realisations' },
-  { label: 'Contact', href: '/contact' },
+  { label: 'Services', href: '/services/' },
+  { label: 'Nos réalisations', href: '/realisations/' },
+  { label: 'Contact', href: '/contact/' },
 ];
 
 // 3 blocs de réassurance de la page d'accueil (remplacent Rapidité / Fiabilité / Expertise).
@@ -155,6 +155,12 @@ export interface Service {
   /** H1 de la page service : la prestation et le lieu */
   h1?: string;
   subtitle: string;
+  /** Bloc de reponse directe sous le H1 (data-reponse) : 40 a 120 mots,
+   *  autonome, uniquement des faits deja affirmes par le site. */
+  reponse?: string;
+  /** Matiere editoriale propre a la page (savoir-metier et contexte local,
+   *  jamais un fait sur le client qui ne figure pas deja ailleurs). */
+  contexte?: { titre: string; paragraphes: string[] }[];
   short: string;
   description: string;
   intro: string;
@@ -180,14 +186,43 @@ export interface Service {
 export const SERVICES: Service[] = [
   {
     slug: 'plomberie',
-    seoTitle: "Plombier à Colmar : fuite, débouchage, sanitaire · MAGI O",
-    h1: "Plombier à Colmar : installation, réparation, débouchage",
+    seoTitle: "Plombier à Colmar : dépannage, fuite, débouchage · MAGI O",
+    h1: "Plombier à Colmar : dépannage, réparation de fuite, débouchage",
     title: 'Travaux de plomberie',
     navLabel: 'Travaux de plomberie',
     subtitle: '',
+    reponse:
+      "MAGI O est une entreprise de plomberie installée à Colmar qui assure le dépannage d'urgence du lundi au vendredi, de 8h à 19h, à Colmar et dans les communes voisines. L'équipe répare les fuites sur tuyaux, robinets, raccords et appareils sanitaires, débouche les canalisations au furet ou au jet haute pression, et installe douches, baignoires, lavabos, WC, éviers et chauffe-eau, en construction neuve comme en rénovation. Le devis est gratuit et sans engagement.",
+    contexte: [
+      {
+        titre: "Fuite d'eau : les bons gestes en attendant le plombier",
+        paragraphes: [
+          "Le premier réflexe est de couper l'eau. Le robinet d'arrêt général se trouve juste avant ou juste après le compteur : au sous-sol, dans un regard au bord du terrain ou dans un placard technique en maison individuelle, souvent dans la gaine palière ou en cave dans un immeuble. Sous un évier, un lavabo ou derrière un WC, un petit robinet d'arrêt permet aussi d'isoler un seul appareil sans priver tout le logement d'eau.",
+          "Si l'eau approche d'une prise, d'un tableau électrique ou d'un plafonnier, coupez le disjoncteur de la pièce concernée avant d'éponger. Prenez ensuite quelques photos de la fuite et des dégâts : elles serviront à la déclaration auprès de votre assurance, et nous aident à préparer l'intervention avant de nous déplacer.",
+          "Une fuite qui ne se voit pas, une tache qui s'étend sur un mur ou un compteur qui tourne alors que tout est fermé relève d'une autre démarche : la recherche de fuite, que nous menons sans casse dans la grande majorité des cas.",
+        ],
+      },
+      {
+        titre: 'Plomberie et bâti colmarien',
+        paragraphes: [
+          "Colmar mêle des maisons anciennes du centre historique, des immeubles collectifs construits des années 1950 aux années 1970 et des quartiers pavillonnaires plus récents. Chaque époque a sa plomberie : réseaux en plomb ou en acier galvanisé dans l'ancien, colonnes communes en copropriété, cuivre puis multicouche dans les constructions récentes.",
+          "Cette diversité explique pourquoi une même panne ne se traite pas de la même façon d'une rue à l'autre. Une colonne commune engage tout un immeuble, une canalisation encastrée dans un mur ancien demande de localiser précisément la fuite avant d'ouvrir, et un raccord sur un réseau récent se remplace sans difficulté.",
+        ],
+      },
+    ],
+    faq: [
+      {
+        q: 'Quels sont vos horaires de dépannage en plomberie à Colmar ?',
+        a: "Nous intervenons en dépannage du lundi au vendredi, de 8h à 19h, à Colmar et dans les communes voisines. Appelez directement le 06 35 82 42 37 en décrivant la panne : fuite, canalisation bouchée, chauffe-eau ou WC hors service.",
+      },
+      {
+        q: 'Comment débouchez-vous une canalisation ?',
+        a: "Selon l'ampleur du bouchon, nous utilisons un furet pour un débouchage ciblé, ou un jet à haute pression pour éliminer les obstructions les plus tenaces. Toilettes, éviers, lavabos, douches, gouttières et tuyaux d'évacuation sont concernés.",
+      },
+    ],
     short: 'Installation de sanitaires, rénovation et réparation de fuites.',
     description:
-      "Installation de sanitaires, rénovation d'équipements et réparation de fuites : douches, baignoires, lavabos, éviers et WC, en construction comme en rénovation.",
+      "Plombier à Colmar : dépannage d'urgence du lundi au vendredi de 8h à 19h, réparation de fuite, débouchage au furet ou haute pression, installation sanitaire.",
     intro:
       "Nous assurons l'installation de sanitaires neufs, la rénovation de vos équipements et la réparation de fuites pour tous vos projets de plomberie, en construction comme en rénovation.",
     lead: [
@@ -251,6 +286,8 @@ export const SERVICES: Service[] = [
     title: 'Rénovation',
     navLabel: 'Rénovation salle de bain',
     subtitle: 'Salle de bain & accessibilité PMR',
+    reponse:
+      "MAGI O rénove les salles de bain à Colmar et dans le Haut-Rhin : remplacement de baignoire par douche, rénovation complète et mise aux normes de la plomberie. L'entreprise réalise aussi des salles de bain adaptées aux personnes à mobilité réduite et aux seniors, avec douche extra-plate, receveur antidérapant, barres d'appui et hauteurs normées, et accompagne le dossier MaPrimeAdapt'. Une rénovation complète dure généralement une semaine.",
     short: "Rénovation complète de salle de bain et adaptation PMR / MaPrimeAdapt'.",
     description:
       "Rénovation de salle de bain, du remplacement de baignoire par douche à la remise à neuf complète, et adaptation PMR/seniors dans le cadre de MaPrimeAdapt'.",
@@ -314,14 +351,39 @@ export const SERVICES: Service[] = [
   },
   {
     slug: 'chauffage',
-    seoTitle: "Chauffagiste Colmar : chaudière et pompe à chaleur · MAGI O",
-    h1: "Chauffagiste à Colmar : chaudière et pompe à chaleur",
+    seoTitle: "Chauffagiste à Colmar : chaudière, PAC, panne · MAGI O",
+    h1: "Chauffagiste à Colmar : chaudière, pompe à chaleur, panne de chauffage",
     title: 'Chauffage & pompe à chaleur',
     navLabel: 'Chauffage',
     subtitle: '',
+    reponse:
+      "MAGI O est un chauffagiste installé à Colmar, 12 rue du Peuplier. L'entreprise installe et remplace les chaudières gaz, électriques et fioul, remplace une chaudière par une pompe à chaleur, pose radiateurs et planchers chauffants, et intervient en cas de panne de chauffage du lundi au vendredi, de 8h à 19h, à Colmar et dans les communes voisines. Chaque projet commence par une étude de l'installation existante et un devis gratuit, sans engagement.",
+    contexte: [
+      {
+        titre: 'Se chauffer à Colmar : un hiver qui pèse sur le choix',
+        paragraphes: [
+          "Abritée par les Vosges, Colmar compte parmi les villes les plus sèches de France, mais son climat reste semi-continental : hivers froids, gelées fréquentes et périodes de grand froid qui sollicitent le chauffage d'octobre à avril. Un équipement se choisit donc sur les jours les plus froids de l'hiver alsacien, pas sur une température moyenne.",
+          "C'est particulièrement vrai pour une pompe à chaleur air/eau, dont le rendement baisse quand la température extérieure chute. Bien dimensionnée, elle chauffe un logement colmarien tout l'hiver ; sous-dimensionnée, elle laisse la résistance d'appoint faire le travail et la facture d'électricité grimper.",
+        ],
+      },
+      {
+        titre: 'Ancien, collectif, récent : trois installations différentes',
+        paragraphes: [
+          "Dans les maisons anciennes et les immeubles du centre, on trouve souvent des radiateurs en fonte prévus pour une eau très chaude. Ils fonctionnent avec une chaudière, mais demandent une pompe à chaleur haute température ou une adaptation du réseau. Dans les copropriétés des années 1960 et 1970, la chaudière gaz individuelle murale domine, et son remplacement par un modèle à condensation impose de vérifier le conduit d'évacuation et l'écoulement des condensats.",
+          "Les maisons récentes équipées d'un plancher chauffant, à l'inverse, fonctionnent à basse température : c'est la configuration la plus favorable à une pompe à chaleur.",
+        ],
+      },
+      {
+        titre: 'Panne de chauffage : ce que vous pouvez vérifier avant d’appeler',
+        paragraphes: [
+          "Sur une chaudière murale, regardez le manomètre : une pression nettement inférieure à 1 bar, installation froide, suffit souvent à provoquer une mise en sécurité. Vérifiez aussi que le thermostat d'ambiance a des piles chargées et demande bien du chauffage, que le disjoncteur de la chaudière n'a pas sauté et, pour une chaudière gaz, que le robinet d'arrivée est ouvert.",
+          "Si la chaudière affiche un code défaut, notez-le avant de nous appeler : il oriente le diagnostic. Au-delà de ces vérifications, ne démontez rien et ne réarmez pas une chaudière qui se remet en sécurité à répétition.",
+        ],
+      },
+    ],
     short: 'Chaudières, pompes à chaleur, radiateurs et planchers chauffants.',
     description:
-      "Chaudières, pompes à chaleur, radiateurs et planchers chauffants : MAGI O installe, remplace et entretient votre chauffage à Colmar et dans le Haut-Rhin.",
+      "Chauffagiste à Colmar : installation et remplacement de chaudière gaz, fioul ou électrique, pompe à chaleur, radiateurs, panne de chauffage. Devis gratuit.",
     intro:
       "Que votre chaudière tombe en panne, arrive en fin de vie, ou que vous souhaitiez simplement réduire votre facture d'énergie, MAGI O vous accompagne dans le choix de la solution la plus adaptée à votre logement.",
     lead: [
@@ -343,7 +405,15 @@ export const SERVICES: Service[] = [
     faq: [
       {
         q: 'Intervenez-vous en cas de panne de chauffage ?',
-        a: "Oui, nous intervenons pour diagnostiquer la panne et procéder, si nécessaire, au remplacement de l'équipement défectueux (chaudière, pompe à chaleur, radiateur).",
+        a: "Oui, du lundi au vendredi de 8h à 19h, à Colmar et dans les communes voisines. Nous diagnostiquons la panne, puis procédons si nécessaire au remplacement de l'équipement défectueux : chaudière, pompe à chaleur ou radiateur.",
+      },
+      {
+        q: 'Quels types de chaudières installez-vous ?',
+        a: "Nous installons et remplaçons des chaudières gaz, électriques et fioul. Le choix dépend de votre logement, de l'énergie disponible et de votre réseau de radiateurs ou de plancher chauffant : nous étudions l'installation existante avant de proposer un équipement.",
+      },
+      {
+        q: 'Pouvez-vous ajouter ou remplacer des radiateurs ?',
+        a: "Oui. Nous installons et remplaçons des radiateurs, et posons des planchers chauffants. Le nouvel émetteur est choisi en fonction du générateur qui l'alimente, chaudière ou pompe à chaleur, pour que l'ensemble chauffe correctement sans surconsommer.",
       },
     ],
     approfondir: {
@@ -369,6 +439,8 @@ export const SERVICES: Service[] = [
     title: 'Détection de fuite',
     navLabel: 'Détection de fuite',
     subtitle: '',
+    reponse:
+      "La recherche de fuite sans casse consiste à localiser l'origine d'une fuite d'eau sans ouvrir murs ni sols. À Colmar, MAGI O utilise caméras thermiques et endoscopiques, relevés hygrométriques, traçage par gaz, fumigène ou colorant et recherche acoustique, sur canalisations apparentes, encastrées ou enterrées comme sur les infiltrations et taches d'humidité. La localisation sans casse aboutit dans la grande majorité des cas ; une ouverture ciblée n'intervient qu'en dernier recours.",
     short: 'Localisation sans casse grâce à des technologies de pointe.',
     description:
       "Recherche de fuites sans casse grâce à des technologies avancées : caméras thermiques, recherche acoustique, gaz traceur et relevés d'humidité.",
@@ -446,10 +518,6 @@ export const FAQ = [
   {
     q: 'Intervenez-vous pour les fuites sur ballon d’eau chaude ou chauffe-eau ?',
     a: "Oui. Nous prenons en charge les fuites sur ballons d'eau chaude, chauffe-eau et installations de chauffage. Un diagnostic précis est réalisé afin de proposer la solution la plus adaptée.",
-  },
-  {
-    q: 'Pouvez-vous remplacer une chaudière par une pompe à chaleur ?',
-    a: "Oui. Nous étudions votre installation existante, puis réalisons l'installation complète de la pompe à chaleur, sa mise en service et son réglage pour optimiser votre confort et votre consommation.",
   },
   {
     q: 'Réalisez-vous des rénovations de salle de bain adaptées PMR ?',

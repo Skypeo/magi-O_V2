@@ -317,8 +317,8 @@ export const ZONES: Zone[] = [
         a: "Oui, c'est l'une de nos interventions les plus fréquentes. Nous déposons la baignoire, reprenons la plomberie et posons une douche de plain-pied avec receveur extra-plat.",
       },
       {
-        q: "Qu'est-ce que MaPrimeAdapt' et qui peut en bénéficier ?",
-        a: "C'est une aide de l'État destinée aux seniors et aux personnes en situation de handicap pour adapter leur logement, sans audit énergétique requis. Elle est soumise à des conditions de ressources et d'éligibilité.",
+        q: "MaPrimeAdapt' peut-elle financer une salle de bain adaptée à Andolsheim ?",
+        a: "Elle peut y contribuer. MaPrimeAdapt' est une aide de l'État destinée aux seniors et aux personnes en situation de handicap pour adapter leur logement, sans audit énergétique requis. Elle est soumise à des conditions de ressources et d'éligibilité.",
       },
     ],
   },
@@ -350,11 +350,11 @@ export const ZONES: Zone[] = [
         a: "Oui. Porte du Ried, qui réunit Holtzwihr et Riedwihr, fait partie de notre zone d'intervention courante.",
       },
       {
-        q: "Faut-il changer toute l'installation pour passer à la pompe à chaleur ?",
-        a: "Pas nécessairement. Nous étudions votre réseau existant, radiateurs ou plancher chauffant, pour déterminer s'il est compatible ou si des adaptations sont nécessaires.",
+        q: "Une maison reconstruite après-guerre à Porte du Ried peut-elle passer à la pompe à chaleur ?",
+        a: "Souvent, mais pas sans vérification. Nous étudions votre réseau existant, radiateurs ou plancher chauffant, pour déterminer s'il est compatible ou si des adaptations sont nécessaires.",
       },
       {
-        q: 'Intervenez-vous en cas de panne de chauffage ?',
+        q: 'Dépannez-vous les chauffages en panne à Holtzwihr et Riedwihr ?',
         a: "Oui, nous intervenons pour diagnostiquer la panne et procéder, si nécessaire, au remplacement de l'équipement défectueux.",
       },
     ],
