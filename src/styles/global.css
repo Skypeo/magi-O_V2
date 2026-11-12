@@ -120,24 +120,11 @@ body {
 [data-reveal].is-visible { transform: none; filter: none; }
 
 /* ============================================================
-   Couche « motion » — scroll, parallax, marquee, compteurs
+   Couche « motion » — scroll, parallax, compteurs
    ============================================================ */
 
 /* Parallax doux (piloté en JS via --py) */
 [data-parallax] { transform: translate3d(0, var(--py, 0), 0); will-change: transform; }
-
-/* Bandeau défilant (marquee) */
-@keyframes marquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
-.marquee { overflow: hidden; }
-.marquee-track {
-  display: flex;
-  width: max-content;
-  animation: marquee 32s linear infinite;
-}
-.marquee:hover .marquee-track { animation-play-state: paused; }
 
 /* Apparition « masque » verticale pour les gros titres */
 .reveal-mask { overflow: hidden; }

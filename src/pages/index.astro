@@ -121,24 +121,6 @@ import { SERVICES, VALUES, FAQ, CONTACT, SITE, REVIEWS, FICHE_GOOGLE } from '../
     </div>
   </section>
 
-  <!-- ===================== BANDEAU DÉFILANT ===================== -->
-  <div class="marquee border-y border-pine-100 bg-pine-50/70 py-4">
-    <div class="marquee-track items-center gap-8 text-lg font-bold uppercase tracking-wider text-pine-600">
-      {
-        Array.from({ length: 2 }).map(() => (
-          <div class="flex items-center gap-8 pr-8">
-            {['Plomberie', 'Chauffage', 'Rénovation SDB PMR', 'Détection de fuite', 'Installation neuve', 'Dépannage'].map((w) => (
-              <span class="flex items-center gap-8">
-                {w}
-                <span class="text-coral-500">✦</span>
-              </span>
-            ))}
-          </div>
-        ))
-      }
-    </div>
-  </div>
-
   <!-- ===================== VALEURS ===================== -->
   <section class="relative mx-auto mt-16 max-w-7xl px-6">
     <div class="grid gap-6 md:grid-cols-3">
